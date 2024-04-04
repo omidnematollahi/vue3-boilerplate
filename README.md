@@ -1,14 +1,15 @@
-# pinia
+# Vue 3 Boilerplate
 
-This template should help get you started developing with Vue 3 in Vite.
+This template should help get you started developing with Vue 3 in Vite + Some general requirements.
 
-## Recommended IDE Setup
+## Extra Features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- [ ] configured file-base structure
+- [ ] i18n plugin
+- [ ] event bus
+- [ ] some useful composable
+- [ ] layouts and configured router with loading indicator
+- [ ] general components
 
 ## Project Setup
 
