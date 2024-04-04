@@ -4,12 +4,12 @@ This template should help get you started developing with Vue 3 in Vite + Some g
 
 ## Extra Features
 
-- [ ] configured file-base structure
-- [ ] i18n plugin
-- [ ] event bus
-- [ ] some useful composable
-- [ ] layouts and configured router with loading indicator
-- [ ] general components
+- [x] configured file-base structure
+- [x] i18n plugin
+- [x] event bus
+- [x] some useful composable
+- [x] layouts and configured router with loading indicator
+- [x] general components
 
 ## Project Setup
 
