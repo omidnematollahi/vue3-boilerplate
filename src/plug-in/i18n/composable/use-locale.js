@@ -7,6 +7,8 @@ const useLocale = () => {
   const getLocale = computed(() => locale.value);
 
   const setLocale = (newLocale) => {
+    document.documentElement.setAttribute('lang', newLocale);
+
     if (locale.value === newLocale) return;
 
     if (!supportedLocaleList.includes(newLocale))
