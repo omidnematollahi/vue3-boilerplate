@@ -92,8 +92,7 @@
 
   .toast-stack {
     position: fixed;
-    //FIXME: make SCSS variable
-    z-index: 99;
+    z-index: $toast;
     margin: var(--toast-stack-margin, space(6));
 
     &__item {
