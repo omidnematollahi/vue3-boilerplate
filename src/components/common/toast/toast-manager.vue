@@ -38,9 +38,7 @@
 
   const stacks = TOAST_POSITIONS.map((position) => {
     const classList = position.split('-');
-    const transitionName = `${
-      classList.includes('top') ? 'top' : 'bottom'
-    }-stack`;
+    const transitionName = `fade-${classList.includes('top') ? 'down' : 'up'}`;
 
     return {
       name: position,
@@ -67,28 +65,6 @@
 
 <style lang="scss" scoped>
   //FIXME: make transition classes globally available
-  .bottom-stack-leave-active,
-  .bottom-stack-enter-active,
-  .top-stack-enter-active,
-  .top-stack-leave-active {
-    transition: {
-      property: opacity, transform;
-      duration: 0.2s;
-      timing-function: ease-out;
-    }
-  }
-
-  .top-stack-enter-from,
-  .top-stack-leave-to {
-    opacity: 0;
-    transform: translateY(-50%);
-  }
-
-  .bottom-stack-enter-from,
-  .bottom-stack-leave-to {
-    opacity: 0;
-    transform: translateY(50%);
-  }
 
   .toast-stack {
     position: fixed;
