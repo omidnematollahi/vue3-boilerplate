@@ -2,7 +2,7 @@
 
 :root {
   @each $theme-name, $theme in $themes {
-    &[theme='#{$theme-name}'] {
+    &[data-theme='#{$theme-name}'] {
       @each $color, $value in map-get($theme, 'colors') {
         --color-#{$color}: #{$value};
       }

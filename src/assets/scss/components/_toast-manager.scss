@@ -1,0 +1,6 @@
+@use '../abstracts/functions' as *;
+
+$toast-manager: (
+  toast-stack-margin: space(6),
+  toast-stack-item-margin: space(2) 0 0,
+);

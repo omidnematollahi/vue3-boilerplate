@@ -1,5 +1,7 @@
 @use './indicator.scss' as *;
+@use './toast-manager.scss' as *;
 
 $components: (
   indicator: $indicator,
+  toast-manager: $toast-manager,
 );

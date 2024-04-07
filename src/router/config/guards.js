@@ -1,11 +1,11 @@
 import { eventBus } from '@/plug-in/event-bus';
 
-const beforeEach = (to, from) => {
-  eventBus.publish('router:beforeEach', to, from);
+const beforeEach = () => {
+  eventBus.publish('router:beforeEach');
 };
 
 const afterEach = (to) => {
-  eventBus.publish('router:afterEach', to);
+  eventBus.publish('router:afterEach');
 
   const title = to.meta.title;
   if (!title) return;
