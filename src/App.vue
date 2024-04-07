@@ -5,7 +5,9 @@
   <linear-indicator
     v-if="indicatorPercentage"
     class="indicator"
-    :percentage="indicatorPercentage" />
+    :percentage="indicatorPercentage"
+  />
+  <toast-manager />
 </template>
 
 <script setup>
@@ -15,6 +17,7 @@
 
   import LayoutView from '@/layout/layout-view.vue';
   import LinearIndicator from '@/components/common/indicator/linear-indicator.vue';
+  import ToastManager from '@/components/common/toast/toast-manager.vue';
 
   const indicatorPercentage = ref(0);
 
