@@ -3,16 +3,8 @@
 :root {
   @each $theme-name, $theme in $themes {
     &[data-theme='#{$theme-name}'] {
-      @each $color, $value in map-get($theme, 'colors') {
-        --color-#{$color}: #{$value};
-      }
-
-      @each $background, $value in map-get($theme, 'background') {
-        --background-#{$background}: #{$value};
-      }
-
-      @each $text, $value in map-get($theme, 'text') {
-        --text-#{$text}: #{$value};
+      @each $name, $value in $theme {
+        --palette-#{$name}: #{$value};
       }
     }
   }

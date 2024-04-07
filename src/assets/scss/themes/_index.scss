@@ -1,15 +1,7 @@
-@use './light-theme' as light-theme;
-@use './dark-theme' as dark-theme;
+@use './light-theme' as *;
+@use './dark-theme' as *;
 
 $themes: (
-  light: (
-    background: light-theme.$background,
-    colors: light-theme.$colors,
-    text: light-theme.$text,
-  ),
-  dark: (
-    colors: dark-theme.$colors,
-    background: dark-theme.$background,
-    text: dark-theme.$text,
-  ),
+  light: $light-theme,
+  dark: $dark-theme,
 );
