@@ -1,70 +1,70 @@
-$scale-factor-map: (
-  // x-large: 1.2,
-  // large: 1.1,
-  medium: 1,
-  // small: 0.95,
-  x-small: 0.9
-);
-
 $typography: (
-  heading1: (
-    font-size: 3.2rem,
-    font-weight: 800,
-    line-height: 160%,
-    letter-spacing: 0,
-  ),
-  heading2: (
-    font-size: 2.4rem,
-    font-weight: 800,
-    line-height: 160%,
-    letter-spacing: 0,
-  ),
-  heading3: (
-    font-size: 1.6rem,
-    font-weight: 800,
-    line-height: 160%,
-    letter-spacing: 0,
-  ),
-  subtitle1: (
-    font-size: 2rem,
-    font-weight: 800,
-    line-height: 160%,
-    letter-spacing: 0,
-  ),
-  subtitle2: (
-    font-size: 1.8rem,
-    font-weight: 500,
-    line-height: 160%,
-    letter-spacing: 0,
-  ),
-  body1: (
-    font-size: 1rem,
-    font-weight: 500,
-    line-height: 160%,
-    letter-spacing: 0,
-  ),
-  body2: (
-    font-size: 0.875rem,
-    font-weight: 800,
-    line-height: 160%,
-    letter-spacing: 0,
-  ),
-  button: (
-    font-size: 0.75rem,
-    font-weight: 500,
-    line-height: 160%,
-    letter-spacing: 0,
-  ),
-  caption: (
-    font-size: 0.75rem,
-    font-weight: 400,
-    line-height: 160%,
-    letter-spacing: 0,
-  ),
-  overline: (
-    font-size: 0.5rem,
-    font-weight: 400,
-    line-height: 160%,
-    letter-spacing: 0,
+  default: (
+    display-medium: (
+      font-size: 2rem,
+      font-weight: 700,
+      line-height: 3rem,
+      letter-spacing: 0,
+    ),
+    title-large: (
+      font-size: 1.125rem,
+      font-weight: 700,
+      line-height: 1.75rem,
+      letter-spacing: 0,
+    ),
+    title-medium: (
+      font-size: 1rem,
+      font-weight: 700,
+      line-height: 1.5rem,
+      letter-spacing: 0,
+    ),
+    title-small: (
+      font-size: 0.875rem,
+      font-weight: 700,
+      line-height: 1.25rem,
+      letter-spacing: 0,
+    ),
+    label-large: (
+      font-size: 1rem,
+      font-weight: 700,
+      line-height: 1.25rem,
+      letter-spacing: 0,
+    ),
+    label-medium: (
+      font-size: 0.875rem,
+      font-weight: 400,
+      line-height: 1rem,
+      letter-spacing: 0,
+    ),
+    label-small: (
+      font-size: 0.75rem,
+      font-weight: 400,
+      line-height: 1rem,
+      letter-spacing: 0,
+    ),
+    label-xsmall: (
+      font-size: 0.625rem,
+      font-weight: 400,
+      line-height: 0.625rem,
+      letter-spacing: 0,
+    ),
+    body-large: (
+      font-size: 1rem,
+      font-weight: 400,
+      line-height: 1.75rem,
+      letter-spacing: 0,
+    ),
+    body-medium: (
+      font-size: 0.875rem,
+      font-weight: 400,
+      line-height: 1.5rem,
+      letter-spacing: 0,
+    ),
+    body-small: (
+      font-size: 0.75rem,
+      font-weight: 400,
+      line-height: 1rem,
+      letter-spacing: 0,
+    ),
   ),
 );
