@@ -1,7 +1,7 @@
 @use '../abstracts/elevation' as *;
 
 @each $level in $levels {
-  :root[theme='light'] {
+  :root[data-theme='light'] {
     .elevation-#{$level} {
       @include light-elevation($level);
     }
