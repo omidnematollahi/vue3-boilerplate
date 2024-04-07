@@ -3,7 +3,8 @@
 </template>
 
 <style lang="scss" scoped>
-.title {
-  color: var(--color-primary);
-}
+  .title {
+    @include typography(display-medium);
+    color: var(--palette-primary);
+  }
 </style>

@@ -1,3 +1,4 @@
+@use './typography' as *;
 @use './breakpoints' as *;
 @use './elevation' as *;
 
@@ -13,26 +14,44 @@
   }
 }
 
-@mixin flex($dir: row, $wrap: nowrap, $align: flex-start, $justify: flex-start) {
+@mixin typography($name) {
+  $target: map-get($typography, default);
+  $level: map-get($target, $name);
+
+  font-size: map-get($level, font-size);
+  font-weight: map-get($level, font-weight);
+  line-height: map-get($level, line-height);
+  letter-spacing: map-get($level, letter-spacing);
+
+  @each $point, $value in $breakpoints {
+    $target: map-get($typography, $point);
+
+    @if $target {
+      @include media-query($point) {
+        $level: map-get($target, $name);
+
+        @if $level {
+          font-size: map-get($level, font-size);
+          font-weight: map-get($level, font-weight);
+          line-height: map-get($level, line-height);
+          letter-spacing: map-get($level, letter-spacing);
+        }
+      }
+    }
+  }
+}
+
+@mixin flex(
+  $dir: row,
+  $wrap: nowrap,
+  $align: flex-start,
+  $justify: flex-start
+) {
   display: flex;
   flex-direction: $dir;
   flex-wrap: $wrap;
   align-items: $align;
   justify-content: $justify;
-}
-
-@mixin flex-child($grow: 0, $shrink: 1, $align: auto) {
-  flex-shrink: $shrink;
-  flex-grow: $grow;
-  align-self: $align;
-}
-
-@mixin hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 @mixin elevation($theme, $level, $base-color, $dark-shadow: '') {
