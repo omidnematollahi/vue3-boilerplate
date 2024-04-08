@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue';
-import { supportedLocaleList } from '../dictionary';
+import { supportedLocaleList, rtlLocaleList } from '../dictionary';
 
 const locale = ref('');
 
@@ -8,6 +8,9 @@ const useLocale = () => {
 
   const setLocale = (newLocale) => {
     document.documentElement.setAttribute('lang', newLocale);
+
+    const direction = rtlLocaleList.includes(newLocale) ? 'rtl' : 'ltr';
+    document.documentElement.setAttribute('dir', direction);
 
     if (locale.value === newLocale) return;
 
