@@ -1,4 +1,4 @@
-import EventBus from '@/plug-in/event-bus/event-bus';
+import EventBus from '@/modules/event-bus/event-bus';
 
 export const eventBus = new EventBus();
 
