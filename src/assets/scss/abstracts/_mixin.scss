@@ -1,6 +1,7 @@
 @use './typography' as *;
 @use './breakpoints' as *;
 @use './elevation' as *;
+@use './variables' as *;
 
 @mixin media-query($screen-size) {
   $size: map-get($breakpoints, $screen-size);
@@ -54,10 +55,56 @@
   justify-content: $justify;
 }
 
-@mixin elevation($theme, $level, $base-color, $dark-shadow: '') {
-  @if $theme == light {
-    @include light-elevation($level, $base-color);
-  } @else if $theme == dark {
-    @include dark-elevation($level, $base-color, $dark-shadow);
+@mixin light-elevation(
+  $level,
+  $base-color: map-get($elevation-base-color, light)
+) {
+  $umbra: rgba($base-color, 0.2);
+  $penumbra: rgba($base-color, 0.14);
+  $ambient: rgba($base-color, 0.12);
+
+  box-shadow: map-get($light-elevation-umbra-map, $level) $umbra,
+    map-get($light-elevation-penumbra-map, $level) $penumbra,
+    map-get($light-elevation-ambient-map, $level) $ambient;
+}
+
+@mixin dark-elevation(
+  $level,
+  $base-color: map-get($elevation-base-color, dark),
+  $include-shadow: false
+) {
+  @if $include-shadow == true {
+    @include light-elevation($level);
+  }
+
+  position: relative;
+  overflow: hidden;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(
+      $base-color,
+      map-get($dark-elevation-opacity-map, $level)
+    );
+    pointer-events: none;
+  }
+}
+
+@mixin elevation(
+  $level: 1,
+  $base-light-color: map-get($elevation-base-color, light),
+  $base-dark-color: map-get($elevation-base-color, dark),
+  $dark-shadow: false
+) {
+  @at-root [data-theme='light'] & {
+    @include light-elevation($level, $base-light-color);
+  }
+
+  @at-root [data-theme='dark'] & {
+    @include dark-elevation($level, $base-dark-color, $dark-shadow);
   }
 }
