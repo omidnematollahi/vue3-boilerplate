@@ -1,5 +1,5 @@
 import { dictionaries } from './dictionary';
-import { doubleBracketReplace } from '@/utils/string.js';
+import { doubleBracketReplace } from '@/utils/double-bracket-replace.js';
 
 /**
  *
