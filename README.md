@@ -11,6 +11,14 @@ This template should help get you started developing with Vue 3 in Vite + Some g
 - [x] layouts and configured router with loading indicator
 - [x] general components
 
+### Note
+
+> `utils` folder contains utility functions or helper classes that provide generic functionality not directly tied to specific services or features.
+
+> `services` folder contains classes or modules that encapsulate functionality related to specific services or features within the application.
+
+> `plug-in` folder contains encapsulated functionalities in a way that a package does or extend Vue core functionalities by adding global methods, components, directives and so on.
+
 ## Project Setup
 
 ```sh
