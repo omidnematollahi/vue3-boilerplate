@@ -1,4 +1,4 @@
-import { eventBus } from '@/modules/event-bus';
+import { eventBus } from '@/services/event-bus';
 
 /**
  * Publish beforeEach happened event
