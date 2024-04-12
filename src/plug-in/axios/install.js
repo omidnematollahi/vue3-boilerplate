@@ -1,4 +1,3 @@
-import Axios from 'axios';
 import AxiosSingleton from './index';
 
 import DefaultConfigBuilder from '@/plug-in/axios/default-config-builder';
@@ -8,8 +7,8 @@ import {
 } from '@/plug-in/axios/middlewares';
 
 export default (vueInstance, config) => {
-  const defaultConfig = new DefaultConfigBuilder(Axios.defaults).build();
-  const axios = AxiosSingleton.getInstance({ ...defaultConfig, ...config });
+  const defaultConfig = new DefaultConfigBuilder(config).build();
+  const axios = AxiosSingleton.getInstance(defaultConfig);
 
   axios.interceptors.request.use(
     (request) => requestMiddlewares.onRequest(request, { vueInstance }),
