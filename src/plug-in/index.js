@@ -1,4 +1,4 @@
-const pluginSourceMap = import.meta.globEager(['@/plug-in/*/index.js'], {
+const pluginSourceMap = import.meta.globEager(['@/plug-in/*/install.js'], {
   import: 'default',
 });
 

@@ -28,10 +28,10 @@
 <script setup>
   import { computed } from 'vue';
 
-  import useToast from '@/composable/use-toast.js';
+  import useToast from '@/composable/use-toast.composable.js';
 
-  import BaseIcon from '@/components/common/base-icon/base-icon.vue';
-  import ToastNotification from '@/components/common/toast/toast-notification.vue';
+  import BaseIcon from '@/components/common/base-icon/base-icon.component.vue';
+  import ToastNotification from '@/components/common/toast/toast-notification.component.vue';
   import { TOAST_POSITIONS } from '@/constants/toast.constant.js';
 
   const { list: toastList } = useToast();

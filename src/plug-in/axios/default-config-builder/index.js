@@ -1,3 +1,5 @@
+import Axios from 'axios';
+
 class DefaultConfigBuilder {
   #defaultConfig = {};
   /**
@@ -5,7 +7,7 @@ class DefaultConfigBuilder {
    * @param {Object} config - axios config
    */
   constructor(config) {
-    this.#defaultConfig = { ...config };
+    this.#defaultConfig = { ...Axios.defaults, ...config };
   }
 
   /**

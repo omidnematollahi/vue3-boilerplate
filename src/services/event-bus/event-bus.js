@@ -15,7 +15,7 @@
  * @param {boolean} [createIfAbsent=false]
  */
 
-import deepClone from '@/utils/deep-clone.js';
+import deepClone from '@/utils/deep-clone.util.js';
 
 class EventBus {
   #eventsSubscriberMap;

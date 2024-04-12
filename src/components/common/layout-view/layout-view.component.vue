@@ -19,7 +19,7 @@
   const layout = computed(() => {
     const layoutName = routeLayoutName.value;
     return defineAsyncComponent(() =>
-      import(`@/components/layout/${layoutName}.vue`)
+      import(`../../../layouts/${layoutName}.layout.vue`)
     );
   });
 </script>

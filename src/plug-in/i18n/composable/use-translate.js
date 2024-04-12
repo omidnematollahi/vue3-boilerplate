@@ -1,7 +1,7 @@
 import { computed } from 'vue';
 
-import { translate } from '../i18n.js';
-import { useLocale } from './index';
+import { translate } from '../translate.js';
+import useLocale from './use-locale.js';
 
 const DEFAULT_CONFIG = Object.freeze({
   asComputed: true,

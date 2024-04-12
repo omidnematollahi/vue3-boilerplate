@@ -1,22 +1,19 @@
-import axios from 'axios';
+import Axios from 'axios';
 
-import DefaultConfigBuilder from '@/plug-in/axios/default-config-builder';
-import {
-  requestMiddlewares,
-  responseMiddlewares,
-} from '@/plug-in/axios/middlewares';
+class AxiosSingleton {
+  static #instance;
 
-export default (vueInstance, config) => {
-  const baseConfig = { ...axios.defaults, ...config };
-  axios.defaults = new DefaultConfigBuilder(baseConfig).build();
+  constructor(options) {
+    return Axios.create(options);
+  }
 
-  axios.interceptors.request.use(
-    (request) => requestMiddlewares.onRequest(request, { vueInstance }),
-    (error) => requestMiddlewares.onRequestError(error, { vueInstance })
-  );
+  static getInstance(options) {
+    if (!AxiosSingleton.#instance) {
+      AxiosSingleton.#instance = new AxiosSingleton(options);
+    }
 
-  axios.interceptors.response.use(
-    (response) => responseMiddlewares.onResponse(response, { vueInstance }),
-    (error) => responseMiddlewares.onResponseError(error, { vueInstance })
-  );
-};
+    return AxiosSingleton.#instance;
+  }
+}
+
+export default AxiosSingleton;
