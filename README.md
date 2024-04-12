@@ -17,7 +17,7 @@ This template should help get you started developing with Vue 3 in Vite + Some g
 
 > `services` folder contains classes or modules that encapsulate functionality related to specific services or features within the application.
 
-> `plug-in` folder contains encapsulated functionalities in a way that a package does or extend Vue core functionalities by adding global methods, components, directives and so on.
+> `plug-in` folder contains self-contained and encapsulated functionalities in a way that a package does or extend Vue core functionalities by adding global methods, components, directives and so on. if a functionality already exists project wide like a util or something just use it to avoid duplication otherwise put it inside the plugin.
 
 ## Project Setup
 
