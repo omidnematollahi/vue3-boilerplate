@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue';
-import Timeout from '@/utils/timeout.js';
+import Timeout from '@/utils/timeout.util.js';
 import { TOAST_POSITIONS } from '@/constants/toast.constant.js';
 
 const toastList = ref([]);
