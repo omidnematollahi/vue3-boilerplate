@@ -15,9 +15,9 @@
 
   import { eventBus } from '@/services/event-bus';
 
-  import LayoutView from '@/layout/layout-view.vue';
-  import LinearIndicator from '@/components/common/indicator/linear-indicator.vue';
-  import ToastManager from '@/components/common/toast/toast-manager.vue';
+  import LayoutView from '@/components/common/layout-view/layout-view.component.vue';
+  import LinearIndicator from '@/components/common/indicator/linear-indicator.component.vue';
+  import ToastManager from '@/components/common/toast/toast-manager.component.vue';
 
   const indicatorPercentage = ref(0);
 
