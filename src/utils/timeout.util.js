@@ -22,10 +22,14 @@ class Timeout {
   pause() {
     if (!this.#timerId) return;
 
-    clearTimeout(this.#timerId);
-    this.#timerId = null;
+    this.cancel();
 
     this.#remainingTime -= Date.now() - this.#startTime;
+  }
+
+  cancel() {
+    clearTimeout(this.#timerId);
+    this.#timerId = null;
   }
 
   resume() {
