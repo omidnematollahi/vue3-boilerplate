@@ -3,7 +3,6 @@
     <base-icon icon-name="add-circle-filled" />
     <p class="body1 toast__message">
       {{ message }}
-      {{ type }}
     </p>
     <div class="toast__actions" @click="$emit('action:dismiss')">
       <base-icon icon-name="close" />
@@ -34,7 +33,7 @@
 
 <style lang="scss" scoped>
   .toast {
-    @include flex;
+    @include flex($align: center);
     background-color: lightgreen;
     max-width: 20rem;
     padding: 1rem;
