@@ -11,30 +11,46 @@
     <li
       v-for="toast in toastStacks[stack.name]?.reverse()"
       :key="toast.id"
-      @mouseenter="toast.pauseTimer"
-      @mouseleave="toast.resumeTimer"
+      @mouseenter="pauseTimer(toast)"
+      @mouseleave="resumeTimer(toast)"
       class="toast-stack__item"
     >
-      <component
-        :is="ToastNotification"
-        :message="toast.message"
-        v-bind="toast.props"
-        @action:dismiss="toast.dismiss"
-      />
+      <slot v-bind="toast">
+        <toast-notification
+          v-bind="toast.props"
+          :type="toast.type"
+          @action:dismiss="dismiss(toast.id)"
+        />
+      </slot>
     </li>
   </TransitionGroup>
 </template>
 
 <script setup>
   import { computed } from 'vue';
+  import { toastList } from '../toast-manager';
 
-  import useToast from '@/composable/use-toast.composable.js';
+  import useToast from '..//composable/use-toast.composable.js';
 
-  import BaseIcon from '@/components/common/base-icon/base-icon.component.vue';
-  import ToastNotification from '@/components/common/toast/toast-notification.component.vue';
-  import { TOAST_POSITIONS } from '@/constants/toast.constant.js';
+  import ToastNotification from './toast-notification.component.vue';
+  import { TOAST_POSITIONS } from '../constants/toast.constant.js';
 
-  const { list: toastList } = useToast();
+  const toastManager = useToast();
+
+  const pauseTimer = (toast) => {
+    if (!toast || !toast.autoDismiss) return;
+    toastManager.pauseTimer(toast.id);
+  };
+
+  const resumeTimer = (toast) => {
+    if (!toast || !toast.autoDismiss) return;
+    toastManager.resumeTimer(toast.id);
+  };
+
+  const dismiss = (toast) => {
+    if (!toast) return;
+    toastManager.dismiss(toast);
+  };
 
   const stacks = TOAST_POSITIONS.map((position) => {
     const classList = position.split('-');
@@ -48,8 +64,8 @@
   });
 
   const toastStacks = computed(() =>
-    toastList.value.reduce((stackPositionMap, toast) => {
-      const { position: toastPosition } = toast.config;
+    toastList.reduce((stackPositionMap, toast) => {
+      const { position: toastPosition } = toast;
 
       const targetStack = stackPositionMap[toastPosition];
       if (!targetStack) {
@@ -64,8 +80,6 @@
 </script>
 
 <style lang="scss" scoped>
-  //FIXME: make transition classes globally available
-
   .toast-stack {
     position: fixed;
     z-index: $toast;
