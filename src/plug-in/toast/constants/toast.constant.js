@@ -17,4 +17,15 @@ export const TOAST_POSITIONS = [
   'bottom-left',
 ];
 
-export default { POSITIONS: TOAST_POSITIONS };
+export const STACK_MAP = {
+  top: [],
+  bottom: [],
+  'top-center': [],
+  'top-left': [],
+  'top-right': [],
+  'bottom-center': [],
+  'bottom-right': [],
+  'bottom-left': [],
+};
+
+export default { POSITIONS: TOAST_POSITIONS, DEFAULT_CONFIG, STACK_MAP };

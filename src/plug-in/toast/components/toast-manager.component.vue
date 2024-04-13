@@ -3,13 +3,13 @@
     appear
     tag="ul"
     class="toast-stack"
-    v-for="stack in stacks"
+    v-for="stack in toastStacks"
     :key="stack.name"
     :class="stack.classList"
     :name="stack.transition"
   >
     <li
-      v-for="toast in toastStacks[stack.name]?.reverse()"
+      v-for="toast in stack.toastList"
       :key="toast.id"
       @mouseenter="pauseTimer(toast)"
       @mouseleave="resumeTimer(toast)"
@@ -19,7 +19,7 @@
         <toast-notification
           v-bind="toast.props"
           :type="toast.type"
-          @action:dismiss="dismiss(toast.id)"
+          @action:dismiss="dismiss(toast)"
         />
       </slot>
     </li>
@@ -28,7 +28,7 @@
 
 <script setup>
   import { computed } from 'vue';
-  import { toastList } from '../toast-manager';
+  import { stacks } from '../toast-manager';
 
   import useToast from '..//composable/use-toast.composable.js';
 
@@ -52,30 +52,20 @@
     toastManager.dismiss(toast);
   };
 
-  const stacks = TOAST_POSITIONS.map((position) => {
-    const classList = position.split('-');
-    const transitionName = `fade-${classList.includes('top') ? 'down' : 'up'}`;
-
-    return {
-      name: position,
-      classList,
-      transition: transitionName,
-    };
-  });
-
   const toastStacks = computed(() =>
-    toastList.reduce((stackPositionMap, toast) => {
-      const { position: toastPosition } = toast;
+    Object.keys(stacks).map((position) => {
+      const classList = position.split('-');
+      const transitionName = `fade-${
+        classList.includes('top') ? 'down' : 'up'
+      }`;
 
-      const targetStack = stackPositionMap[toastPosition];
-      if (!targetStack) {
-        stackPositionMap[toastPosition] = [toast];
-      } else {
-        targetStack.push(toast);
-      }
-
-      return stackPositionMap;
-    }, {})
+      return {
+        name: position,
+        classList,
+        transition: transitionName,
+        toastList: stacks[position],
+      };
+    })
   );
 </script>
 
