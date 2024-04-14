@@ -12,11 +12,7 @@
 
 <script setup>
   import { onUnmounted, ref } from 'vue';
-
   import { eventBus } from '@/services/event-bus';
-
-  import LayoutView from '@/components/common/layout-view/layout-view.component.vue';
-  import LinearIndicator from '@/components/common/indicator/linear-indicator.component.vue';
 
   const indicatorPercentage = ref(0);
 
