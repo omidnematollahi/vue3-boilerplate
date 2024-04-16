@@ -55,8 +55,6 @@ export const registerCommonComponents = (
     const direction = shouldReverseName ? 'forward' : 'backward';
     const componentName = getComponentNameByPath(source, { direction });
 
-    console.log(componentName);
-
     vueInstance.component(componentName, component);
   });
 };
