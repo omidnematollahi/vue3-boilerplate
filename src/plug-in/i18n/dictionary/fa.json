@@ -1,4 +1,8 @@
 {
+  "validationErrors": {
+    "required": "این فیلد اجباریست",
+    "betweenLength": "مقدار باید بین {{0}} و  {{1}} باشد"
+  },
   "playground": {
     "title": "زمین بازی"
   }
