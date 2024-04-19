@@ -1,4 +1,8 @@
 {
+  "validationErrors": {
+    "required": "This Field is required",
+    "betweenLength": "Must be between {{0}} and {{1}}"
+  },
   "playground": {
     "title": "Playground"
   }
