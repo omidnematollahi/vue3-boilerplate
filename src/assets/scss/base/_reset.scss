@@ -22,7 +22,9 @@ menu {
   padding: 0;
 }
 
+input,
 button {
+  background-color: transparent;
   outline: none;
   border: none;
 }
