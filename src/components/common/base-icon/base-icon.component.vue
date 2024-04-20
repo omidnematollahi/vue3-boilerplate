@@ -9,11 +9,13 @@
     iconName: String,
   });
 
-  const icon = computed(() =>
-    defineAsyncComponent(() =>
-      import(`../../../assets/icons/${props.iconName}.icon.vue`)
-    )
-  );
+  const icon = computed(() => {
+    const iconName = props.iconName;
+
+    return defineAsyncComponent(() =>
+      import(`../../../assets/icons/${iconName}.icon.vue`)
+    );
+  });
 </script>
 
 <style lang="scss" scoped>
