@@ -19,8 +19,13 @@ $dark-theme: (
   on-error-container: map-get($error, 90),
   background: map-get($neutral, 10),
   on-background: map-get($neutral, 90),
+  surface-dim: map-get($neutral, 10),
+  surface-bright: map-get($neutral, 25),
   surface: map-get($neutral, 10),
   on-surface: map-get($neutral, 90),
+  surface-container-lowest: map-get($neutral, 10),
+  surface-container-low: map-get($neutral, 10),
+  // or surface container highest
   surface-variant: map-get($neutral-variant, 30),
   on-surface-variant: map-get($neutral-variant, 80),
   outline: map-get($neutral-variant, 60),
