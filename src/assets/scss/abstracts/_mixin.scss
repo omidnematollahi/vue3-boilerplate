@@ -55,7 +55,7 @@
   justify-content: $justify;
 }
 
-@mixin light-elevation(
+@mixin shadow-elevation(
   $level,
   $base-color: map-get($elevation-base-color, light)
 ) {
@@ -68,44 +68,18 @@
     map-get($light-elevation-ambient-map, $level) $ambient;
 }
 
-@mixin dark-elevation(
-  $level,
-  $base-color: map-get($elevation-base-color, dark),
-  $include-shadow: false
-) {
-  @if $include-shadow == true {
-    @include light-elevation($level);
-  }
-
-  position: relative;
-  overflow: hidden;
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(
-      $base-color,
-      map-get($dark-elevation-opacity-map, $level)
-    );
-    pointer-events: none;
-  }
-}
-
 @mixin elevation(
   $level: 1,
   $base-light-color: map-get($elevation-base-color, light),
-  $base-dark-color: map-get($elevation-base-color, dark),
-  $dark-shadow: false
+  $base-dark-color: map-get($elevation-base-color, dark)
 ) {
   @at-root [data-theme='light'] & {
-    @include light-elevation($level, $base-light-color);
+    @include shadow-elevation($level, $base-light-color);
   }
 
   @at-root [data-theme='dark'] & {
-    @include dark-elevation($level, $base-dark-color, $dark-shadow);
+    @debug $base-dark-color;
+    @include shadow-elevation($level, $base-dark-color);
   }
 }
 
