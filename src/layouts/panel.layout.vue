@@ -9,6 +9,6 @@
 
 <style lang="scss" scoped>
   .header {
-    @include elevation(12, $dark-shadow: false);
+    @include elevation(12);
   }
 </style>
