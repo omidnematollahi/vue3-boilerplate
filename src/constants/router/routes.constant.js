@@ -4,7 +4,6 @@ export const PRESENTATION_ROUTE = Object.freeze({
   component: () => import('@/views/presentation/presentation-view.vue'),
   meta: {
     title: 'Presentation | Boilerplate',
-    transition: 'switch-fade',
   },
 });
 
@@ -15,7 +14,6 @@ export const PLAYGROUND_ROUTE = Object.freeze({
   meta: {
     layout: 'panel',
     title: 'Playground | Boilerplate',
-    transition: 'switch-fade',
   },
 });
 

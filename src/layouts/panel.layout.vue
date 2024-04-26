@@ -10,5 +10,6 @@
 <style lang="scss" scoped>
   .header {
     @include elevation(12);
+    width: 100vw;
   }
 </style>

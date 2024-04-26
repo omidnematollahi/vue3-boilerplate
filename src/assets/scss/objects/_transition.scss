@@ -1,22 +1,20 @@
-.fade-up-leave-active,
-.fade-up-enter-active,
-.fade-down-enter-active,
-.fade-down-leave-active {
-  transition: {
-    property: opacity, transform;
-    duration: 0.15s;
-    timing-function: ease-out;
+@use '../abstracts/_mixin' as *;
+
+.scale-fade-enter-active {
+  @include transition(standard-decelerate) {
+    transition-property: opacity, transform;
   }
 }
 
-.fade-down-enter-from,
-.fade-down-leave-to {
-  opacity: 0;
-  transform: translateY(-50%);
+.scale-fade-leave-active {
+  @include transition(standard-accelerate) {
+    transition-property: opacity, transform;
+  }
 }
 
-.fade-up-enter-from,
-.fade-up-leave-to {
+.scale-fade-enter-from,
+.scale-fade-leave-to {
   opacity: 0;
-  transform: translateY(50%);
+  transform: scale(0.9);
+  position: absolute;
 }
