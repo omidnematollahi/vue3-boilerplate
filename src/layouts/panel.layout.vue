@@ -1,10 +1,12 @@
 <template>
-  <header class="header">
-    <p>This is a header for panel layout</p>
-  </header>
-  <main>
-    <slot />
-  </main>
+  <div>
+    <header class="header">
+      <p>This is a header for panel layout</p>
+    </header>
+    <main>
+      <slot />
+    </main>
+  </div>
 </template>
 
 <style lang="scss" scoped>

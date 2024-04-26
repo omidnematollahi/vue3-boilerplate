@@ -1,10 +1,8 @@
 <template>
   <transition :name="layoutTransition">
-    <div :key="routeLayoutName">
-      <component :is="layout">
-        <slot />
-      </component>
-    </div>
+    <component :is="layout" :key="routeLayoutName">
+      <slot />
+    </component>
   </transition>
 </template>
 

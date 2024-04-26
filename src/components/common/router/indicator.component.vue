@@ -2,13 +2,11 @@
   <layout-view>
     <router-view v-slot="{ Component, route }">
       <transition :name="route.meta.transition || 'scale-fade'" appear>
-        <div :key="route.path">
-          <component :is="Component" />
-        </div>
+        <component :is="Component" :key="route.path" />
       </transition>
     </router-view>
   </layout-view>
-  <transition name="fade">
+  <transition name="fade" appear>
     <linear-indicator
       v-if="indicatorPercentage"
       class="indicator"
@@ -22,17 +20,25 @@
   import { eventBus } from '@/services/event-bus';
 
   const indicatorPercentage = ref(0);
+  let timeout = null;
 
   const updateIndicatorPercentage = (percentage) => {
     indicatorPercentage.value = percentage;
   };
-  const beforeEachSubscription = eventBus.subscribeOn('router:beforeEach', () =>
-    updateIndicatorPercentage(30)
+  const beforeEachSubscription = eventBus.subscribeOn(
+    'router:beforeEach',
+    () => {
+      updateIndicatorPercentage(30);
+      timeout = setTimeout(() => updateIndicatorPercentage(70), 3000);
+    }
   );
 
   const afterEachSubscription = eventBus.subscribeOn('router:afterEach', () => {
     updateIndicatorPercentage(100);
-    setTimeout(() => updateIndicatorPercentage(0), 200);
+    setTimeout(() => {
+      clearTimeout(timeout);
+      updateIndicatorPercentage(0);
+    }, 200);
   });
 
   const clearSubscriptions = () => {
