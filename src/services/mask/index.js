@@ -3,7 +3,7 @@ import {
   REGEX_STARTING_CHAR,
   REGEX_ENDING_CHAR,
   DEFAULT_TOKEN,
-} from '@/constants/mask.constant.js';
+} from '@/constants/mask/mask.constant.js';
 
 class Mask {
   #patternCharList;

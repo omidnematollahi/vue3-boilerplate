@@ -1,7 +1,9 @@
 <template>
-  <component :is="layout">
-    <slot />
-  </component>
+  <transition :name="layoutTransition">
+    <component :is="layout" :key="routeLayoutName">
+      <slot />
+    </component>
+  </transition>
 </template>
 
 <script setup>
@@ -10,9 +12,13 @@
 
   const route = useRoute();
   const routeLayoutName = ref('default');
+  const layoutTransition = ref('scale-fade');
 
   const onRouteChange = () => {
-    routeLayoutName.value = route.meta?.layout ?? 'default';
+    const { layout, transition } = route.meta;
+
+    routeLayoutName.value = layout ?? 'default';
+    layoutTransition.value = transition ?? 'scale-fade';
   };
   watch(() => route.meta.layout, onRouteChange);
 
