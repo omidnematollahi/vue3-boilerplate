@@ -59,13 +59,17 @@
   $level,
   $base-color: map-get($elevation-base-color, light)
 ) {
-  $umbra: rgba($base-color, 0.2);
-  $penumbra: rgba($base-color, 0.14);
-  $ambient: rgba($base-color, 0.12);
+  @if ($level == 0) {
+    box-shadow: none;
+  } @else {
+    $umbra: rgba($base-color, 0.2);
+    $penumbra: rgba($base-color, 0.14);
+    $ambient: rgba($base-color, 0.12);
 
-  box-shadow: map-get($light-elevation-umbra-map, $level) $umbra,
-    map-get($light-elevation-penumbra-map, $level) $penumbra,
-    map-get($light-elevation-ambient-map, $level) $ambient;
+    box-shadow: map-get($light-elevation-umbra-map, $level) $umbra,
+      map-get($light-elevation-penumbra-map, $level) $penumbra,
+      map-get($light-elevation-ambient-map, $level) $ambient;
+  }
 }
 
 @mixin elevation(
