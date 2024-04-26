@@ -1,5 +1,10 @@
 <template>
-  <h1 class="title">THIS IS PLAYGROUND</h1>
+  <div>
+    <h1 class="title">THIS IS PLAYGROUND</h1>
+    <button @click="$router.push({ name: 'presentation' })">
+      Presentation
+    </button>
+  </div>
 </template>
 
 <style lang="scss" scoped>
