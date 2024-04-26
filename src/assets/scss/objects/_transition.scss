@@ -18,3 +18,20 @@
   transform: scale(0.9);
   position: absolute;
 }
+
+.fade-enter-active {
+  @include transition(standard-decelerate) {
+    transition-property: opacity;
+  }
+}
+
+.fade-leave-active {
+  @include transition(standard-accelerate) {
+    transition-property: opacity;
+  }
+}
+
+.fade-leave-to,
+.fade-enter-from {
+  opacity: 0;
+}
