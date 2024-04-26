@@ -78,7 +78,6 @@
   }
 
   @at-root [data-theme='dark'] & {
-    @debug $base-dark-color;
     @include shadow-elevation($level, $base-dark-color);
   }
 }
