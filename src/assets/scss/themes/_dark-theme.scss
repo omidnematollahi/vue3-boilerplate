@@ -19,10 +19,10 @@ $dark-theme: (
   on-error-container: map-get($error, 90),
   surface-container-lowest: map-get($neutral, 5),
   surface-container-low: map-get($neutral, 10),
-  surface-container: map-get($neutral, 10),
-  surface-container-high: map-get($neutral, 15),
+  surface-container: map-get($neutral, 15),
+  surface-container-high: map-get($neutral, 20),
   // deprecated
-  surface-container-highest: map-get($neutral, 20),
+  surface-container-highest: map-get($neutral, 25),
   inverse-surface: map-get($neutral, 90),
   inverse-on-surface: map-get($neutral, 20),
   surface-variant: map-get($neutral-variant, 30),

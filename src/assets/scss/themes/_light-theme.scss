@@ -18,7 +18,7 @@ $light-theme: (
   error-container: map-get($error, 90),
   on-error-container: map-get($error, 10),
   surface-container-lowest: map-get($neutral, 100),
-  surface-container-low: map-get($neutral-variant, 98),
+  surface-container-low: map-get($neutral, 98),
   surface-container: map-get($neutral-variant, 95),
   surface-container-high: map-get($neutral-variant, 90),
   // deprecated
