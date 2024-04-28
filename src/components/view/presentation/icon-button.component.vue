@@ -3,12 +3,36 @@
     <h3 class="presenter__title">Icon Button Component Presentation</h3>
     <!-- Filled Icon Button -->
     <div class="presenter__container">
-      <icon-button variant="filled" icon-name="close" :model-value="false" />
+      <icon-button variant="filled" icon-name="close" :is-selected="true" />
+      <icon-button variant="filled" icon-name="close" :is-selected="false" />
+      <icon-button
+        disabled
+        variant="filled"
+        icon-name="close"
+        :is-selected="true"
+      />
+    </div>
+    <!-- Filled Tonal Icon Button -->
+    <div class="presenter__container">
+      <icon-button
+        variant="filled-tonal"
+        icon-name="close"
+        :is-selected="true"
+      />
+      <icon-button
+        variant="filled-tonal"
+        icon-name="close"
+        :is-selected="false"
+      />
+      <icon-button
+        disabled
+        variant="filled-tonal"
+        icon-name="close"
+        :is-selected="true"
+      />
     </div>
   </div>
 </template>
-
-<script setup></script>
 
 <style lang="scss" scoped>
   .presenter {

@@ -1,5 +1,6 @@
 <template>
   <button :class="iconButtonClasses">
+    <!-- TODO: add outline and fill to base icon and use here -->
     <base-icon class="icon-button__icon" :icon-name="iconName" />
   </button>
 </template>
@@ -20,14 +21,16 @@
         return variants.includes(value);
       },
     },
+    isSelected: {
+      type: Boolean,
+      default: false,
+    },
   });
-
-  const modelValue = defineModel();
 
   const iconButtonClasses = computed(() => {
     const classList = ['icon-button', `icon-button_${props.variant}`];
 
-    if (modelValue.value) {
+    if (props.isSelected) {
       classList.push('icon-button_selected');
     }
 
@@ -68,9 +71,67 @@
         transition-property: background-color, color;
       }
 
+      &::before {
+        opacity: 0.08;
+      }
+
+      &:hover::before {
+        background-color: var(--palette-primary);
+      }
+
+      &:active::before {
+        background-color: var(--palette-primary);
+        opacity: 0.1;
+      }
+
       &#{$icon-button}_selected {
         background-color: var(--palette-primary);
         color: var(--palette-on-primary);
+
+        &:hover::before {
+          background-color: var(--palette-on-primary);
+        }
+
+        &:active::before {
+          background-color: var(--palette-on-primary);
+          opacity: 0.1;
+        }
+      }
+    }
+
+    &_filled-tonal {
+      background-color: var(--palette-surface-container-high);
+      color: var(--palette-on-surface);
+
+      @include transition(standard-accelerate) {
+        transition-property: background-color, color;
+      }
+
+      &::before {
+        opacity: 0.08;
+      }
+
+      &:hover::before {
+        background-color: var(--palette-surface-container-high);
+      }
+
+      &:active::before {
+        background-color: var(--palette-on-surface);
+        opacity: 0.1;
+      }
+
+      &#{$icon-button}_selected {
+        background-color: var(--palette-secondary-container);
+        color: var(--palette-on-secondary-container);
+
+        &:hover::before {
+          background-color: var(--palette-on-secondary-container);
+        }
+
+        &:active::before {
+          background-color: var(--palette-on-secondary-container);
+          opacity: 0.1;
+        }
       }
     }
 
