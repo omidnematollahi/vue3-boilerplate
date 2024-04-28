@@ -101,7 +101,7 @@
 
     &_filled-tonal {
       background-color: var(--palette-surface-container-high);
-      color: var(--palette-on-surface);
+      color: var(--palette-on-surface-variant);
 
       @include transition(standard-accelerate) {
         transition-property: background-color, color;
@@ -112,11 +112,11 @@
       }
 
       &:hover::before {
-        background-color: var(--palette-surface-container-high);
+        background-color: var(--palette-on-surface-variant);
       }
 
       &:active::before {
-        background-color: var(--palette-on-surface);
+        background-color: var(--palette-on-surface-variant);
         opacity: 0.1;
       }
 
@@ -135,11 +135,51 @@
       }
     }
 
+    &_outlined {
+      color: var(--palette-on-surface-variant);
+      border: 1px solid var(--palette-outline);
+
+      &::before {
+        opacity: 0.08;
+      }
+
+      &:hover::before {
+        background-color: var(--palette-on-surface-variant);
+      }
+
+      &:active::before {
+        background-color: var(--palette-on-surface);
+        opacity: 0.1;
+      }
+
+      &#{$icon-button}_selected {
+        background-color: var(--palette-inverse-surface);
+        border-color: transparent;
+        color: var(--palette-inverse-on-surface);
+
+        &:hover::before {
+          background-color: var(--palette-inverse-on-surface);
+        }
+
+        &:active::before {
+          background-color: var(--palette-inverse-on-surface);
+          opacity: 0.1;
+        }
+      }
+    }
+
+    &_standard {
+    }
+
     &:disabled {
       opacity: 0.38;
       pointer-events: none;
       background-color: var(--palette-outline-variant);
       color: var(--palette-on-surface);
+    }
+
+    &_outlined:not(&_selected):disabled {
+      background-color: transparent;
     }
 
     &__icon {
