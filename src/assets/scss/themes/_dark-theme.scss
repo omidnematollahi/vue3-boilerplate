@@ -23,6 +23,10 @@ $dark-theme: (
   surface-container-high: map-get($neutral, 15),
   // deprecated
   surface-container-highest: map-get($neutral, 20),
+  inverse-surface: map-get($neutral, 90),
+  inverse-on-surface: map-get($neutral, 20),
+  surface-variant: map-get($neutral-variant, 30),
+  on-surface-variant: map-get($neutral-variant, 80),
   on-surface: map-get($neutral, 90),
   outline: map-get($neutral-variant, 60),
   outline-variant: map-get($neutral-variant, 30),
