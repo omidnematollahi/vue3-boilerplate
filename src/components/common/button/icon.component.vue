@@ -94,7 +94,6 @@
 
         &:active::before {
           background-color: var(--palette-on-primary);
-          opacity: 0.1;
         }
       }
     }
@@ -130,7 +129,6 @@
 
         &:active::before {
           background-color: var(--palette-on-secondary-container);
-          opacity: 0.1;
         }
       }
     }
@@ -163,12 +161,37 @@
 
         &:active::before {
           background-color: var(--palette-inverse-on-surface);
-          opacity: 0.1;
         }
       }
     }
 
     &_standard {
+      color: var(--palette-on-surface-variant);
+
+      &::before {
+        opacity: 0.08;
+      }
+
+      &:hover::before {
+        background-color: var(--palette-on-surface-variant);
+      }
+
+      &:active::before {
+        background-color: var(--palette-on-surface-variant);
+        opacity: 0.1;
+      }
+
+      &#{$icon-button}_selected {
+        color: var(--palette-primary);
+
+        &:hover::before {
+          background-color: var(--palette-primary);
+        }
+
+        &:active::before {
+          background-color: var(--palette-primary);
+        }
+      }
     }
 
     &:disabled {
@@ -178,6 +201,7 @@
       color: var(--palette-on-surface);
     }
 
+    &_standard:not(&_selected):disabled,
     &_outlined:not(&_selected):disabled {
       background-color: transparent;
     }
