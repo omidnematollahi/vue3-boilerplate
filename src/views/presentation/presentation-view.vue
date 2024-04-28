@@ -17,11 +17,12 @@
 
     &__title {
       @include typography(display-small);
+      color: var(--palette-on-surface);
     }
 
     &__section {
       padding: space(6);
-      background-color: var(--palette-surface-container);
+      background-color: var(--palette-surface-container-low);
       border-radius: $radius-4x;
       margin-top: space(4);
     }

@@ -73,6 +73,7 @@
   .presenter {
     &__title {
       @include typography(title-medium);
+      color: var(--palette-on-surface);
     }
 
     &__container {
