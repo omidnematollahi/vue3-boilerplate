@@ -3,18 +3,18 @@
     <h3 class="presenter__title">Icon Button Component Presentation</h3>
     <!-- Filled Icon Button -->
     <div class="presenter__container">
-      <icon-button variant="filled" icon-name="close" :is-selected="true" />
-      <icon-button variant="filled" icon-name="close" :is-selected="false" />
+      <icon-button variant="filled" icon-name="favorite" :is-selected="true" />
+      <icon-button variant="filled" icon-name="favorite" :is-selected="false" />
       <icon-button
         disabled
         variant="filled"
-        icon-name="close"
+        icon-name="favorite"
         :is-selected="true"
       />
       <icon-button
         disabled
         variant="filled"
-        icon-name="close"
+        icon-name="favorite"
         :is-selected="false"
       />
     </div>
@@ -22,50 +22,58 @@
     <div class="presenter__container">
       <icon-button
         variant="filled-tonal"
-        icon-name="close"
+        icon-name="favorite"
         :is-selected="true"
       />
       <icon-button
         variant="filled-tonal"
-        icon-name="close"
+        icon-name="favorite"
         :is-selected="false"
       />
       <icon-button
         disabled
         variant="filled-tonal"
-        icon-name="close"
+        icon-name="favorite"
         :is-selected="true"
       />
       <icon-button
         disabled
         variant="filled-tonal"
-        icon-name="close"
+        icon-name="favorite"
         :is-selected="false"
       />
     </div>
     <!-- Outlined Icon Button -->
     <div class="presenter__container">
-      <icon-button variant="outlined" icon-name="close" :is-selected="true" />
-      <icon-button variant="outlined" icon-name="close" :is-selected="false" />
+      <icon-button
+        variant="outlined"
+        icon-name="favorite"
+        :is-selected="true"
+      />
+      <icon-button
+        variant="outlined"
+        icon-name="favorite"
+        :is-selected="false"
+      />
       <icon-button
         disabled
         variant="outlined"
-        icon-name="close"
+        icon-name="favorite"
         :is-selected="true"
       />
       <icon-button
         disabled
         variant="outlined"
-        icon-name="close"
+        icon-name="favorite"
         :is-selected="false"
       />
     </div>
     <!-- Standard Icon Button -->
     <div class="presenter__container">
-      <icon-button icon-name="close" :is-selected="true" />
-      <icon-button icon-name="close" :is-selected="false" />
-      <icon-button disabled icon-name="close" :is-selected="true" />
-      <icon-button disabled icon-name="close" :is-selected="false" />
+      <icon-button icon-name="favorite" :is-selected="true" />
+      <icon-button icon-name="favorite" :is-selected="false" />
+      <icon-button disabled icon-name="favorite" :is-selected="true" />
+      <icon-button disabled icon-name="favorite" :is-selected="false" />
     </div>
   </div>
 </template>

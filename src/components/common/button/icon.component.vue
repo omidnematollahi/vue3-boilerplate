@@ -1,7 +1,13 @@
 <template>
   <button :class="iconButtonClasses">
-    <!-- TODO: add outline and fill to base icon and use here -->
-    <base-icon class="icon-button__icon" :icon-name="iconName" />
+    <transition name="icon-button">
+      <base-icon
+        class="icon-button__icon"
+        :icon-name="iconName"
+        :style-type="currentStyleType"
+        :key="iconKey"
+      />
+    </transition>
   </button>
 </template>
 
@@ -21,10 +27,21 @@
         return variants.includes(value);
       },
     },
+    styleType: {
+      type: String,
+    },
     isSelected: {
       type: Boolean,
       default: false,
     },
+  });
+
+  const currentStyleType = computed(() => {
+    if (props.styleType) {
+      return props.styleType;
+    }
+
+    return props.isSelected ? 'filled' : 'outlined';
   });
 
   const iconButtonClasses = computed(() => {
@@ -36,6 +53,8 @@
 
     return classList;
   });
+
+  const iconKey = computed(() => `${props.iconName}${currentStyleType.value}`);
 </script>
 
 <style lang="scss" scoped>
@@ -137,6 +156,10 @@
       color: var(--palette-on-surface-variant);
       border: 1px solid var(--palette-outline);
 
+      @include transition(standard-accelerate) {
+        transition-property: background-color, color;
+      }
+
       &::before {
         opacity: 0.08;
       }
@@ -211,5 +234,23 @@
       z-index: 1;
       --base-icon-size: 24px;
     }
+  }
+
+  .icon-button-enter-active {
+    @include transition(emphasized-decelerate) {
+      transition-property: opacity, transform;
+    }
+  }
+
+  .icon-button-leave-active {
+    @include transition(emphasized-accelerate) {
+      transition-property: opacity, transform;
+    }
+  }
+
+  .icon-button-enter-from,
+  .icon-button-leave-to {
+    opacity: 0.2;
+    transform: scale(0);
   }
 </style>
