@@ -4,36 +4,42 @@
     <!-- Elevated Button -->
     <div class="presenter__container">
       <base-button> No Icon </base-button>
-      <base-button leading-icon="close"> Leading </base-button>
-      <base-button trailing-icon="close"> Trailing </base-button>
-      <base-button trailing-icon="close" leading-icon="close">
+      <base-button leading-icon="favorite"> Leading </base-button>
+      <base-button trailing-icon="favorite"> Trailing </base-button>
+      <base-button trailing-icon="favorite" leading-icon="favorite">
         Both Icons
       </base-button>
     </div>
     <!-- Filled Button -->
     <div class="presenter__container">
       <base-button variant="filled"> No Icon </base-button>
-      <base-button variant="filled" leading-icon="close"> Leading </base-button>
-      <base-button variant="filled" trailing-icon="close">
+      <base-button variant="filled" leading-icon="favorite">
+        Leading
+      </base-button>
+      <base-button variant="filled" trailing-icon="favorite">
         Trailing
       </base-button>
-      <base-button variant="filled" trailing-icon="close" leading-icon="close">
+      <base-button
+        variant="filled"
+        trailing-icon="favorite"
+        leading-icon="favorite"
+      >
         Both Icons
       </base-button>
     </div>
     <!-- Filled Tonal Button -->
     <div class="presenter__container">
       <base-button variant="filled-tonal"> No Icon </base-button>
-      <base-button variant="filled-tonal" leading-icon="close">
+      <base-button variant="filled-tonal" leading-icon="favorite">
         Leading
       </base-button>
-      <base-button variant="filled-tonal" trailing-icon="close">
+      <base-button variant="filled-tonal" trailing-icon="favorite">
         Trailing
       </base-button>
       <base-button
         variant="filled-tonal"
-        trailing-icon="close"
-        leading-icon="close"
+        trailing-icon="favorite"
+        leading-icon="favorite"
       >
         Both Icons
       </base-button>
@@ -41,16 +47,16 @@
     <!-- Outlined Button -->
     <div class="presenter__container">
       <base-button variant="outlined"> No Icon </base-button>
-      <base-button variant="outlined" leading-icon="close">
+      <base-button variant="outlined" leading-icon="favorite">
         Leading
       </base-button>
-      <base-button variant="outlined" trailing-icon="close">
+      <base-button variant="outlined" trailing-icon="favorite">
         Trailing
       </base-button>
       <base-button
         variant="outlined"
-        trailing-icon="close"
-        leading-icon="close"
+        trailing-icon="favorite"
+        leading-icon="favorite"
       >
         Both Icons
       </base-button>
@@ -58,9 +64,17 @@
     <!-- Text Button -->
     <div class="presenter__container">
       <base-button variant="text"> No Icon </base-button>
-      <base-button variant="text" leading-icon="close"> Leading </base-button>
-      <base-button variant="text" trailing-icon="close"> Trailing </base-button>
-      <base-button variant="text" trailing-icon="close" leading-icon="close">
+      <base-button variant="text" leading-icon="favorite">
+        Leading
+      </base-button>
+      <base-button variant="text" trailing-icon="favorite">
+        Trailing
+      </base-button>
+      <base-button
+        variant="text"
+        trailing-icon="favorite"
+        leading-icon="favorite"
+      >
         Both Icons
       </base-button>
     </div>
