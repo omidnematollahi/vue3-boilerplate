@@ -5,12 +5,14 @@
         class="button__leading-icon"
         v-if="leadingIcon"
         :icon-name="leadingIcon"
+        :style-type="leadingIconStyleType"
       />
       <slot />
       <base-icon
         class="button__trailing-icon"
         v-if="trailingIcon"
         :icon-name="trailingIcon"
+        :style-type="trailingIconStyleType"
       />
     </div>
   </button>
@@ -34,6 +36,12 @@
           'text',
         ].includes(value);
       },
+    },
+    leadingIconStyleType: {
+      type: String,
+    },
+    trailingIconStyleType: {
+      type: String,
     },
   });
 
