@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: Add icon loading skeleton -->
   <component class="base-icon" :is="icon" />
 </template>
 
