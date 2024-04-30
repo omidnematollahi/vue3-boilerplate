@@ -87,7 +87,7 @@
 }
 
 @mixin transition($easing-token: standard) {
-  @content;
   transition-duration: map-get($easing-duration-pair, $easing-token);
   transition-timing-function: map-get($easing, $easing-token);
+  @content;
 }
