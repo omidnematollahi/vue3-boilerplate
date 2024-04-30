@@ -28,7 +28,7 @@
   const linearClasses = computed(() => {
     const classes = {
       linear: true,
-      linear_gapped: props.percentage < 100 && props.percentage > 0,
+      linear_gapped: isIndicatorGapped.value,
     };
     classes[`linear_${props.indicationType}`] = true;
     return classes;
@@ -38,11 +38,18 @@
     () => props.indicationType === 'indeterminate'
   );
 
-  const stopIndicatorVisibility = computed(
-    () => props.indicationType === 'determinate'
+  const isIndicatorGapped = computed(
+    () =>
+      props.indicationType === 'determinate' &&
+      props.percentage < 100 &&
+      props.percentage > 0
   );
 
-  const indicatorPercentage = computed(() => `${props.percentage}%`);
+  const indicatorPercentage = computed(() => {
+    if (props.indicationType === 'indeterminate') return 0;
+
+    return `${props.percentage}%`;
+  });
 </script>
 
 <style lang="scss" scoped>
@@ -60,20 +67,23 @@
     position: relative;
     height: 100%;
 
+    transition: gap map-get($duration, long-3)
+      map-get($easing, ease-in-out-quint);
+
     &__leading-track,
     &__trailing-track {
       border-radius: $pill;
       background-color: var(--palette-secondary-container);
-      flex-grow: 1;
       flex-shrink: 1;
     }
 
+    &__trailing-track {
+      flex-grow: 1;
+    }
+
     &__active-indicator {
-      transition: {
-        property: flex-basis;
-        duration: map-get($duration, long-3);
-        timing-function: map-get($easing, ease-in-out-quint);
-      }
+      transition: flex-basis map-get($duration, long-3)
+        map-get($easing, ease-in-out-quint);
       background-color: var(--palette-primary);
       border-radius: $pill;
       flex-shrink: 1;
@@ -89,17 +99,25 @@
         border-radius: $circle;
         position: absolute;
       }
-
-      &__leading-track {
-        flex-grow: 0;
-      }
     }
-
-    transition: gap map-get($duration, long-3)
-      map-get($easing, ease-in-out-quint);
 
     &_gapped {
       gap: space(1);
+    }
+
+    &_indeterminate {
+      gap: space(1);
+      justify-content: flex-start;
+
+      //TODO: add animation
+
+      #{$linear}__leading-track {
+        flex-basis: 20%;
+      }
+
+      #{$linear}__active-indicator {
+        flex-basis: 30%;
+      }
     }
   }
 </style>
