@@ -6,10 +6,11 @@
       </transition>
     </router-view>
   </layout-view>
-  <transition name="fade" appear>
-    <linear-indicator
+  <transition name="collapse-height" appear>
+    <linear-progress-indicator
       v-if="indicatorPercentage"
       class="indicator"
+      indication-type="determinate"
       :percentage="indicatorPercentage"
     />
   </transition>
@@ -38,7 +39,7 @@
     setTimeout(() => {
       clearTimeout(timeout);
       updateIndicatorPercentage(0);
-    }, 200);
+    }, 500);
   });
 
   const clearSubscriptions = () => {
@@ -50,10 +51,29 @@
 </script>
 
 <style lang="scss" scoped>
+  //FIXME: move it somewhere more general
+  .collapse-height-enter-active {
+    @include transition(standard-decelerate) {
+      transition-property: height;
+    }
+  }
+
+  .collapse-height-leave-active {
+    @include transition(standard-accelerate) {
+      transition-property: height;
+    }
+  }
+
+  .collapse-height-leave-to,
+  .collapse-height-enter-from {
+    height: 0;
+  }
+
   .indicator {
     position: absolute;
     top: 0;
     left: 0;
+    width: 100%;
     z-index: $route-indicator;
   }
 </style>
