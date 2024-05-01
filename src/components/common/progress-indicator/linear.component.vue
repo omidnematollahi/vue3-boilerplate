@@ -106,17 +106,49 @@
     }
 
     &_indeterminate {
+      $animation-duration: var(--linear-indicator-animation-duration, 1500ms);
+
       gap: space(1);
       justify-content: flex-start;
 
-      //TODO: add animation
+      %indicator-animation {
+        animation: {
+          duration: $animation-duration;
+          iteration-count: infinite;
+          direction: forward;
+          timing-function: ease-in;
+        }
+      }
+
+      @keyframes indeterminate-active-indicator {
+        0% {
+          flex-basis: 0%;
+        }
+        50% {
+          flex-basis: 60%;
+        }
+        100% {
+          flex-basis: 0%;
+        }
+      }
+
+      @keyframes indeterminate-track {
+        0% {
+          flex-basis: 0%;
+        }
+        100% {
+          flex-basis: 100%;
+        }
+      }
 
       #{$linear}__leading-track {
-        flex-basis: 20%;
+        @extend %indicator-animation;
+        animation-name: indeterminate-track;
       }
 
       #{$linear}__active-indicator {
-        flex-basis: 30%;
+        @extend %indicator-animation;
+        animation-name: indeterminate-active-indicator;
       }
     }
   }
