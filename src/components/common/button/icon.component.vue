@@ -232,7 +232,7 @@
     &__icon {
       position: relative;
       z-index: 1;
-      --base-icon-size: 24px;
+      --base-icon-size: 1.5rem;
     }
   }
 
