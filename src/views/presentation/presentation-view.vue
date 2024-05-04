@@ -1,6 +1,7 @@
 <template>
   <div class="presentation">
     <h1 class="presentation__title">Presentation</h1>
+    <segmented-button-presentation class="presentation__section" />
     <button-presentation class="presentation__section" />
     <icon-button-presentation class="presentation__section" />
   </div>
@@ -9,6 +10,7 @@
 <script setup>
   import ButtonPresentation from '@/components/view/presentation/button.component.vue';
   import IconButtonPresentation from '@/components/view/presentation/icon-button.component.vue';
+  import SegmentedButtonPresentation from '@/components/view/presentation/segmented-button.component.vue';
 </script>
 
 <style lang="scss" scoped>
