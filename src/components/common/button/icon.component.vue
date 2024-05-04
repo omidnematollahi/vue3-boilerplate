@@ -1,13 +1,11 @@
 <template>
   <button :class="iconButtonClasses">
-    <transition name="icon-button">
-      <base-icon
-        class="icon-button__icon"
-        :icon-name="iconName"
-        :style-type="currentStyleType"
-        :key="iconKey"
-      />
-    </transition>
+    <base-icon
+      class="icon-button__icon"
+      :icon-name="iconName"
+      :style-type="currentStyleType"
+      :key="iconKey"
+    />
   </button>
 </template>
 
@@ -234,23 +232,5 @@
       z-index: 1;
       --base-icon-size: 1.5rem;
     }
-  }
-
-  .icon-button-enter-active {
-    @include transition(emphasized-decelerate) {
-      transition-property: opacity, transform;
-    }
-  }
-
-  .icon-button-leave-active {
-    @include transition(emphasized-accelerate) {
-      transition-property: opacity, transform;
-    }
-  }
-
-  .icon-button-enter-from,
-  .icon-button-leave-to {
-    opacity: 0.2;
-    transform: scale(0);
   }
 </style>
