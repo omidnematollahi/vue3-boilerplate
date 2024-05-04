@@ -1,6 +1,11 @@
 <template>
   <!-- TODO: Add icon loading skeleton -->
-  <transition name="base-icon" v-if="animateOnChange" :mode="transitionMode">
+  <transition
+    name="base-icon"
+    v-if="animateOnChange"
+    :mode="transitionMode"
+    appear
+  >
     <component class="base-icon" :is="icon" />
   </transition>
   <component v-else class="base-icon" :is="icon" />
