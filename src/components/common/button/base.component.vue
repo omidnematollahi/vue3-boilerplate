@@ -112,7 +112,7 @@
     &__content {
       position: relative;
       z-index: 1;
-      @include flex($align: center);
+      @include flex($align: center, $justify: center);
       gap: space(2);
     }
 
