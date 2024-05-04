@@ -58,6 +58,7 @@
   .progress-indicator {
     width: 100%;
     height: $height;
+    overflow: hidden;
   }
 
   .linear {

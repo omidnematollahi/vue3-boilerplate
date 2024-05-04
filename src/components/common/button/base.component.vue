@@ -75,11 +75,17 @@
     position: relative;
     border-radius: $pill;
     height: 40px;
-    --base-icon-size: 18px;
+    --base-icon-size: 1.125rem;
     @include typography(label-large);
     cursor: pointer;
     user-select: none;
     overflow: hidden;
+    min-width: 88px;
+
+    &__leading-icon,
+    &__trailing-icon {
+      flex-shrink: 0;
+    }
 
     @at-root [dir='ltr'] & {
       padding-left: v-bind('paddings.leading');
@@ -106,7 +112,7 @@
     &__content {
       position: relative;
       z-index: 1;
-      @include flex($align: center);
+      @include flex($align: center, $justify: center);
       gap: space(2);
     }
 

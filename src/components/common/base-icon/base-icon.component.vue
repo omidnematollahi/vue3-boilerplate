@@ -1,6 +1,9 @@
 <template>
   <!-- TODO: Add icon loading skeleton -->
-  <component class="base-icon" :is="icon" />
+  <transition name="base-icon" v-if="animateOnChange" :mode="transitionMode">
+    <component class="base-icon" :is="icon" />
+  </transition>
+  <component v-else class="base-icon" :is="icon" />
 </template>
 
 <script setup>
@@ -17,6 +20,13 @@
       validator(type) {
         return ['filled', 'outlined'].includes(type);
       },
+    },
+    animateOnChange: {
+      type: Boolean,
+      default: true,
+    },
+    transitionMode: {
+      type: String,
     },
   });
 
@@ -51,5 +61,23 @@
   .base-icon {
     width: var(--base-icon-size, 1.5rem);
     height: var(--base-icon-size, 1.5rem);
+  }
+
+  .base-icon-enter-active {
+    @include transition(emphasized-decelerate) {
+      transition-property: opacity, transform;
+    }
+  }
+
+  .base-icon-leave-active {
+    @include transition(emphasized-accelerate) {
+      transition-property: opacity, transform;
+    }
+  }
+
+  .base-icon-enter-from,
+  .base-icon-leave-to {
+    opacity: 0.2;
+    transform: scale(0);
   }
 </style>
