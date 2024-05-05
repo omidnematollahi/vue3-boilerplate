@@ -15,6 +15,9 @@
     percentage: {
       type: Number,
       default: 0,
+      validator(percentage) {
+        return percentage <= 100 && percentage >= 0;
+      },
     },
     indicationType: {
       type: String,
