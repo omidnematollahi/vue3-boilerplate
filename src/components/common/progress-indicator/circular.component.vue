@@ -64,12 +64,14 @@
 
   const trackOffset = computed(() => {
     const percentage = 100 - props.percentage;
+    //FIXME: fix percentage below 5
     const offset = Math.floor(calculateOffset(percentage - 5));
 
     return `-${offset}px`;
   });
 
   const activeIndicatorOffset = computed(() => {
+    //FIXME: fix percentage below 3.75
     const percentage =
       props.percentage < 96.25 ? props.percentage - 3.75 : props.percentage;
     const offset = Math.floor(calculateOffset(percentage));
