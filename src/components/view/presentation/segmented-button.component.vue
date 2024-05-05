@@ -2,7 +2,6 @@
   <div class="presenter">
     <h3 class="presenter__title">Segmented Button Component Presentation</h3>
     <!-- Segmented Button Icon Button -->
-    {{ selectedItems }}
     <div class="presenter__container">
       <segmented-button
         :items="items"
