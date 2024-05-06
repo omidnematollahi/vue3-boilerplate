@@ -4,12 +4,14 @@
     <!-- Linear progressbar -->
     <div class="presenter__container">
       <div class="presenter__section">
+        <linear-progress-indicator indication-type="indeterminate" />
         <linear-progress-indicator
           indication-type="determinate"
           :percentage="75"
         />
       </div>
       <div class="presenter__section">
+        <circular-progress-indicator indication-type="indeterminate" />
         <circular-progress-indicator
           indication-type="determinate"
           :percentage="75"
@@ -29,13 +31,15 @@
     }
 
     &__container {
-      @include flex($align: center);
+      @include flex($align: space-around);
       gap: space(12);
       margin-top: space(6);
     }
 
     &__section {
-      width: 240px;
+      width: 360px;
+      @include flex(column, $justify: space-around);
+      gap: space(8);
     }
   }
 </style>
