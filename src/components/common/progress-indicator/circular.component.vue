@@ -7,7 +7,6 @@
         :cx="circle.x"
         :cy="circle.y"
         :stroke-dasharray="circumference"
-        :stroke-dashoffset="trackOffset"
         class="circular__track"
       ></circle>
       <circle
@@ -15,7 +14,6 @@
         :cx="circle.x"
         :cy="circle.y"
         :stroke-dasharray="circumference"
-        :stroke-dashoffset="activeIndicatorOffset"
         class="circular__active-indicator"
       ></circle>
     </svg>
@@ -80,10 +78,15 @@
     const balanceFactor = props.percentage > 96 ? -1 : -4;
     const percentage = props.percentage + balanceFactor;
 
-    const offset = calculateOffset(percentage < 0 ? 0 : percentage);
+    const offset = calculateOffset(Math.max(0, percentage));
 
     return `${offset}px`;
   });
+
+  const activeIndicatorAnimationOffsets = {
+    start: calculateOffset(86),
+    end: calculateOffset(6),
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -125,25 +128,58 @@
 
     &__track {
       stroke: var(--palette-secondary-container);
+      stroke-dashoffset: v-bind(trackOffset);
     }
 
     &__active-indicator {
       stroke: var(--palette-primary);
+      stroke-dashoffset: v-bind(activeIndicatorOffset);
     }
 
     &_indeterminate {
-      @keyframes active-indicator {
+      $animation-duration: 1750ms;
+
+      @keyframes rotate {
+        0% {
+          transform: rotate(-90deg);
+        }
+        100% {
+          transform: rotate(270deg);
+        }
       }
 
-      // #{$circular}__active-indicator {
-      //   animation: {
-      //     name: active-indicator;
-      //     duration: 1500ms;
-      //     iteration-count: infinite;
-      //     direction: forward;
-      //     timing-function: ease-in;
-      //   }
-      // }
+      animation: {
+        name: rotate;
+        duration: $animation-duration;
+        iteration-count: infinite;
+        direction: forward;
+        timing-function: linear;
+      }
+
+      @keyframes active-indicator-offset {
+        0% {
+          stroke-dashoffset: v-bind('activeIndicatorAnimationOffsets.start');
+          transform: rotate(8deg);
+        }
+        50% {
+          stroke-dashoffset: v-bind('activeIndicatorAnimationOffsets.end');
+          transform: rotate(188deg);
+        }
+        100% {
+          stroke-dashoffset: v-bind('activeIndicatorAnimationOffsets.start');
+          transform: rotate(368deg);
+        }
+      }
+
+      #{$circular}__active-indicator {
+        animation: {
+          name: active-indicator-offset;
+          duration: $animation-duration;
+          iteration-count: infinite;
+          direction: forward;
+          timing-function: linear;
+        }
+      }
     }
   }
 </style>
