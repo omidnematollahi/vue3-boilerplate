@@ -46,10 +46,16 @@
     () => props.indicationType === 'determinate'
   );
 
-  const circularClasses = computed(() => [
-    'circular',
-    `circular_${props.indicationType}`,
-  ]);
+  const circularClasses = computed(() => {
+    const classes = {
+      circular: true,
+      circular_rotated: props.percentage <= 96,
+    };
+
+    classes[`circular_${props.indicationType}`] = true;
+
+    return classes;
+  });
 
   const circle = {
     radius: 24,
@@ -63,18 +69,20 @@
     circumference * ((100 - percentage) / 100);
 
   const trackOffset = computed(() => {
-    const percentage = 100 - props.percentage;
-    //FIXME: fix percentage below 5
-    const offset = Math.floor(calculateOffset(percentage - 5));
+    const percentage =
+      props.percentage > 4
+        ? 100 - props.percentage
+        : 100 - props.percentage + 4;
+    const offset = calculateOffset(percentage - 5.25);
 
     return `-${offset}px`;
   });
 
   const activeIndicatorOffset = computed(() => {
-    //FIXME: fix percentage below 3.75
-    const percentage =
-      props.percentage < 96.25 ? props.percentage - 3.75 : props.percentage;
-    const offset = Math.floor(calculateOffset(percentage));
+    const balanceFactor = props.percentage > 96 ? -1 : -4;
+    const percentage = props.percentage + balanceFactor;
+
+    const offset = calculateOffset(percentage < 0 ? 0 : percentage);
 
     return `${offset}px`;
   });
@@ -107,14 +115,22 @@
       }
     }
 
+    &_rotated {
+      #{$circular}__track {
+        transform: rotate(-8deg);
+      }
+
+      #{$circular}__active-indicator {
+        transform: rotate(8deg);
+      }
+    }
+
     &__track {
       stroke: var(--palette-secondary-container);
-      transform: rotate(-7.5deg);
     }
 
     &__active-indicator {
       stroke: var(--palette-primary);
-      transform: rotate(7.5deg);
     }
 
     &_indeterminate {
