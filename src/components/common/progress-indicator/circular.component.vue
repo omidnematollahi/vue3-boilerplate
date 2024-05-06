@@ -70,10 +70,8 @@
 
   const trackOffset = computed(() => {
     const percentage =
-      props.percentage > 4
-        ? 100 - props.percentage
-        : 100 - props.percentage + 4;
-    const offset = calculateOffset(percentage - 5.25);
+      props.percentage > 4 ? 100 - props.percentage : 100 - props.percentage;
+    const offset = calculateOffset(percentage - 4.5);
 
     return `-${offset}px`;
   });
