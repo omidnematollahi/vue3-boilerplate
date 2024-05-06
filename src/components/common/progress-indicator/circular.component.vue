@@ -7,7 +7,6 @@
         :cx="circle.x"
         :cy="circle.y"
         :stroke-dasharray="circumference"
-        :stroke-dashoffset="trackOffset"
         class="circular__track"
       ></circle>
       <circle
@@ -15,7 +14,6 @@
         :cx="circle.x"
         :cy="circle.y"
         :stroke-dasharray="circumference"
-        :stroke-dashoffset="activeIndicatorOffset"
         class="circular__active-indicator"
       ></circle>
     </svg>
@@ -46,10 +44,16 @@
     () => props.indicationType === 'determinate'
   );
 
-  const circularClasses = computed(() => [
-    'circular',
-    `circular_${props.indicationType}`,
-  ]);
+  const circularClasses = computed(() => {
+    const classes = {
+      circular: true,
+      circular_rotated: props.percentage <= 96,
+    };
+
+    classes[`circular_${props.indicationType}`] = true;
+
+    return classes;
+  });
 
   const circle = {
     radius: 24,
@@ -63,21 +67,26 @@
     circumference * ((100 - percentage) / 100);
 
   const trackOffset = computed(() => {
-    const percentage = 100 - props.percentage;
-    //FIXME: fix percentage below 5
-    const offset = Math.floor(calculateOffset(percentage - 5));
+    const percentage =
+      props.percentage > 4 ? 100 - props.percentage : 100 - props.percentage;
+    const offset = calculateOffset(percentage - 4.5);
 
     return `-${offset}px`;
   });
 
   const activeIndicatorOffset = computed(() => {
-    //FIXME: fix percentage below 3.75
-    const percentage =
-      props.percentage < 96.25 ? props.percentage - 3.75 : props.percentage;
-    const offset = Math.floor(calculateOffset(percentage));
+    const balanceFactor = props.percentage > 96 ? -1 : -4;
+    const percentage = props.percentage + balanceFactor;
+
+    const offset = calculateOffset(Math.max(0, percentage));
 
     return `${offset}px`;
   });
+
+  const activeIndicatorAnimationOffsets = {
+    start: calculateOffset(86),
+    end: calculateOffset(6),
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -107,29 +116,70 @@
       }
     }
 
+    &_rotated {
+      #{$circular}__track {
+        transform: rotate(-8deg);
+      }
+
+      #{$circular}__active-indicator {
+        transform: rotate(8deg);
+      }
+    }
+
     &__track {
       stroke: var(--palette-secondary-container);
-      transform: rotate(-7.5deg);
+      stroke-dashoffset: v-bind(trackOffset);
     }
 
     &__active-indicator {
       stroke: var(--palette-primary);
-      transform: rotate(7.5deg);
+      stroke-dashoffset: v-bind(activeIndicatorOffset);
     }
 
     &_indeterminate {
-      @keyframes active-indicator {
+      $animation-duration: 1750ms;
+
+      @keyframes rotate {
+        0% {
+          transform: rotate(-90deg);
+        }
+        100% {
+          transform: rotate(270deg);
+        }
       }
 
-      // #{$circular}__active-indicator {
-      //   animation: {
-      //     name: active-indicator;
-      //     duration: 1500ms;
-      //     iteration-count: infinite;
-      //     direction: forward;
-      //     timing-function: ease-in;
-      //   }
-      // }
+      animation: {
+        name: rotate;
+        duration: $animation-duration;
+        iteration-count: infinite;
+        direction: forward;
+        timing-function: linear;
+      }
+
+      @keyframes active-indicator-offset {
+        0% {
+          stroke-dashoffset: v-bind('activeIndicatorAnimationOffsets.start');
+          transform: rotate(8deg);
+        }
+        50% {
+          stroke-dashoffset: v-bind('activeIndicatorAnimationOffsets.end');
+          transform: rotate(188deg);
+        }
+        100% {
+          stroke-dashoffset: v-bind('activeIndicatorAnimationOffsets.start');
+          transform: rotate(368deg);
+        }
+      }
+
+      #{$circular}__active-indicator {
+        animation: {
+          name: active-indicator-offset;
+          duration: $animation-duration;
+          iteration-count: infinite;
+          direction: forward;
+          timing-function: linear;
+        }
+      }
     }
   }
 </style>
