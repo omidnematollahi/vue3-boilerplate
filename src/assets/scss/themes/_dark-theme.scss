@@ -3,6 +3,7 @@
 $dark-theme: (
   primary: map-get($primary, 80),
   on-primary: map-get($primary, 20),
+  inverse-primary: map-get($primary, 40),
   primary-container: map-get($primary, 30),
   on-primary-container: map-get($primary, 90),
   secondary: map-get($secondary, 80),

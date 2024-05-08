@@ -1,6 +1,7 @@
 <template>
   <div class="presentation">
     <h1 class="presentation__title">Presentation</h1>
+    <snackbar-presentation class="presentation__section" />
     <progress-bar class="presentation__section" />
     <segmented-button-presentation class="presentation__section" />
     <button-presentation class="presentation__section" />
@@ -9,6 +10,7 @@
 </template>
 
 <script setup>
+  import SnackbarPresentation from '@/components/view/presentation/snackbar.component.vue';
   import ButtonPresentation from '@/components/view/presentation/button.component.vue';
   import IconButtonPresentation from '@/components/view/presentation/icon-button.component.vue';
   import SegmentedButtonPresentation from '@/components/view/presentation/segmented-button.component.vue';
