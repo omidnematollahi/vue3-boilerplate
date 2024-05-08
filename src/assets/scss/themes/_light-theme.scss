@@ -3,6 +3,7 @@
 $light-theme: (
   primary: map-get($primary, 40),
   on-primary: map-get($primary, 100),
+  inverse-primary: map-get($primary, 80),
   primary-container: map-get($primary, 90),
   on-primary-container: map-get($primary, 10),
   secondary: map-get($secondary, 40),
