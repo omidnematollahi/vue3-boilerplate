@@ -1,6 +1,6 @@
 {
   "name": "vue3-boilerplate",
-  "version": "1.0.0-alpha.26",
+  "version": "1.0.0-alpha.27",
   "private": true,
   "scripts": {
     "dev": "vite",
