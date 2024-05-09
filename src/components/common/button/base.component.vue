@@ -119,7 +119,7 @@
     &_elevated {
       background-color: var(--palette-surface-container-low);
       color: var(--palette-primary);
-      @include elevation();
+      @include elevation($level: 1);
       @include transition(standard-accelerate) {
         transition-property: box-shadow;
       }
@@ -129,7 +129,7 @@
       }
 
       &:hover {
-        @include elevation(2);
+        @include elevation($level: 2);
 
         &::before {
           background-color: var(--palette-primary);
@@ -137,7 +137,7 @@
       }
 
       &:active {
-        @include elevation(1);
+        @include elevation($level: 1);
 
         &::before {
           background-color: var(--palette-primary);
@@ -158,7 +158,7 @@
       }
 
       &:hover {
-        @include elevation(1);
+        @include elevation($level: 1);
 
         &::before {
           background-color: var(--palette-on-primary);
@@ -166,7 +166,7 @@
       }
 
       &:active {
-        @include elevation(0);
+        box-shadow: none;
 
         &::before {
           background-color: var(--palette-on-primary);
@@ -187,7 +187,7 @@
       }
 
       &:hover {
-        @include elevation(1);
+        @include elevation($level: 1);
 
         &::before {
           background-color: var(--palette-on-secondary-container);
@@ -195,7 +195,7 @@
       }
 
       &:active {
-        @include elevation(0);
+        box-shadow: none;
 
         &::before {
           background-color: var(--palette-on-secondary-container);
