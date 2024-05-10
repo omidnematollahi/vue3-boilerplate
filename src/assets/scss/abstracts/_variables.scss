@@ -13,6 +13,7 @@ $easing: (
   standard-decelerate: cubic-bezier(0, 0, 0, 1),
   standard-accelerate: cubic-bezier(0.3, 0, 1, 1),
   ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1),
+  ease-out: ease-out,
 );
 
 $duration: (
