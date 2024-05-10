@@ -1,18 +1,21 @@
 <template>
-  <div :class="switchClasses">
+  <div :class="switchClasses" @click="toggleSwitch">
+    <!-- TODO: remove after draggable handle implementation -->
+    <div class="switch__driver"></div>
     <div class="switch__handle">
       <base-icon
         v-if="iconVisibility"
         class="switch__icon"
         style-type="filled"
         :icon-name="iconName"
+        transition-mode="out-in"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-  import { computed } from 'vue';
+  import { computed, ref } from 'vue';
 
   const props = defineProps({
     selectedIcon: {
@@ -41,6 +44,10 @@
 
   const modelValue = defineModel({ type: Boolean, default: false });
 
+  const toggleSwitch = () => {
+    modelValue.value = !modelValue.value;
+  };
+
   const iconVisibility = computed(() => {
     const selectedIcon = props.selectedIcon && props.modelValue;
     const unelectedIcon = props.unselectedIcon && !props.modelValue;
@@ -54,6 +61,8 @@
     switch_disabled: props.disabled,
     'switch_has-icon': iconVisibility.value,
   }));
+
+  const switchHandleElement = ref();
 </script>
 
 <style lang="scss" scoped>
@@ -76,6 +85,14 @@
       transition-property: padding, border-color, background-color;
     }
 
+    //TODO: remove after draggable handle implementation
+    &__driver {
+      flex-basis: 0%;
+      @include transition {
+        transition-property: flex-basis;
+      }
+    }
+
     &__icon {
       --base-icon-size: 16px;
       color: var(--palette-surface-container-highest);
@@ -83,6 +100,8 @@
 
     &__handle {
       $size: 16px;
+      //TODO: remove after draggable handle implementation
+      flex-shrink: 0;
       box-sizing: content-box;
       position: relative;
       z-index: 1;
@@ -110,6 +129,7 @@
     }
 
     &_disabled {
+      pointer-events: none;
       opacity: 0.38;
       border-color: var(--palette-surface-container-highest);
 
@@ -149,6 +169,11 @@
     &_selected {
       background-color: var(--palette-primary);
       border-color: var(--palette-primary);
+
+      //TODO: remove after draggable handle implementation
+      #{$switch}__driver {
+        flex-basis: 100%;
+      }
 
       #{$switch}__icon {
         color: var(--palette-on-primary-container);
