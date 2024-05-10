@@ -15,7 +15,7 @@
  * @property {Function} dragStart - Call on drag start
  * @property {Function} dragMove - Call on drag move
  * @property {Function} dragEnd - Call on drag end
- * @property {boolean} [updateTargetPosition=true] - Update top and left css property of the target element
+ * @property {boolean} [shouldUpdatePosition=true] - Update top and left css property of the target element
  */
 
 import { onMounted, ref, toValue } from 'vue';
@@ -33,7 +33,7 @@ const DEFAULT_OPTIONS = Object.freeze({
   exact: false,
   containerElement: document.body,
   initialPosition: { x: 0, y: 0 },
-  updateTargetPosition: true,
+  shouldUpdatePosition: true,
 });
 
 /**
@@ -64,7 +64,7 @@ const useDraggable = (element, preferredOptions = {}) => {
     containerElement,
     initialPosition,
     exact,
-    updateTargetPosition,
+    shouldUpdatePosition,
   } = options;
 
   validateOptions(options);
@@ -90,6 +90,7 @@ const useDraggable = (element, preferredOptions = {}) => {
   let pointerStartPosition = { x: 0, y: 0 };
   let elementOffset = { x: 0, y: 0 };
   const position = ref(toValue(initialPosition));
+  const distancePercentage = ref({ x: 0, y: 0 });
 
   /**
    * Initial the dragging requirements
@@ -129,11 +130,14 @@ const useDraggable = (element, preferredOptions = {}) => {
     const pointerMovedDistance =
       elementOffset.x + pointerCurrentXPosition - pointerStartPosition.x;
 
-    const containerWidth = container.scrollWidth;
+    const containerWidth = container.clientWidth;
     const targetWidth = target.offsetWidth;
     const maxPosition = containerWidth - targetWidth;
 
     const clampedX = clamp(pointerMovedDistance, maxPosition);
+
+    distancePercentage.value.x = Math.round((clampedX * 100) / maxPosition);
+
     return clampedX;
   };
 
@@ -151,11 +155,14 @@ const useDraggable = (element, preferredOptions = {}) => {
     const pointerMovedDistance =
       elementOffset.y + pointerCurrentYPosition - pointerStartPosition.y;
 
-    const containerHeight = container.scrollHeight;
+    const containerHeight = container.clientHeight;
     const targetHeight = target.offsetHeight;
     const maxPosition = containerHeight - targetHeight;
 
     const clampedY = clamp(pointerMovedDistance, maxPosition);
+
+    distancePercentage.value.y = Math.round((clampedY * 100) / maxPosition);
+
     return clampedY;
   };
 
@@ -168,20 +175,24 @@ const useDraggable = (element, preferredOptions = {}) => {
     const target = toValue(element);
     const container = toValue(containerElement);
     const axisValue = toValue(axis);
+    const shouldUpdate = toValue(shouldUpdatePosition);
 
     if (axisValue === 'both' || axisValue === 'horizontal') {
       const x = getClampedX(event, { target, container });
       position.value.x = x;
+
+      if (shouldUpdate) {
+        target.style.left = `${x}px`;
+      }
     }
 
     if (axisValue === 'both' || axisValue === 'vertical') {
       const y = getClampedY(event, { target, container });
       position.value.y = y;
-    }
 
-    if (toValue(updateTargetPosition)) {
-      target.style.left = `${position.value.x}px`;
-      target.style.top = `${position.value.y}px`;
+      if (shouldUpdate) {
+        target.style.top = `${y}px`;
+      }
     }
 
     options.dragMove?.(position.value, event);
@@ -202,7 +213,7 @@ const useDraggable = (element, preferredOptions = {}) => {
     target.addEventListener('pointerdown', dragStart);
   });
 
-  return { position };
+  return { position, distancePercentage };
 };
 
 export default useDraggable;
