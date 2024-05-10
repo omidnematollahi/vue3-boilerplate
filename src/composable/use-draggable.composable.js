@@ -15,6 +15,7 @@
  * @property {Function} dragStart - Call on drag start
  * @property {Function} dragMove - Call on drag move
  * @property {Function} dragEnd - Call on drag end
+ * @property {boolean} [updateTargetPosition=true] - Update top and left css property of the target element
  */
 
 import { onMounted, ref, toValue } from 'vue';
@@ -32,6 +33,7 @@ const DEFAULT_OPTIONS = Object.freeze({
   exact: false,
   containerElement: document.body,
   initialPosition: { x: 0, y: 0 },
+  updateTargetPosition: true,
 });
 
 /**
@@ -57,7 +59,13 @@ const validateOptions = (options) => {
  */
 const useDraggable = (element, preferredOptions = {}) => {
   const options = { ...DEFAULT_OPTIONS, ...preferredOptions };
-  const { axis, containerElement, initialPosition, exact } = options;
+  const {
+    axis,
+    containerElement,
+    initialPosition,
+    exact,
+    updateTargetPosition,
+  } = options;
 
   validateOptions(options);
 
@@ -164,13 +172,16 @@ const useDraggable = (element, preferredOptions = {}) => {
     if (axisValue === 'both' || axisValue === 'horizontal') {
       const x = getClampedX(event, { target, container });
       position.value.x = x;
-      target.style.left = x + 'px';
     }
 
     if (axisValue === 'both' || axisValue === 'vertical') {
       const y = getClampedY(event, { target, container });
-      target.style.top = y + 'px';
       position.value.y = y;
+    }
+
+    if (toValue(updateTargetPosition)) {
+      target.style.left = `${position.value.x}px`;
+      target.style.top = `${position.value.y}px`;
     }
 
     options.dragMove?.(position.value, event);
