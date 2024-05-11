@@ -1,6 +1,5 @@
 <template>
   <div :class="switchClasses" @click="toggleSwitch">
-    <!-- TODO: remove after draggable handle implementation -->
     <div class="switch__driver"></div>
     <div class="switch__handle">
       <base-icon
@@ -33,10 +32,10 @@
   });
 
   const iconName = computed(() => {
-    const hasSelectedIcon = props.modelValue && props.selectedIcon;
+    const hasSelectedIcon = modelValue.value && props.selectedIcon;
     if (hasSelectedIcon) return 'check';
 
-    const hasUnselectedIcon = !props.modelValue && props.unselectedIcon;
+    const hasUnselectedIcon = !modelValue.value && props.unselectedIcon;
     if (hasUnselectedIcon) return 'close';
 
     return '';
@@ -49,8 +48,8 @@
   };
 
   const iconVisibility = computed(() => {
-    const selectedIcon = props.selectedIcon && props.modelValue;
-    const unelectedIcon = props.unselectedIcon && !props.modelValue;
+    const selectedIcon = props.selectedIcon && modelValue.value;
+    const unelectedIcon = props.unselectedIcon && !modelValue.value;
 
     return selectedIcon || unelectedIcon;
   });
@@ -85,9 +84,9 @@
       transition-property: padding, border-color, background-color;
     }
 
-    //TODO: remove after draggable handle implementation
     &__driver {
       flex-basis: 0%;
+
       @include transition {
         transition-property: flex-basis;
       }
@@ -100,7 +99,6 @@
 
     &__handle {
       $size: 16px;
-      //TODO: remove after draggable handle implementation
       flex-shrink: 0;
       box-sizing: content-box;
       position: relative;
@@ -170,7 +168,6 @@
       background-color: var(--palette-primary);
       border-color: var(--palette-primary);
 
-      //TODO: remove after draggable handle implementation
       #{$switch}__driver {
         flex-basis: 100%;
       }

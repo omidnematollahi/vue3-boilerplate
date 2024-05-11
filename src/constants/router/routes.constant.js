@@ -12,7 +12,6 @@ export const PLAYGROUND_ROUTE = Object.freeze({
   path: '/playground',
   component: () => import('@/views/playground/playground-view.vue'),
   meta: {
-    layout: 'panel',
     title: 'Playground | Boilerplate',
   },
 });
