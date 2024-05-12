@@ -1,6 +1,13 @@
 <template>
   <div :class="radioClasses">
-    <div class="radio__indicator"></div>
+    <div class="radio__input">
+      <div class="radio__indicator"></div>
+    </div>
+    <span class="radio__label">
+      <slot>
+        {{ labelText }}
+      </slot>
+    </span>
   </div>
 </template>
 
@@ -16,6 +23,7 @@
       type: Boolean,
       default: false,
     },
+    labelText: String,
   });
 
   const radioClasses = computed(() => ({
@@ -27,34 +35,37 @@
 
 <style lang="scss" scoped>
   .radio {
-    --radio-color: var(--palette-on-surface-variant);
-
+    @include flex($align: center);
     $radio: &;
-    $size: 20px;
-    width: $size;
-    height: $size;
-    border: 2px solid var(--radio-color);
-    padding: space(0.5);
-    border-radius: $circle;
+    --radio-color: var(--palette-on-surface-variant);
     cursor: pointer;
-    position: relative;
-    @include transition {
-      transition-property: border-color;
-    }
 
-    &::before {
-      content: '';
-      width: 100%;
-      height: 100%;
-      transform: scale(1);
-      position: absolute;
-      top: 0;
-      left: 0;
+    &__input {
+      $size: 20px;
+      width: $size;
+      height: $size;
+      border: 2px solid var(--radio-color);
+      padding: space(0.5);
       border-radius: $circle;
-      z-index: -1;
-      opacity: 0;
+      position: relative;
       @include transition {
-        transition-property: opacity, background-color, transform;
+        transition-property: border-color;
+      }
+
+      &::before {
+        content: '';
+        width: 100%;
+        height: 100%;
+        transform: scale(1);
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: $circle;
+        z-index: -1;
+        opacity: 0;
+        @include transition {
+          transition-property: opacity, background-color, transform;
+        }
       }
     }
 
@@ -62,7 +73,7 @@
     &:hover {
       --radio-color: var(--palette-on-surface);
 
-      &::before {
+      #{$radio}__input::before {
         background-color: var(--palette-on-surface);
         transform: scale(2);
         opacity: 0.08;
@@ -70,7 +81,7 @@
     }
 
     &:active {
-      &::before {
+      #{$radio}__input::before {
         background-color: var(--palette-primary);
         opacity: 0.1;
       }
@@ -88,19 +99,25 @@
       }
     }
 
+    &__label {
+      user-select: none;
+      @include typography(label-large);
+      padding: 0 space(4);
+    }
+
     &_selected {
       --radio-color: var(--palette-primary);
 
       &:hover {
         --radio-color: var(--palette-primary);
 
-        &::before {
+        #{$radio}__input::before {
           background-color: var(--palette-primary);
         }
       }
 
       &:active {
-        &::before {
+        #{$radio}__input::before {
           background-color: var(--palette-on-surface);
         }
       }
