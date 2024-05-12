@@ -17,7 +17,7 @@ const createApplication = () => {
   const vueAppInstance = createVueApp(App);
 
   registerPlugins(vueAppInstance, pluginConfigs);
-  registerCommonComponents(vueAppInstance);
+  registerCommonComponents(vueAppInstance, ['scrim']);
 
   vueAppInstance.mount('#app');
 };
