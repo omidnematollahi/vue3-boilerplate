@@ -1,4 +1,4 @@
-import { eventBus } from '@/services/event-bus';
+import eventBus from '@/services/event-bus';
 
 /**
  * Update document title based on `route.meta.title`

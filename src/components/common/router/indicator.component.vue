@@ -18,7 +18,7 @@
 
 <script setup>
   import { onUnmounted, ref } from 'vue';
-  import { eventBus } from '@/services/event-bus';
+  import eventBus from '@/services/event-bus';
 
   const indicatorPercentage = ref(0);
   let timeout = null;
