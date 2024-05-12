@@ -1,6 +1,7 @@
 <template>
   <div class="presentation">
     <h1 class="presentation__title">Presentation</h1>
+    <radio-input-presentation class="presentation__section" />
     <switch-presentation class="presentation__section" />
     <snackbar-presentation class="presentation__section" />
     <progress-bar class="presentation__section" />
@@ -11,6 +12,7 @@
 </template>
 
 <script setup>
+  import RadioInputPresentation from '@/components/view/presentation/radio-input.component.vue';
   import SwitchPresentation from '@/components/view/presentation/switch.component.vue';
   import SnackbarPresentation from '@/components/view/presentation/snackbar.component.vue';
   import ButtonPresentation from '@/components/view/presentation/button.component.vue';
@@ -30,9 +32,10 @@
 
     &__section {
       padding: space(6);
-      background-color: var(--palette-surface-container-low);
+      // background-color: var(--palette-surface-container-low);
+      border: 4px dashed var(--palette-surface-container-high);
       border-radius: $radius-4x;
-      margin-top: space(4);
+      margin-top: space(6);
     }
   }
 </style>
