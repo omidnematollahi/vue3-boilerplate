@@ -3,11 +3,11 @@
     <div class="radio__input">
       <div class="radio__indicator"></div>
     </div>
-    <span class="radio__label">
-      <slot>
+    <slot>
+      <span class="radio__label">
         {{ labelText }}
-      </slot>
-    </span>
+      </span>
+    </slot>
   </div>
 </template>
 
