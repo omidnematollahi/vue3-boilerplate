@@ -1,21 +1,30 @@
 <template>
   <Teleport to="#scrim" :disabled="!isTeleported">
-    <div ref="itemElement" class="scrim-item" v-if="modelValue">
-      <slot />
+    <div>
+      <transition name="fade">
+        <div :class="scrimClasses" @click="hideScrim" v-if="modelValue"></div>
+      </transition>
+      <div ref="itemElement" class="scrim-item">
+        <slot />
+      </div>
     </div>
   </Teleport>
 </template>
 
 <script setup>
-  import { inject, nextTick, onMounted, ref, watch } from 'vue';
-  import eventBus from '@/services/event-bus';
+  import { computed, nextTick, onMounted, ref, watch } from 'vue';
+
+  defineProps({
+    scrimColor: {
+      type: String,
+      default: 'rgba(0,0,0,0.32)',
+    },
+  });
 
   const modelValue = defineModel({
     type: Boolean,
     default: false,
   });
-
-  const updateScrimVisibility = inject('scrim:updateVisibility');
 
   const itemElement = ref();
   const boundingProperties = [
@@ -26,6 +35,11 @@
     'width',
     'height',
   ];
+
+  const scrimClasses = computed(() => ({
+    scrim: true,
+    scrim_teleported: isTeleported.value,
+  }));
 
   const setBounding = (bounding) => {
     boundingProperties.forEach((property) => {
@@ -40,21 +54,20 @@
     setBounding(boundingClientRect);
   };
 
-  eventBus.subscribeOn('scrim:visibilityChanged', ({ visibility }) => {
-    if (modelValue.value === visibility) {
+  const isTeleported = ref(false);
+
+  const hideScrim = (event) => {
+    if (!event.target.classList.contains('scrim')) {
       return;
     }
 
-    modelValue.value = visibility;
-  });
+    modelValue.value = false;
+  };
 
-  const isTeleported = ref(false);
-
-  const onModelValueChange = () => {
-    updateScrimVisibility(modelValue.value);
+  const onModelValueChange = (newValue) => {
     nextTick(() => {
       teleport();
-      isTeleported.value = modelValue.value;
+      isTeleported.value = newValue;
     });
   };
 
@@ -64,7 +77,22 @@
 </script>
 
 <style lang="scss" scoped>
+  .scrim {
+    &_teleported {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: v-bind(scrimColor);
+      overflow: hidden;
+      top: 0;
+      left: 0;
+      z-index: $scrim;
+    }
+  }
+
   .scrim-item {
-    position: relative;
+    z-index: $scrim;
+    position: absolute;
   }
 </style>
