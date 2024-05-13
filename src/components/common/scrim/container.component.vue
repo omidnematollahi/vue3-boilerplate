@@ -10,8 +10,11 @@
   import eventBus from '@/services/event-bus';
 
   const scrimVisibility = ref(false);
+
   const updateScrimVisibility = (visibility) => {
     scrimVisibility.value = visibility;
+    document.body.style.overflow = visibility ? 'hidden' : 'hidden auto';
+
     eventBus.publish('scrim:visibilityChanged', { visibility });
   };
 
