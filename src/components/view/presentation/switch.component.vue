@@ -7,7 +7,7 @@
       <switch-input
         class="presenter__switch"
         selected-icon
-        model-value="true"
+        :model-value="true"
       />
       <switch-input class="presenter__switch" selected-icon unselected-icon />
       <switch-input class="presenter__switch" disabled />

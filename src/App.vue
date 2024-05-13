@@ -1,5 +1,7 @@
 <template>
-  <indicator-router />
+  <scrim-container>
+    <indicator-router />
+  </scrim-container>
   <toast-manager />
 </template>
 
