@@ -1,43 +1,26 @@
 <template>
   <slot />
-  <transition name="fade">
-    <div id="scrim" v-show="scrimVisibility" @click="hideScrim"></div>
-  </transition>
+  <div id="scrim" ref="scrimElement"></div>
 </template>
 
 <script setup>
-  import { provide, ref } from 'vue';
-  import eventBus from '@/services/event-bus';
+  import { computed, onMounted, ref } from 'vue';
 
-  const scrimVisibility = ref(false);
+  const scrimElement = ref(null);
 
-  const updateScrimVisibility = (visibility) => {
-    scrimVisibility.value = visibility;
-    document.body.style.overflow = visibility ? 'hidden' : 'hidden auto';
-
-    eventBus.publish('scrim:visibilityChanged', { visibility });
+  const observerCallback = ([mutationList]) => {
+    const bodyScrollDisabled = scrimElement.value.children.length;
+    document.body.style.overflow = bodyScrollDisabled
+      ? 'hidden'
+      : 'hidden auto';
   };
 
-  const hideScrim = (event) => {
-    if (event.target.id !== 'scrim') {
-      return;
-    }
+  const mutationObserver = new MutationObserver(observerCallback);
 
-    updateScrimVisibility(false);
+  const setObserver = () => {
+    const config = { childList: true };
+    mutationObserver.observe(scrimElement.value, config);
   };
 
-  provide('scrim:updateVisibility', updateScrimVisibility);
+  onMounted(setObserver);
 </script>
-
-<style lang="scss" scoped>
-  #scrim {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.32);
-    top: 0;
-    left: 0;
-    z-index: $scrim;
-  }
-</style>
