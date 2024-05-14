@@ -126,15 +126,8 @@
     z-index: $scrim;
 
     &_custom-position {
-      // width: 100%;
-      // height: 100%;
-      // background: transparent;
-      // position: fixed;
       top: 0;
       left: 0;
-      // display: flex;
-      // justify-content: var(--scrim-item-justify, center);
-      // align-items: var(--scrim-item-align, center);
     }
   }
 </style>
