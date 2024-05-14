@@ -33,6 +33,10 @@
       type: Boolean,
       default: true,
     },
+    dismissByEscape: {
+      type: Boolean,
+      default: true,
+    },
   });
 
   const modelValue = defineModel({
@@ -81,8 +85,10 @@
     modelValue.value = visibility;
   };
 
+  const canDismiss = computed(() => props.dismissible);
+
   const requestHideScrim = (event) => {
-    if (!props.dismissible) {
+    if (!canDismiss.value) {
       return;
     }
 
@@ -102,6 +108,10 @@
 
   const hideScrimByEscape = (data) => {
     if (scrimItemId !== data.scrimItemId) {
+      return;
+    }
+
+    if (!canDismiss.value || !props.dismissByEscape) {
       return;
     }
 
