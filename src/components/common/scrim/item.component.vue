@@ -1,6 +1,6 @@
 <template>
   <Teleport to="#scrim" :disabled="!isTeleported">
-    <div @click="requestHideScrim">
+    <div @click="requestHideScrim" :data-id="scrimItemId">
       <transition name="fade">
         <div :class="scrimClasses" v-if="modelValue"></div>
       </transition>
@@ -12,7 +12,9 @@
 </template>
 
 <script setup>
-  import { computed, nextTick, onMounted, ref, watch } from 'vue';
+  import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+  import eventBus from '@/services/event-bus';
+  import uuid from '@/utils/uuid.util';
 
   const props = defineProps({
     scrimColor: {
@@ -37,6 +39,8 @@
     type: Boolean,
     default: false,
   });
+
+  const scrimItemId = uuid.generate();
 
   const itemElement = ref();
   const boundingProperties = ['top', 'left', 'width', 'height'];
@@ -96,7 +100,33 @@
     setScrimVisibility(false);
   };
 
+  const hideScrimByEscape = (data) => {
+    if (scrimItemId !== data.scrimItemId) {
+      return;
+    }
+
+    setScrimVisibility(false);
+  };
+
+  let unsubscribeEscapeEvent = null;
+
+  const toggleEscapeEventListener = (action = 'add') => {
+    if (action === 'add') {
+      const { unsubscribe } = eventBus.subscribeOn(
+        'scrim:escape',
+        hideScrimByEscape
+      );
+
+      unsubscribeEscapeEvent = unsubscribe;
+      return;
+    }
+
+    unsubscribeEscapeEvent?.();
+    unsubscribeEscapeEvent = null;
+  };
+
   const onModelValueChange = (newValue) => {
+    toggleEscapeEventListener(newValue ? 'add' : 'remove');
     nextTick(() => {
       teleport();
       isTeleported.value = newValue;
@@ -106,6 +136,8 @@
   onMounted(() => {
     watch(modelValue, onModelValueChange, { immediate: true });
   });
+
+  onUnmounted(() => unsubscribeEscapeEvent?.());
 </script>
 
 <style lang="scss" scoped>
