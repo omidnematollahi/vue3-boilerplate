@@ -1,6 +1,6 @@
 <template>
   <Teleport to="#scrim" :disabled="!isTeleported">
-    <div @click="hideScrim">
+    <div @click="requestHideScrim">
       <transition name="fade">
         <div :class="scrimClasses" v-if="modelValue"></div>
       </transition>
@@ -73,7 +73,11 @@
 
   const isTeleported = ref(false);
 
-  const hideScrim = (event) => {
+  const setScrimVisibility = (visibility = false) => {
+    modelValue.value = visibility;
+  };
+
+  const requestHideScrim = (event) => {
     if (!props.dismissible) {
       return;
     }
@@ -89,7 +93,7 @@
       return;
     }
 
-    modelValue.value = false;
+    setScrimVisibility(false);
   };
 
   const onModelValueChange = (newValue) => {
