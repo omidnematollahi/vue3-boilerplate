@@ -6,11 +6,15 @@ const locale = ref('');
 const useLocale = () => {
   const getLocale = computed(() => locale.value);
 
+  const direction = computed(() =>
+    rtlLocaleList.includes(locale.value) ? 'rtl' : 'ltr'
+  );
+
   const setLocale = (newLocale) => {
     document.documentElement.setAttribute('lang', newLocale);
 
-    const direction = rtlLocaleList.includes(newLocale) ? 'rtl' : 'ltr';
-    document.documentElement.setAttribute('dir', direction);
+    const newDirection = rtlLocaleList.includes(newLocale) ? 'rtl' : 'ltr';
+    document.documentElement.setAttribute('dir', newDirection);
 
     if (locale.value === newLocale) return;
 
@@ -20,7 +24,7 @@ const useLocale = () => {
     locale.value = newLocale;
   };
 
-  return { locale: getLocale, setLocale, supportedLocaleList };
+  return { locale: getLocale, setLocale, supportedLocaleList, direction };
 };
 
 export default useLocale;
