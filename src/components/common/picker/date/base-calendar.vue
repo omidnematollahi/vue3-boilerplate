@@ -120,7 +120,6 @@
     $calendar: &;
     $cell-size: 48px;
     display: grid;
-    width: 360px;
     background-color: var(--palette-surface-container-high);
     grid-template-columns: repeat(7, $cell-size);
     grid-template-rows: repeat(5, $cell-size);
