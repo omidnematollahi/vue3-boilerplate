@@ -12,7 +12,9 @@ const useLocale = () => {
 
   const setLocale = (newLocale) => {
     document.documentElement.setAttribute('lang', newLocale);
-    document.documentElement.setAttribute('dir', direction.value);
+
+    const newDirection = rtlLocaleList.includes(newLocale) ? 'rtl' : 'ltr';
+    document.documentElement.setAttribute('dir', newDirection);
 
     if (locale.value === newLocale) return;
 
