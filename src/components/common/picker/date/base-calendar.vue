@@ -1,5 +1,5 @@
 <template>
-  <div class="calendar">
+  <div class="calendar" @click="selectDate">
     <span v-for="label in labelList" :key="label" class="calendar__weekday">
       {{ label }}
     </span>
@@ -9,6 +9,7 @@
       :key="day.label"
       class="calendar__date"
       :class="day.extraClasses"
+      :data-day="day.label"
     >
       <span class="calendar__day">{{ day.label }}</span>
     </div>
@@ -66,6 +67,17 @@
       },
     },
   });
+
+  const emit = defineEmits(['click:date']);
+
+  const selectDate = (event) => {
+    const dateElement = event.target.closest('.calendar__date');
+    if (!dateElement) return;
+
+    const selectedDate = Number(dateElement.dataset.day);
+
+    emit('click:date', selectedDate);
+  };
 
   const days = computed(() => {
     const dayList = Array.from({ length: props.dayCount }, (_, index) => {
@@ -142,6 +154,7 @@
       &_highlighted {
         #{$calendar}__day {
           position: relative;
+          border-radius: 0;
           color: var(--palette-on-primary-container);
           background-color: var(--palette-primary-container);
         }
@@ -154,6 +167,7 @@
       width: 100%;
       height: 100%;
       border: 1px solid transparent;
+      border-radius: $radius-2x;
       @include transition {
         transition-property: color, background-color, border-radius;
       }
