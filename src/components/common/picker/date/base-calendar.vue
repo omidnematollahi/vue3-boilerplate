@@ -3,7 +3,11 @@
     <span v-for="label in labelList" :key="label" class="calendar__weekday">
       {{ label }}
     </span>
-    <div v-for="day in startDay" class="calendar__date" :key="day"></div>
+    <div
+      v-for="day in startDay"
+      class="calendar__outside-date"
+      :key="day"
+    ></div>
     <div
       v-for="day in days"
       :key="day.label"
