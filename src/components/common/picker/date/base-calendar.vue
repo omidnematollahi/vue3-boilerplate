@@ -60,6 +60,7 @@
         return selectedStartDate <= 31 && selectedStartDate >= 1;
       },
     },
+    //NOTE: Do not use, not implemented the styling yet!
     selectedEndDate: {
       type: Number,
       validator(selectedEndDate) {
@@ -135,19 +136,45 @@
       cursor: pointer;
       padding: space(1);
 
+      &:hover {
+        #{$calendar}__day::before {
+          background-color: var(--palette-on-surface-variant);
+          transform: scale(1);
+          opacity: 0.08;
+        }
+      }
+
+      &:active {
+        #{$calendar}__day::before {
+          background-color: var(--palette-on-surface-variant);
+          transform: scale(1);
+          opacity: 0.1;
+        }
+      }
+
       &_today {
         #{$calendar}__day {
-          border-radius: $circle;
           color: var(--palette-primary);
           border-color: var(--palette-primary);
+        }
+
+        &:hover {
+          #{$calendar}__day::before {
+            background-color: var(--palette-primary);
+          }
         }
       }
 
       &_selected {
         #{$calendar}__day {
-          border-radius: $circle;
           background-color: var(--palette-primary);
           color: var(--palette-on-primary);
+        }
+
+        &:hover {
+          #{$calendar}__day::before {
+            background-color: var(--palette-on-primary);
+          }
         }
       }
 
@@ -163,13 +190,27 @@
 
     &__day {
       @include flex($align: center, $justify: center);
+      position: relative;
       user-select: none;
       width: 100%;
       height: 100%;
       border: 1px solid transparent;
-      border-radius: $radius-2x;
-      @include transition {
-        transition-property: color, background-color, border-radius;
+      overflow: hidden;
+      border-radius: $circle;
+
+      &::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transform: scale(0.5);
+        border-radius: $circle;
+        @include transition {
+          transition-property: background-color, opacity, transform;
+        }
       }
     }
   }
