@@ -6,6 +6,7 @@
         v-if="leadingIcon"
         :icon-name="leadingIcon"
         :style-type="leadingIconStyleType"
+        transition-mode="out-in"
       />
       <slot />
       <base-icon
@@ -13,6 +14,7 @@
         v-if="trailingIcon"
         :icon-name="trailingIcon"
         :style-type="trailingIconStyleType"
+        transition-mode="out-in"
       />
     </div>
   </button>
@@ -81,6 +83,7 @@
     user-select: none;
     overflow: hidden;
     min-width: 88px;
+    color: var(--base-button-color);
 
     &__leading-icon,
     &__trailing-icon {
@@ -148,7 +151,7 @@
 
     &_filled {
       background-color: var(--palette-primary);
-      color: var(--palette-on-primary);
+      --base-button-color: var(--palette-on-primary);
       @include transition(standard-accelerate) {
         transition-property: box-shadow;
       }
@@ -177,7 +180,7 @@
 
     &_filled-tonal {
       background-color: var(--palette-secondary-container);
-      color: var(--palette-on-secondary-container);
+      --base-button-color: var(--palette-on-secondary-container);
       @include transition(standard-accelerate) {
         transition-property: box-shadow;
       }
@@ -205,7 +208,7 @@
     }
 
     &_outlined {
-      color: var(--palette-primary);
+      --base-button-color: var(--palette-primary);
       border: 1px solid var(--palette-outline);
 
       &::before {
@@ -223,7 +226,7 @@
     }
 
     &_text {
-      color: var(--palette-primary);
+      --base-button-color: var(--palette-primary);
 
       &::before {
         opacity: 0.08;
@@ -253,7 +256,7 @@
       opacity: 0.38;
       pointer-events: none;
       background-color: var(--palette-outline-variant);
-      color: var(--palette-on-surface);
+      --base-button-color: var(--palette-on-surface);
       box-shadow: none;
     }
 
