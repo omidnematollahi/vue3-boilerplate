@@ -75,6 +75,7 @@
     @include flex($align: center);
     height: 32px;
     width: 52px;
+    min-width: 52px;
     border: 2px solid var(--palette-outline);
     border-radius: $pill;
     background-color: var(--palette-surface-container-highest);
