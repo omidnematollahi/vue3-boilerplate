@@ -1,6 +1,38 @@
 import CalendarInterface from '@/interfaces/calendar/calendar.interface.js';
 
 class GregorianCalendar extends CalendarInterface {
+  #todayDate;
+  #monthList;
+
+  constructor({ monthList }) {
+    super();
+
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const day = today.getDate();
+
+    this.#todayDate = { year, month, day };
+    this.#monthList = monthList;
+  }
+
+  /**
+   * Determine if a given year is a leap year.
+   * @param {number} year - The year.
+   * @returns {boolean} True if the year is a leap year, false otherwise.
+   */
+  isLeapYear(year) {
+    if (year % 4 === 0) {
+      if (year % 100 === 0) {
+        return year % 400 === 0;
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
   /**
    * Calculate the number of days in a given month and year.
    * @param {number} year - The year.
@@ -20,23 +52,6 @@ class GregorianCalendar extends CalendarInterface {
     }
 
     return daysInMonthMap[month - 1];
-  }
-
-  /**
-   * Determine if a given year is a leap year.
-   * @param {number} year - The year.
-   * @returns {boolean} True if the year is a leap year, false otherwise.
-   */
-  isLeapYear(year) {
-    if (year % 4 === 0) {
-      if (year % 100 === 0) {
-        return year % 400 === 0;
-      }
-
-      return true;
-    }
-
-    return false;
   }
 
   /**
@@ -73,6 +88,22 @@ class GregorianCalendar extends CalendarInterface {
     const dayOfWeek = (dayOfWeekIndex + 6) % 7;
 
     return dayOfWeek;
+  }
+
+  /**
+   * Get today's date in the Gregorian calendar.
+   * @returns {Object} Today's date in the format '{year, month, date}'.
+   */
+  get todayAsObject() {
+    return this.#todayDate;
+  }
+
+  /**
+   * Get today's date in the Gregorian calendar.
+   * @returns {Array.<string>} Today's date in the format '{year, month, date}'.
+   */
+  get monthList() {
+    return this.#monthList;
   }
 }
 
