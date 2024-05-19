@@ -25,3 +25,23 @@
   transform: translate(100%);
   opacity: 0;
 }
+
+.selected-date-leave-active,
+.selected-date-enter-active {
+  transition: {
+    property: transform, opacity;
+    duration: map-get($duration, medium-2);
+    timing-function: map-get($easing, linear);
+  }
+}
+
+.selected-date-leave-to {
+  position: absolute;
+  transform: translateY(100%);
+  opacity: 0;
+}
+.selected-date-enter-from {
+  position: absolute;
+  transform: translateY(-100%);
+  opacity: 0;
+}
