@@ -3,7 +3,7 @@
     <datepicker-header
       class="date-picker__header"
       :headline-text="headlineText"
-      supporting-text="Select date"
+      :supporting-text="supportingText"
     />
     <control-menu
       :label-text="monthYearLabel"
@@ -27,6 +27,16 @@
         />
       </transition>
     </div>
+    <slot name="actions">
+      <div class="date-picker__actions">
+        <base-button variant="text" @click="$emit('action:cancel')">
+          {{ cancelLabel }}
+        </base-button>
+        <base-button variant="text" @click="pickDate">
+          {{ okLabel }}
+        </base-button>
+      </div>
+    </slot>
   </div>
 </template>
 
@@ -46,7 +56,25 @@
       type: String,
       default: 'Selected date',
     },
+    supportingText: {
+      type: String,
+      default: 'Select date',
+    },
+    okLabel: {
+      type: String,
+      default: 'OK',
+    },
+    cancelLabel: {
+      type: String,
+      default: 'Cancel',
+    },
   });
+
+  const emit = defineEmits([
+    'action:cancel',
+    'action:ok',
+    'change:selectedDate',
+  ]);
 
   //TODO: Add default value from props
   const viewDate = ref({ ...props.calendar.todayAsObject });
@@ -103,6 +131,7 @@
 
   const selectDate = (dateObject) => {
     modelValue.value = dateObject;
+    emit('change:selectedDate', modelValue.value);
   };
 
   const headlineText = computed(() => {
@@ -117,6 +146,11 @@
 
     return `${weekDay}, ${monthLabelShort} ${day}`;
   });
+
+  const pickDate = () => {
+    //NOTE: for now only support Object format but here is where we convert formats later
+    emit('action:pickDate', modelValue);
+  };
 
   /**
    * @param {number} direction - (1) for forward and (-1) for previous month
@@ -156,6 +190,13 @@
 
     &__header {
       border-bottom: 1px solid var(--palette-outline-variant);
+    }
+
+    &__actions {
+      @include flex($align: center, $justify: flex-end);
+      gap: space(2);
+      padding: space(2) space(3) space(3);
+      --base-button-min-width: auto;
     }
   }
 
