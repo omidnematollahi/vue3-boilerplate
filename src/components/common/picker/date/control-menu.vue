@@ -9,7 +9,7 @@
     >
       {{ labelText }}
     </base-button>
-    <div class="menu__month-control">
+    <div class="menu__month-control" v-if="showMonthControls">
       <div class="menu__icon">
         <icon-button
           style-type="filled"
@@ -40,6 +40,10 @@
       type: String,
       default: 'arrow-drop-down',
     },
+    showMonthControls: {
+      type: Boolean,
+      default: true,
+    },
   });
 
   defineEmits(['click:button', 'action:monthControl']);
@@ -57,6 +61,7 @@
     @include flex($justify: space-between, $align: center);
     background-color: var(--palette-surface-container-high);
     padding: space(1) 0;
+    min-height: 56px;
 
     &__button {
       margin: 0 space(2);
