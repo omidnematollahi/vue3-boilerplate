@@ -3,9 +3,13 @@
     <p v-if="supportingText" class="header__supporting-text">
       {{ supportingText }}
     </p>
-    <h6 class="header__headline">
-      {{ headlineText }}
-    </h6>
+    <div class="header__headline-container">
+      <transition name="selected-date">
+        <h6 :key="headlineText" class="header__headline">
+          {{ headlineText }}
+        </h6>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -29,6 +33,11 @@
     &__supporting-text {
       @include typography(label-large);
       margin-bottom: space(9);
+    }
+
+    &__headline-container {
+      position: relative;
+      overflow: hidden;
     }
 
     &__headline {
