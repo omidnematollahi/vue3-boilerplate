@@ -14,6 +14,7 @@
       >
         <base-calendar
           class="calendar-view__calendar"
+          :week-day-labels="calendar.weekDayList"
           :today-date="todayDay"
           :day-count="monthDaysCount"
           :start-day="startDayOfMonth"

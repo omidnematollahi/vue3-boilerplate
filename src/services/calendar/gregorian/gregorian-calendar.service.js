@@ -3,8 +3,9 @@ import CalendarInterface from '@/interfaces/calendar/calendar.interface.js';
 class GregorianCalendar extends CalendarInterface {
   #todayDate;
   #monthList;
+  #weekDayList;
 
-  constructor({ monthList }) {
+  constructor({ monthList, weekDayList }) {
     super();
 
     const today = new Date();
@@ -14,6 +15,7 @@ class GregorianCalendar extends CalendarInterface {
 
     this.#todayDate = { year, month, day };
     this.#monthList = monthList;
+    this.#weekDayList = weekDayList;
   }
 
   /**
@@ -99,11 +101,19 @@ class GregorianCalendar extends CalendarInterface {
   }
 
   /**
-   * Get today's date in the Gregorian calendar.
-   * @returns {Array.<string>} Today's date in the format '{year, month, date}'.
+   * Get month list for gregorian calendar.
+   * @returns {Array.<string>} Month list ['January', ... , 'December'].
    */
   get monthList() {
     return this.#monthList;
+  }
+
+  /**
+   * Get week days list.
+   * @returns {Array.<string>} Week days list ['Sunday', ... , 'Saturday'].
+   */
+  get weekDayList() {
+    return this.#weekDayList;
   }
 }
 

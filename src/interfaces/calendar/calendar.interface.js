@@ -39,11 +39,19 @@ class CalendarInterface {
   }
 
   /**
-   * Get today's date in the Gregorian calendar.
-   * @returns {Array.<string>} Today's date in the format '{year, month, date}'.
+   * Get month list for gregorian calendar.
+   * @returns {Array.<string>} Month list ['January', ... , 'December'].
    */
   get monthList() {
-    throw new Error('Must getMonthList getter');
+    throw new Error('Must monthList getter');
+  }
+
+  /**
+   * Get week days list.
+   * @returns {Array.<string>} Week days list ['Sunday', ... , 'Saturday'].
+   */
+  get weekDayList() {
+    throw new Error('Must weekDayList getter');
   }
 }
 
