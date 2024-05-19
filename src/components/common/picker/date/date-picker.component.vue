@@ -6,12 +6,21 @@
       @click:button="yearPickerVisibility = !yearPickerVisibility"
       @action:monthControl="moveViewDateByOneMonth"
     />
-    <base-calendar
-      class="date-picker__calendar"
-      :today-date="todayDay"
-      :day-count="monthDaysCount"
-      :start-day="startDayOfMonth"
-    />
+    <div class="calendar-view">
+      <transition
+        :name="calendarTransitionName"
+        @before-enter="toggleViewDateMoveBlock(true)"
+        @after-leave="toggleViewDateMoveBlock(false)"
+      >
+        <base-calendar
+          class="calendar-view__calendar"
+          :today-date="todayDay"
+          :day-count="monthDaysCount"
+          :start-day="startDayOfMonth"
+          :key="viewDate.month"
+        />
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -67,10 +76,36 @@
     return props.calendar.getFirstDayOfMonth(year, month);
   });
 
+  const calendarViewHeight = computed(() => {
+    //NOTE: + 7 is for weekDays adding a row
+    const calendarCellCount = monthDaysCount.value + startDayOfMonth.value + 7;
+
+    return Math.ceil(calendarCellCount / 7) * 48;
+  });
+
+  const blockViewDateMove = ref(false);
+
+  const toggleViewDateMoveBlock = (isBlock) => {
+    blockViewDateMove.value = isBlock;
+  };
+
+  const calendarTransitionName = ref('calendar-forward');
+  const updateCalendarTransitionName = (name) => {
+    calendarTransitionName.value = name;
+  };
+
   /**
    * @param {number} direction - (1) for forward and (-1) for previous month
    */
   const moveViewDateByOneMonth = (direction) => {
+    if (blockViewDateMove.value) {
+      return;
+    }
+
+    updateCalendarTransitionName(
+      direction > 0 ? 'calendar-forward' : 'calendar-backward'
+    );
+
     const calculatedMonth = viewDate.value.month + direction;
 
     if (calculatedMonth > 0) {
@@ -92,6 +127,18 @@
 <style lang="scss" scoped>
   .date-picker {
     width: 360px;
+    background-color: var(--palette-surface-container-high);
+  }
+
+  .calendar-view {
+    position: relative;
+    overflow: hidden;
+    @include transition() {
+      transition-property: height;
+    }
+
+    height: v-bind('`${calendarViewHeight}px`');
+    @include flex;
 
     &__calendar {
       padding: 0 space(3);
