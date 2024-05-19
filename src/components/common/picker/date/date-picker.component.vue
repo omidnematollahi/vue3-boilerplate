@@ -14,10 +14,8 @@
       >
         <base-calendar
           class="calendar-view__calendar"
-          :week-day-labels="calendar.weekDayList"
-          :today-date="todayDay"
-          :day-count="monthDaysCount"
-          :start-day="startDayOfMonth"
+          :current-date="viewDate"
+          :calendar="calendar"
           :key="viewDate.month"
         />
       </transition>
@@ -38,20 +36,8 @@
     },
   });
 
-  const today = computed(() => props.calendar.todayAsObject);
   //TODO: Add default value from props
-  const viewDate = ref({ ...today.value });
-
-  const todayDay = computed(() => {
-    const { year, month, day } = today.value;
-    const { year: viewYear, month: viewMonth } = viewDate.value;
-
-    if (year === viewYear && month === viewMonth) {
-      return day;
-    }
-
-    return null;
-  });
+  const viewDate = ref({ ...props.calendar.todayAsObject });
 
   const yearPickerVisibility = ref(false);
   const menuButtonIcon = computed(() =>
