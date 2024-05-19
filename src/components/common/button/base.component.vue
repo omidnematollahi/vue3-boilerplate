@@ -82,7 +82,7 @@
     cursor: pointer;
     user-select: none;
     overflow: hidden;
-    min-width: 88px;
+    min-width: var(--base-button-min-width, 88px);
     color: var(--base-button-color);
 
     &__leading-icon,
