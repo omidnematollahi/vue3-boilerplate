@@ -1,0 +1,148 @@
+<template>
+  <div class="date-picker">
+    <control-menu
+      :label-text="monthYearLabel"
+      :button-icon="menuButtonIcon"
+      @click:button="yearPickerVisibility = !yearPickerVisibility"
+      @action:monthControl="moveViewDateByOneMonth"
+    />
+    <div class="calendar-view">
+      <transition
+        :name="calendarTransitionName"
+        @before-enter="toggleViewDateMoveBlock(true)"
+        @after-leave="toggleViewDateMoveBlock(false)"
+      >
+        <base-calendar
+          class="calendar-view__calendar"
+          :week-day-labels="calendar.weekDayList"
+          :today-date="todayDay"
+          :day-count="monthDaysCount"
+          :start-day="startDayOfMonth"
+          :key="viewDate.month"
+        />
+      </transition>
+    </div>
+  </div>
+</template>
+
+<script setup>
+  import { computed, ref } from 'vue';
+  import BaseCalendar from '@/components/common/picker/date/base-calendar.vue';
+  import ControlMenu from '@/components/common/picker/date/control-menu.vue';
+  import CalendarInterface from '@/interfaces/calendar/calendar.interface';
+
+  const props = defineProps({
+    calendar: {
+      type: CalendarInterface,
+      required: true,
+    },
+  });
+
+  const today = computed(() => props.calendar.todayAsObject);
+  //TODO: Add default value from props
+  const viewDate = ref({ ...today.value });
+
+  const todayDay = computed(() => {
+    const { year, month, day } = today.value;
+    const { year: viewYear, month: viewMonth } = viewDate.value;
+
+    if (year === viewYear && month === viewMonth) {
+      return day;
+    }
+
+    return null;
+  });
+
+  const yearPickerVisibility = ref(false);
+  const menuButtonIcon = computed(() =>
+    yearPickerVisibility.value ? 'arrow-drop-up' : 'arrow-drop-down'
+  );
+
+  const monthYearLabel = computed(() => {
+    const { month, year } = viewDate.value;
+
+    const monthIndex = month - 1;
+    const monthLabel = props.calendar.monthList[monthIndex];
+
+    return `${monthLabel} ${year}`;
+  });
+
+  const monthDaysCount = computed(() => {
+    const { year, month } = viewDate.value;
+    return props.calendar.getDaysInMonth(year, month);
+  });
+
+  const startDayOfMonth = computed(() => {
+    const { year, month } = viewDate.value;
+    return props.calendar.getFirstDayOfMonth(year, month);
+  });
+
+  const calendarViewHeight = computed(() => {
+    //NOTE: + 7 is for weekDays adding a row
+    const calendarCellCount = monthDaysCount.value + startDayOfMonth.value + 7;
+
+    return Math.ceil(calendarCellCount / 7) * 48;
+  });
+
+  const blockViewDateMove = ref(false);
+
+  const toggleViewDateMoveBlock = (isBlock) => {
+    blockViewDateMove.value = isBlock;
+  };
+
+  const calendarTransitionName = ref('calendar-forward');
+  const updateCalendarTransitionName = (name) => {
+    calendarTransitionName.value = name;
+  };
+
+  /**
+   * @param {number} direction - (1) for forward and (-1) for previous month
+   */
+  const moveViewDateByOneMonth = (direction) => {
+    if (blockViewDateMove.value) {
+      return;
+    }
+
+    updateCalendarTransitionName(
+      direction > 0 ? 'calendar-forward' : 'calendar-backward'
+    );
+
+    const calculatedMonth = viewDate.value.month + direction;
+
+    if (calculatedMonth > 0) {
+      //NOTE: || 12 is used when last month is selected and calculateMonth % 12 is 0
+      viewDate.value.month = calculatedMonth % 12 || 12;
+
+      if (calculatedMonth > 12) {
+        viewDate.value.year += 1;
+      }
+
+      return;
+    }
+
+    viewDate.value.month = 12;
+    viewDate.value.year -= 1;
+  };
+</script>
+
+<style lang="scss" scoped>
+  .date-picker {
+    width: 360px;
+    background-color: var(--palette-surface-container-high);
+  }
+
+  .calendar-view {
+    position: relative;
+    overflow: hidden;
+    @include transition() {
+      transition-property: height;
+    }
+
+    height: v-bind('`${calendarViewHeight}px`');
+    @include flex;
+
+    &__calendar {
+      padding: 0 space(3);
+    }
+  }
+</style>

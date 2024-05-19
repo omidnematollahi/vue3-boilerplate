@@ -1,0 +1,27 @@
+@use '../abstracts/mixin' as *;
+@use '../abstracts/variables' as *;
+
+.calendar-backward-leave-active,
+.calendar-backward-enter-active,
+.calendar-forward-leave-active,
+.calendar-forward-enter-active {
+  transition: {
+    property: transform, opacity;
+    duration: map-get($duration, medium-2);
+    timing-function: map-get($easing, linear);
+  }
+}
+
+.calendar-backward-enter-from,
+.calendar-forward-leave-to {
+  position: absolute;
+  transform: translate(-100%);
+  opacity: 0;
+}
+
+.calendar-backward-leave-to,
+.calendar-forward-enter-from {
+  position: absolute;
+  transform: translate(100%);
+  opacity: 0;
+}

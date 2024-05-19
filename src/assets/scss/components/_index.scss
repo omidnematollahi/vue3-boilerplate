@@ -1,4 +1,5 @@
 @use './toast-manager.scss' as *;
+@use './date-picker.scss' as *;
 
 $components: (
   toast-manager: $toast-manager,
