@@ -33,7 +33,7 @@
       type: Object,
       required: true,
       validator(currentDate) {
-        const { year, month, day } = toValue(currentDate);
+        const { year, month, day } = currentDate;
         return year && month && day;
       },
     },
@@ -45,16 +45,18 @@
       },
     },
     selectedStartDate: {
-      type: Number,
+      type: Object,
       validator(selectedStartDate) {
-        return selectedStartDate <= 31 && selectedStartDate >= 1;
+        const { year, month, day } = selectedStartDate;
+        return year && month && day;
       },
     },
     //NOTE: Do not use, not implemented the styling yet!
     selectedEndDate: {
-      type: Number,
+      type: Object,
       validator(selectedEndDate) {
-        return selectedEndDate <= 31 && selectedEndDate >= 1;
+        const { year, month, day } = selectedEndDate;
+        return year && month && day;
       },
     },
   });
@@ -75,9 +77,10 @@
     const dateElement = event.target.closest('.calendar__date');
     if (!dateElement) return;
 
-    const selectedDate = Number(dateElement.dataset.day);
+    const day = Number(dateElement.dataset.day);
+    const { year, month } = props.currentDate;
 
-    emit('click:date', selectedDate);
+    emit('click:date', { year, month, day });
   };
 
   const hasTodayInMonth = computed(() => {
@@ -87,24 +90,32 @@
     return month === todayMonth && year === todayYear;
   });
 
+  const isDaySelected = (dayNumber) => {
+    if (!props.selectedStartDate) return false;
+
+    const { year, month, day } = props.selectedStartDate;
+
+    return (
+      props.currentDate.year === year &&
+      props.currentDate.month === month &&
+      day === dayNumber
+    );
+  };
+
   const days = computed(() => {
     const dayList = Array.from({ length: dayCount.value }, (_, index) => {
       const dayNumber = index + 1;
-      const { selectedStartDate, selectedEndDate } = props;
       const { day } = props.currentDate;
 
-      const isSelected =
-        selectedStartDate === dayNumber || selectedEndDate === dayNumber;
-
-      const isHighlighted =
-        dayNumber > selectedStartDate && dayNumber < selectedEndDate;
+      // const isHighlighted =
+      //   dayNumber > selectedStartDate && dayNumber < selectedEndDate;
 
       return {
         label: dayNumber,
         extraClasses: {
           calendar__date_today: hasTodayInMonth.value && day === dayNumber,
-          calendar__date_selected: isSelected,
-          calendar__date_highlighted: isHighlighted,
+          calendar__date_selected: isDaySelected(dayNumber),
+          // calendar__date_highlighted: isHighlighted,
         },
       };
     });
