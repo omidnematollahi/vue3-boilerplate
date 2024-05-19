@@ -1,5 +1,10 @@
 <template>
   <div class="date-picker">
+    <datepicker-header
+      class="date-picker__header"
+      :headline-text="headlineText"
+      supporting-text="Select date"
+    />
     <control-menu
       :label-text="monthYearLabel"
       :button-icon="menuButtonIcon"
@@ -25,9 +30,10 @@
 
 <script setup>
   import { computed, ref } from 'vue';
+  import CalendarInterface from '@/interfaces/calendar/calendar.interface';
   import BaseCalendar from '@/components/common/picker/date/base-calendar.vue';
   import ControlMenu from '@/components/common/picker/date/control-menu.vue';
-  import CalendarInterface from '@/interfaces/calendar/calendar.interface';
+  import DatepickerHeader from '@/components/common/picker/date/header.vue';
 
   const props = defineProps({
     calendar: {
@@ -60,7 +66,7 @@
 
   const startDayOfMonth = computed(() => {
     const { year, month } = viewDate.value;
-    return props.calendar.getFirstDayOfMonth(year, month);
+    return props.calendar.getDayOfWeek(year, month);
   });
 
   const calendarViewHeight = computed(() => {
@@ -80,6 +86,10 @@
   const updateCalendarTransitionName = (name) => {
     calendarTransitionName.value = name;
   };
+
+  const headlineText = computed(() => {
+    return 'Mon, Aug 17';
+  });
 
   /**
    * @param {number} direction - (1) for forward and (-1) for previous month
@@ -115,6 +125,11 @@
   .date-picker {
     width: 360px;
     background-color: var(--palette-surface-container-high);
+    border-radius: $radius-7x;
+
+    &__header {
+      border-bottom: 1px solid var(--palette-outline-variant);
+    }
   }
 
   .calendar-view {

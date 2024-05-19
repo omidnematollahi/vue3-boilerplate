@@ -20,13 +20,14 @@ class CalendarInterface {
   }
 
   /**
-   * Calculate the first day of the month for a given year and month using Zeller's Congruence.
+   * Calculate the day of the given date using Zeller's Congruence.
    * @param {number} year - The year.
    * @param {number} month - The month (1-12).
+   * @param {number} [day=1] - The day (1-31).
    * @returns {number} The day of the week (0-6) where 0 is Sunday, 1 is Monday, etc.
    * @throws {Error} If the month is not between 1 and 12.
    */
-  getFirstDayOfMonth(year, month) {
+  getDayOfWeek(year, month, day) {
     throw new Error('Must implement getFirstDayOfMonth method');
   }
 

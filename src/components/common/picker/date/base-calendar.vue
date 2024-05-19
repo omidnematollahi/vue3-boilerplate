@@ -68,7 +68,7 @@
 
   const startDay = computed(() => {
     const { year, month } = props.currentDate;
-    return props.calendar.getFirstDayOfMonth(year, month);
+    return props.calendar.getDayOfWeek(year, month);
   });
 
   const selectDate = (event) => {
