@@ -21,28 +21,20 @@
 </template>
 
 <script setup>
-  import { computed } from 'vue';
+  import { computed, toValue } from 'vue';
+  import CalendarInterface from '@/interfaces/calendar/calendar.interface';
 
   const props = defineProps({
-    dayCount: {
-      type: Number,
+    calendar: {
+      type: CalendarInterface,
       required: true,
-      validator(dayCount) {
-        return dayCount <= 31 && dayCount >= 28;
-      },
     },
-    startDay: {
-      type: Number,
+    currentDate: {
+      type: Object,
       required: true,
-      validator(startDay) {
-        return startDay > -1 && startDay < 7;
-      },
-    },
-    weekDayLabels: {
-      type: Array,
-      default: () => ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-      validator(weekDayLabels) {
-        return weekDayLabels.length === 7;
+      validator(currentDate) {
+        const { year, month, day } = currentDate;
+        return year && month && day;
       },
     },
     weekDayType: {
@@ -52,55 +44,78 @@
         return ['short', 'full'].includes(weekDayType);
       },
     },
-    todayDate: {
-      type: Number,
-      validator(todayDate) {
-        return todayDate <= 31 && todayDate >= 1;
-      },
-    },
     selectedStartDate: {
-      type: Number,
+      type: Object,
       validator(selectedStartDate) {
-        return selectedStartDate <= 31 && selectedStartDate >= 1;
+        const { year, month, day } = selectedStartDate;
+        return year && month && day;
       },
     },
     //NOTE: Do not use, not implemented the styling yet!
     selectedEndDate: {
-      type: Number,
+      type: Object,
       validator(selectedEndDate) {
-        return selectedEndDate <= 31 && selectedEndDate >= 1;
+        const { year, month, day } = selectedEndDate;
+        return year && month && day;
       },
     },
   });
 
   const emit = defineEmits(['click:date']);
 
+  const dayCount = computed(() => {
+    const { year, month } = props.currentDate;
+    return props.calendar.getDaysInMonth(year, month);
+  });
+
+  const startDay = computed(() => {
+    const { year, month } = props.currentDate;
+    return props.calendar.getDayOfWeek(year, month);
+  });
+
   const selectDate = (event) => {
     const dateElement = event.target.closest('.calendar__date');
     if (!dateElement) return;
 
-    const selectedDate = Number(dateElement.dataset.day);
+    const day = Number(dateElement.dataset.day);
+    const { year, month } = props.currentDate;
 
-    emit('click:date', selectedDate);
+    emit('click:date', { year, month, day });
+  };
+
+  const hasTodayInMonth = computed(() => {
+    const { month, year } = props.currentDate;
+    const { month: todayMonth, year: todayYear } = props.calendar.todayAsObject;
+
+    return month === todayMonth && year === todayYear;
+  });
+
+  const isDaySelected = (dayNumber) => {
+    if (!props.selectedStartDate) return false;
+
+    const { year, month, day } = props.selectedStartDate;
+
+    return (
+      props.currentDate.year === year &&
+      props.currentDate.month === month &&
+      day === dayNumber
+    );
   };
 
   const days = computed(() => {
-    const dayList = Array.from({ length: props.dayCount }, (_, index) => {
+    const dayList = Array.from({ length: dayCount.value }, (_, index) => {
       const dayNumber = index + 1;
-      const { selectedStartDate, selectedEndDate, todayDate } = props;
+      const { day } = props.currentDate;
 
-      const isSelected =
-        selectedStartDate === dayNumber || selectedEndDate === dayNumber;
-
-      const isHighlighted =
-        dayNumber > selectedStartDate && dayNumber < selectedEndDate;
+      // const isHighlighted =
+      //   dayNumber > selectedStartDate && dayNumber < selectedEndDate;
 
       return {
         label: dayNumber,
         extraClasses: {
-          calendar__date_today: todayDate === dayNumber,
-          calendar__date_selected: isSelected,
-          calendar__date_highlighted: isHighlighted,
+          calendar__date_today: hasTodayInMonth.value && day === dayNumber,
+          calendar__date_selected: isDaySelected(dayNumber),
+          // calendar__date_highlighted: isHighlighted,
         },
       };
     });
@@ -109,11 +124,13 @@
   });
 
   const labelList = computed(() => {
+    const { weekDayList } = props.calendar;
+
     if (props.weekDayType === 'full') {
-      return props.weekDayLabels;
+      return weekDayList;
     }
 
-    return props.weekDayLabels.map((label) => label[0]);
+    return weekDayList.map((label) => label[0]);
   });
 </script>
 

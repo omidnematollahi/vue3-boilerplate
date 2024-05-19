@@ -1,5 +1,10 @@
 <template>
   <div class="date-picker">
+    <datepicker-header
+      class="date-picker__header"
+      :headline-text="headlineText"
+      :supporting-text="supportingText"
+    />
     <control-menu
       :label-text="monthYearLabel"
       :button-icon="menuButtonIcon"
@@ -14,44 +19,65 @@
       >
         <base-calendar
           class="calendar-view__calendar"
-          :week-day-labels="calendar.weekDayList"
-          :today-date="todayDay"
-          :day-count="monthDaysCount"
-          :start-day="startDayOfMonth"
+          :current-date="viewDate"
+          :calendar="calendar"
           :key="viewDate.month"
+          :selected-start-date="modelValue"
+          @click:date="selectDate"
         />
       </transition>
     </div>
+    <slot name="actions">
+      <div class="date-picker__actions">
+        <base-button variant="text" @click="$emit('action:cancel')">
+          {{ cancelLabel }}
+        </base-button>
+        <base-button variant="text" @click="pickDate">
+          {{ okLabel }}
+        </base-button>
+      </div>
+    </slot>
   </div>
 </template>
 
 <script setup>
-  import { computed, ref } from 'vue';
+  import { computed, ref, toValue } from 'vue';
+  import CalendarInterface from '@/interfaces/calendar/calendar.interface';
   import BaseCalendar from '@/components/common/picker/date/base-calendar.vue';
   import ControlMenu from '@/components/common/picker/date/control-menu.vue';
-  import CalendarInterface from '@/interfaces/calendar/calendar.interface';
+  import DatepickerHeader from '@/components/common/picker/date/header.vue';
 
   const props = defineProps({
     calendar: {
       type: CalendarInterface,
       required: true,
     },
+    placeholder: {
+      type: String,
+      default: 'Selected date',
+    },
+    supportingText: {
+      type: String,
+      default: 'Select date',
+    },
+    okLabel: {
+      type: String,
+      default: 'OK',
+    },
+    cancelLabel: {
+      type: String,
+      default: 'Cancel',
+    },
   });
 
-  const today = computed(() => props.calendar.todayAsObject);
+  const emit = defineEmits([
+    'action:cancel',
+    'action:ok',
+    'change:selectedDate',
+  ]);
+
   //TODO: Add default value from props
-  const viewDate = ref({ ...today.value });
-
-  const todayDay = computed(() => {
-    const { year, month, day } = today.value;
-    const { year: viewYear, month: viewMonth } = viewDate.value;
-
-    if (year === viewYear && month === viewMonth) {
-      return day;
-    }
-
-    return null;
-  });
+  const viewDate = ref({ ...props.calendar.todayAsObject });
 
   const yearPickerVisibility = ref(false);
   const menuButtonIcon = computed(() =>
@@ -74,7 +100,7 @@
 
   const startDayOfMonth = computed(() => {
     const { year, month } = viewDate.value;
-    return props.calendar.getFirstDayOfMonth(year, month);
+    return props.calendar.getDayOfWeek(year, month);
   });
 
   const calendarViewHeight = computed(() => {
@@ -93,6 +119,37 @@
   const calendarTransitionName = ref('calendar-forward');
   const updateCalendarTransitionName = (name) => {
     calendarTransitionName.value = name;
+  };
+
+  const modelValue = defineModel({
+    type: Object,
+    validator(date) {
+      const { year, month, day } = date;
+      return year && month && day;
+    },
+  });
+
+  const selectDate = (dateObject) => {
+    modelValue.value = dateObject;
+    emit('change:selectedDate', modelValue.value);
+  };
+
+  const headlineText = computed(() => {
+    if (!modelValue.value) return props.placeholder;
+
+    const { year, month, day } = modelValue.value;
+
+    const weekDayIndex = props.calendar.getDayOfWeek(year, month, day);
+    const weekDay = props.calendar.weekDayList[weekDayIndex];
+
+    const monthLabelShort = props.calendar.monthList[month - 1].slice(0, 3);
+
+    return `${weekDay}, ${monthLabelShort} ${day}`;
+  });
+
+  const pickDate = () => {
+    //NOTE: for now only support Object format but here is where we convert formats later
+    emit('action:pickDate', modelValue);
   };
 
   /**
@@ -129,6 +186,18 @@
   .date-picker {
     width: 360px;
     background-color: var(--palette-surface-container-high);
+    border-radius: $radius-7x;
+
+    &__header {
+      border-bottom: 1px solid var(--palette-outline-variant);
+    }
+
+    &__actions {
+      @include flex($align: center, $justify: flex-end);
+      gap: space(2);
+      padding: space(2) space(3) space(3);
+      --base-button-min-width: auto;
+    }
   }
 
   .calendar-view {

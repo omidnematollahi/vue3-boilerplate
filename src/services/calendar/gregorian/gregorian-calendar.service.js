@@ -57,13 +57,14 @@ class GregorianCalendar extends CalendarInterface {
   }
 
   /**
-   * Calculate the first day of the month for a given year and month using Zeller's Congruence.
+   * Calculate the day of the given date using Zeller's Congruence.
    * @param {number} year - The year.
    * @param {number} month - The month (1-12).
+   * @param {number} [day=1] - The day (1-31).
    * @returns {number} The day of the week (0-6) where 0 is Sunday, 1 is Monday, etc.
    * @throws {Error} If the month is not between 1 and 12.
    */
-  getFirstDayOfMonth(year, month) {
+  getDayOfWeek(year, month, day = 1) {
     if (month < 1 || month > 12) {
       throw new Error('Month must be between 1 and 12.');
     }
@@ -73,13 +74,12 @@ class GregorianCalendar extends CalendarInterface {
       year -= 1;
     }
 
-    const dayOfMonth = 1;
     const adjustedMonth = month;
     const yearOfCentury = year % 100;
     const zeroBasedCentury = Math.floor(year / 100);
 
     const dayOfWeekIndex =
-      (dayOfMonth +
+      (day +
         Math.floor((13 * (adjustedMonth + 1)) / 5) +
         yearOfCentury +
         Math.floor(yearOfCentury / 4) +
