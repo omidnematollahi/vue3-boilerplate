@@ -22,6 +22,8 @@
           :current-date="viewDate"
           :calendar="calendar"
           :key="viewDate.month"
+          :selected-start-date="modelValue"
+          @click:date="selectDate"
         />
       </transition>
     </div>
@@ -29,7 +31,7 @@
 </template>
 
 <script setup>
-  import { computed, ref } from 'vue';
+  import { computed, ref, toValue } from 'vue';
   import CalendarInterface from '@/interfaces/calendar/calendar.interface';
   import BaseCalendar from '@/components/common/picker/date/base-calendar.vue';
   import ControlMenu from '@/components/common/picker/date/control-menu.vue';
@@ -39,6 +41,10 @@
     calendar: {
       type: CalendarInterface,
       required: true,
+    },
+    placeholder: {
+      type: String,
+      default: 'Selected date',
     },
   });
 
@@ -87,8 +93,29 @@
     calendarTransitionName.value = name;
   };
 
+  const modelValue = defineModel({
+    type: Object,
+    validator(date) {
+      const { year, month, day } = date;
+      return year && month && day;
+    },
+  });
+
+  const selectDate = (dateObject) => {
+    modelValue.value = dateObject;
+  };
+
   const headlineText = computed(() => {
-    return 'Mon, Aug 17';
+    if (!modelValue.value) return props.placeholder;
+
+    const { year, month, day } = modelValue.value;
+
+    const weekDayIndex = props.calendar.getDayOfWeek(year, month, day);
+    const weekDay = props.calendar.weekDayList[weekDayIndex];
+
+    const monthLabelShort = props.calendar.monthList[month - 1].slice(0, 3);
+
+    return `${weekDay}, ${monthLabelShort} ${day}`;
   });
 
   /**
