@@ -1,6 +1,6 @@
 import { createApp as createVueApp } from 'vue';
 
-import App from '@/app.vue';
+import App from '@/App.vue';
 import { registerPlugins } from '@/plug-in';
 import { registerCommonComponents } from '@/components';
 
