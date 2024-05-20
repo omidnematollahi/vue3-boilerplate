@@ -68,17 +68,7 @@
     cursor: pointer;
     overflow: hidden;
 
-    &::before {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      @include transition(standard-accelerate) {
-        transition-property: background-color, opacity;
-      }
-    }
+    @include state-layer($element: true);
 
     &_filled {
       background-color: var(--palette-surface-container-high);
@@ -88,30 +78,13 @@
         transition-property: background-color, color;
       }
 
-      &::before {
-        opacity: 0.08;
-      }
-
-      &:hover::before {
-        background-color: var(--palette-primary);
-      }
-
-      &:active::before {
-        background-color: var(--palette-primary);
-        opacity: 0.1;
-      }
+      @include state-layer(var(--palette-primary), $events: true);
 
       &#{$icon-button}_selected {
         background-color: var(--palette-primary);
         color: var(--palette-on-primary);
 
-        &:hover::before {
-          background-color: var(--palette-on-primary);
-        }
-
-        &:active::before {
-          background-color: var(--palette-on-primary);
-        }
+        @include state-layer(var(--palette-on-primary), $events: true);
       }
     }
 
@@ -123,30 +96,16 @@
         transition-property: background-color, color;
       }
 
-      &::before {
-        opacity: 0.08;
-      }
-
-      &:hover::before {
-        background-color: var(--palette-on-surface-variant);
-      }
-
-      &:active::before {
-        background-color: var(--palette-on-surface-variant);
-        opacity: 0.1;
-      }
+      @include state-layer(var(--palette-on-surface-variant), $events: true);
 
       &#{$icon-button}_selected {
         background-color: var(--palette-secondary-container);
         color: var(--palette-on-secondary-container);
 
-        &:hover::before {
-          background-color: var(--palette-on-secondary-container);
-        }
-
-        &:active::before {
-          background-color: var(--palette-on-secondary-container);
-        }
+        @include state-layer(
+          var(--palette-on-secondary-container),
+          $events: true
+        );
       }
     }
 
@@ -158,60 +117,23 @@
         transition-property: background-color, color;
       }
 
-      &::before {
-        opacity: 0.08;
-      }
-
-      &:hover::before {
-        background-color: var(--palette-on-surface-variant);
-      }
-
-      &:active::before {
-        background-color: var(--palette-on-surface);
-        opacity: 0.1;
-      }
+      @include state-layer(var(--palette-on-surface-variant), $events: true);
 
       &#{$icon-button}_selected {
         background-color: var(--palette-inverse-surface);
         border-color: transparent;
         color: var(--palette-inverse-on-surface);
-
-        &:hover::before {
-          background-color: var(--palette-inverse-on-surface);
-        }
-
-        &:active::before {
-          background-color: var(--palette-inverse-on-surface);
-        }
+        @include state-layer(var(--palette-inverse-on-surface), $events: true);
       }
     }
 
     &_standard {
       color: var(--palette-on-surface-variant);
-
-      &::before {
-        opacity: 0.08;
-      }
-
-      &:hover::before {
-        background-color: var(--palette-on-surface-variant);
-      }
-
-      &:active::before {
-        background-color: var(--palette-on-surface-variant);
-        opacity: 0.1;
-      }
+      @include state-layer(var(--palette-on-surface-variant), $events: true);
 
       &#{$icon-button}_selected {
         color: var(--palette-primary);
-
-        &:hover::before {
-          background-color: var(--palette-primary);
-        }
-
-        &:active::before {
-          background-color: var(--palette-primary);
-        }
+        @include state-layer(var(--palette-primary), $events: true);
       }
     }
 
