@@ -85,10 +85,8 @@
     modelValue.value = visibility;
   };
 
-  const canDismiss = computed(() => props.dismissible);
-
   const requestHideScrim = (event) => {
-    if (!canDismiss.value) {
+    if (!props.dismissible) {
       return;
     }
 
@@ -106,12 +104,13 @@
     setScrimVisibility(false);
   };
 
+  //TODO: check if we can customize event name by id so unrelated subscribers won't be called
   const hideScrimByEscape = (data) => {
     if (scrimItemId !== data.scrimItemId) {
       return;
     }
 
-    if (!canDismiss.value || !props.dismissByEscape) {
+    if (!props.dismissible || !props.dismissByEscape) {
       return;
     }
 
