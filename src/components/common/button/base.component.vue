@@ -100,24 +100,14 @@
       padding-right: v-bind('paddings.leading');
     }
 
-    &::before {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      @include transition(standard-accelerate) {
-        transition-property: background-color, opacity;
-      }
-    }
-
     &__content {
       position: relative;
       z-index: 1;
       @include flex($align: center, $justify: center);
       gap: space(2);
     }
+
+    @include state-layer($element: true);
 
     &_elevated {
       background-color: var(--palette-surface-container-low);
@@ -127,25 +117,14 @@
         transition-property: box-shadow;
       }
 
-      &::before {
-        opacity: 0.08;
-      }
+      @include state-layer(var(--palette-primary), $events: true);
 
       &:hover {
         @include elevation($level: 2);
-
-        &::before {
-          background-color: var(--palette-primary);
-        }
       }
 
       &:active {
         @include elevation($level: 1);
-
-        &::before {
-          background-color: var(--palette-primary);
-          opacity: 0.1;
-        }
       }
     }
 
@@ -156,25 +135,14 @@
         transition-property: box-shadow;
       }
 
-      &::before {
-        opacity: 0.08;
-      }
+      @include state-layer(var(--palette-on-primary), $events: true);
 
       &:hover {
         @include elevation($level: 1);
-
-        &::before {
-          background-color: var(--palette-on-primary);
-        }
       }
 
       &:active {
         box-shadow: none;
-
-        &::before {
-          background-color: var(--palette-on-primary);
-          opacity: 0.1;
-        }
       }
     }
 
@@ -185,25 +153,17 @@
         transition-property: box-shadow;
       }
 
-      &::before {
-        opacity: 0.08;
-      }
+      @include state-layer(
+        var(--palette-on-secondary-container),
+        $events: true
+      );
 
       &:hover {
         @include elevation($level: 1);
-
-        &::before {
-          background-color: var(--palette-on-secondary-container);
-        }
       }
 
       &:active {
         box-shadow: none;
-
-        &::before {
-          background-color: var(--palette-on-secondary-container);
-          opacity: 0.1;
-        }
       }
     }
 
@@ -211,35 +171,12 @@
       --base-button-color: var(--palette-primary);
       border: 1px solid var(--palette-outline);
 
-      &::before {
-        opacity: 0.08;
-      }
-
-      &:hover::before {
-        background-color: var(--palette-primary);
-      }
-
-      &:active::before {
-        background-color: var(--palette-primary);
-        opacity: 0.1;
-      }
+      @include state-layer(var(--palette-primary), $events: true);
     }
 
     &_text {
       --base-button-color: var(--palette-primary);
-
-      &::before {
-        opacity: 0.08;
-      }
-
-      &:hover::before {
-        background-color: var(--palette-primary);
-      }
-
-      &:active::before {
-        background-color: var(--palette-primary);
-        opacity: 0.1;
-      }
+      @include state-layer(var(--palette-primary), $events: true);
 
       @at-root [dir='ltr'] & {
         padding-left: v-bind('textVariantPaddings.leading');

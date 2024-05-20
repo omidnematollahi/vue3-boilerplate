@@ -31,7 +31,7 @@
   transition: {
     property: transform, opacity;
     duration: map-get($duration, medium-2);
-    timing-function: map-get($easing, linear);
+    timing-function: map-get($easing, easeOutExpo);
   }
 }
 
@@ -41,6 +41,25 @@
   opacity: 0;
 }
 .selected-date-enter-from {
+  position: absolute;
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.year-picker-enter-active {
+  @include transition(standard-decelerate) {
+    transition-property: opacity, transform;
+  }
+}
+
+.year-picker-leave-active {
+  @include transition(standard-accelerate) {
+    transition-property: opacity, transform;
+  }
+}
+
+.year-picker-leave-to,
+.year-picker-enter-from {
   position: absolute;
   transform: translateY(-100%);
   opacity: 0;

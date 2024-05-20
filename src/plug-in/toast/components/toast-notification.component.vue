@@ -12,7 +12,6 @@
 
 <script setup>
   //TODO: incomplete component
-  import BaseIcon from '@/components/common/base-icon/base-icon.component.vue';
   import { computed } from 'vue';
 
   const emit = ['action:dismiss'];
