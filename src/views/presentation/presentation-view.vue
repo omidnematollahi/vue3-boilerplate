@@ -1,10 +1,11 @@
 <template>
   <div class="presentation">
     <h1 class="presentation__title">Presentation</h1>
+    <date-picker-presentation class="presentation__section" />
     <radio-input-presentation class="presentation__section" />
     <switch-presentation class="presentation__section" />
     <snackbar-presentation class="presentation__section" />
-    <progress-bar class="presentation__section" />
+    <progress-bar-presentation class="presentation__section" />
     <segmented-button-presentation class="presentation__section" />
     <button-presentation class="presentation__section" />
     <icon-button-presentation class="presentation__section" />
@@ -18,7 +19,8 @@
   import ButtonPresentation from '@/components/view/presentation/button.component.vue';
   import IconButtonPresentation from '@/components/view/presentation/icon-button.component.vue';
   import SegmentedButtonPresentation from '@/components/view/presentation/segmented-button.component.vue';
-  import ProgressBar from '@/components/view/presentation/progress-bar.component.vue';
+  import ProgressBarPresentation from '@/components/view/presentation/progress-bar.component.vue';
+  import DatePickerPresentation from '@/components/view/presentation/date-picker.component.vue';
 </script>
 
 <style lang="scss" scoped>
