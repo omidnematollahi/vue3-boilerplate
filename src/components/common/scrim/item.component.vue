@@ -62,6 +62,7 @@
   const setBounding = (bounding) => {
     boundingProperties.forEach((property) => {
       const propertyValue = modelValue.value ? `${bounding[property]}px` : '';
+      //TODO: may use :style on template element instead of direct DOM update
       itemElement.value.style[property] = propertyValue;
     });
   };
