@@ -104,13 +104,8 @@
     setScrimVisibility(false);
   };
 
-  //TODO: check if we can customize event name by id so unrelated subscribers won't be called
   const hideScrimByEscape = (data) => {
-    if (scrimItemId !== data.scrimItemId) {
-      return;
-    }
-
-    if (!props.dismissible || !props.dismissByEscape) {
+    if (!props.dismissByEscape) {
       return;
     }
 
@@ -122,7 +117,7 @@
   const toggleEscapeEventListener = (action = 'add') => {
     if (action === 'add') {
       const { unsubscribe } = eventBus.subscribeOn(
-        'scrim:escape',
+        `scrim:escape-${scrimItemId}`,
         hideScrimByEscape
       );
 

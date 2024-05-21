@@ -44,15 +44,15 @@
       return;
     }
 
-    eventBus.publish('scrim:escape', { scrimItemId: latestScrimItemId });
+    eventBus.publish(`scrim:escape-${latestScrimItemId}`);
   };
 
   const toggleEscapeListener = (action) => {
     if (action === 'add') {
-      return scrimElement.value.addEventListener('keyup', onKeyUp);
+      return document.addEventListener('keyup', onKeyUp);
     }
 
-    scrimElement.value.removeEventListener('keyup', onKeyUp);
+    document.removeEventListener('keyup', onKeyUp);
   };
 
   onMounted(() => {
