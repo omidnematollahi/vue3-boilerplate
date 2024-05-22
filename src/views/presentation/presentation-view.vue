@@ -1,6 +1,7 @@
 <template>
   <div class="presentation">
     <h1 class="presentation__title">Presentation</h1>
+    <side-sheet-presentation class="presentation__section" />
     <date-picker-presentation class="presentation__section" />
     <radio-input-presentation class="presentation__section" />
     <switch-presentation class="presentation__section" />
@@ -21,6 +22,7 @@
   import SegmentedButtonPresentation from '@/components/view/presentation/segmented-button.component.vue';
   import ProgressBarPresentation from '@/components/view/presentation/progress-bar.component.vue';
   import DatePickerPresentation from '@/components/view/presentation/date-picker.component.vue';
+  import SideSheetPresentation from '@/components/view/presentation/side-sheet.component.vue';
 </script>
 
 <style lang="scss" scoped>

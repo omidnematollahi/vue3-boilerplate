@@ -1,0 +1,28 @@
+@use '../abstracts/mixin' as *;
+
+$side-sheet: (
+  modal-side-sheet-color: var(--palette-surface-container-low),
+);
+
+.side-sheet-enter-active {
+  @include transition(standard-decelerate) {
+    transition-property: transform;
+  }
+}
+
+.side-sheet-leave-active {
+  @include transition(standard-accelerate) {
+    transition-property: transform;
+  }
+}
+
+.side-sheet-leave-to,
+.side-sheet-enter-from {
+  @at-root [dir='ltr'] & {
+    transform: translateX(100%);
+  }
+
+  @at-root [dir='rtl'] & {
+    transform: translateX(-100%);
+  }
+}
