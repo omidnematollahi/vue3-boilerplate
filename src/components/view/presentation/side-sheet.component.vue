@@ -6,8 +6,10 @@
       <base-button @click="openSideSheet">Open Side Sheet</base-button>
       <modal-side-sheet
         v-model="sideSheetVisibility"
-        :back-button="true"
+        :has-back-button="true"
         :has-inset="false"
+        :dismissible="false"
+        :dismiss-by-escape="false"
       >
         <div class="presenter__content">
           <p>
