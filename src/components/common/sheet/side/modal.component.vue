@@ -17,6 +17,7 @@
 
   defineEmits(['action:back']);
 
+  //NOTE: scrim-item props (such as dismissible, dismissByEscape) are available by default, no need to define as props again
   const props = defineProps({
     hasBackButton: {
       type: Boolean,
