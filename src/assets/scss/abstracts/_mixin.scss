@@ -102,8 +102,11 @@
       top: 0;
       left: 0;
       opacity: 0;
-      @include transition(standard-accelerate) {
-        transition-property: background-color, opacity;
+
+      transition: {
+        property: background-color, opacity;
+        duration: map-get($duration, short-3);
+        timing-function: map-get($easing, linear);
       }
     }
   }
