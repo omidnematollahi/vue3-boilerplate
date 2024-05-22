@@ -69,6 +69,7 @@
       var(--palette-surface-container-low)
     );
     overflow: hidden;
+    @include flex(column, $align: stretch);
 
     &__header {
       @include flex($align: center);
