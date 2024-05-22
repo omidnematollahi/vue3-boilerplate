@@ -14,6 +14,7 @@ $easing: (
   standard-accelerate: cubic-bezier(0.3, 0, 1, 1),
   ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1),
   ease-out: ease-out,
+  linear: linear,
   easeInSine: cubic-bezier(0.12, 0, 0.39, 0),
   easeOutSine: cubic-bezier(0.61, 1, 0.88, 1),
   easeInOutSine: cubic-bezier(0.37, 0, 0.63, 1),
