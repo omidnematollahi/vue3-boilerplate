@@ -45,7 +45,7 @@
   .side-sheet {
     $radius: $radius-4x;
     position: fixed;
-    @include elevation(1);
+    @include elevation($level: 1);
 
     @at-root [dir='ltr'] & {
       border: {

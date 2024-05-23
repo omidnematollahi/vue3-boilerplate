@@ -1,6 +1,7 @@
 <template>
   <div class="presentation">
     <h1 class="presentation__title">Presentation</h1>
+    <filter-chip-presentation class="presentation__section" />
     <side-sheet-presentation class="presentation__section" />
     <date-picker-presentation class="presentation__section" />
     <radio-input-presentation class="presentation__section" />
@@ -23,6 +24,7 @@
   import ProgressBarPresentation from '@/components/view/presentation/progress-bar.component.vue';
   import DatePickerPresentation from '@/components/view/presentation/date-picker.component.vue';
   import SideSheetPresentation from '@/components/view/presentation/side-sheet.component.vue';
+  import FilterChipPresentation from '@/components/view/presentation/filter-chip.component.vue';
 </script>
 
 <style lang="scss" scoped>

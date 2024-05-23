@@ -92,7 +92,16 @@
   @content;
 }
 
-@mixin state-layer($color: transparent, $events: false, $element: false) {
+@mixin state-layer(
+  $hover-color: transparent,
+  $active-color: '',
+  $events: false,
+  $element: false
+) {
+  @if ($active-color == '') {
+    $active-color: $hover-color;
+  }
+
   @if $element == true {
     &::before {
       content: '';
@@ -114,12 +123,12 @@
   @if $events == true {
     &:hover::before {
       opacity: 0.08;
-      background-color: $color;
+      background-color: $hover-color;
     }
 
     &:active::before {
       opacity: 0.1;
-      background-color: $color;
+      background-color: $active-color;
     }
   }
 }
