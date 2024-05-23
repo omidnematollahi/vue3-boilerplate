@@ -1,7 +1,7 @@
 <template>
   <div :class="filterChipClasses">
     <div class="filter-chip__content">
-      <div v-if="leadingIcon" class="filter-chip__leading-icon">
+      <div v-if="leadingIconName" class="filter-chip__leading-icon">
         <base-icon
           transition-mode="out-in"
           :icon-name="leadingIconName"
@@ -62,7 +62,7 @@
     const classes = {
       'filter-chip': true,
       'filter-chip_selected': props.isSelected,
-      'filter-chip_padding_start': !props.leadingIcon,
+      'filter-chip_padding_start': !leadingIconName.value,
       'filter-chip_padding_end': !props.trailingIcon,
       'filter-chip_disabled': props.disabled,
     };
