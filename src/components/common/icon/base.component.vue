@@ -66,18 +66,15 @@
   .base-icon {
     width: var(--base-icon-size, 1.5rem);
     height: var(--base-icon-size, 1.5rem);
+    transition-property: opacity, transform, color;
   }
 
   .base-icon-enter-active {
-    @include transition(emphasized-decelerate) {
-      transition-property: opacity, transform;
-    }
+    @include transition(emphasized-decelerate);
   }
 
   .base-icon-leave-active {
-    @include transition(emphasized-accelerate) {
-      transition-property: opacity, transform;
-    }
+    @include transition(emphasized-accelerate);
   }
 
   .base-icon-enter-from,
