@@ -21,7 +21,7 @@
     },
     styleType: {
       type: String,
-      default: 'outlined',
+      default: 'filled',
       validator(type) {
         return ['filled', 'outlined'].includes(type);
       },
