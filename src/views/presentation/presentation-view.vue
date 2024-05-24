@@ -32,6 +32,7 @@
 <style lang="scss" scoped>
   .presentation {
     padding: space(8);
+    background-color: var(--palette-surface-container-low);
 
     &__title {
       @include typography(display-small);
@@ -40,7 +41,7 @@
 
     &__section {
       padding: space(6);
-      background-color: var(--palette-surface-container-low);
+      background-color: var(--palette-surface-container-lowest);
       border: 4px dashed var(--palette-surface-container-high);
       border-radius: $radius-4x;
       margin-top: space(6);
