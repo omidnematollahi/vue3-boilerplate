@@ -1,11 +1,13 @@
 /**
- * Clamp value between 0 and maxValue
+ * Clamp value between min and max values
  * @param {number} value
- * @param {number} maxValue
+ * @param {Object} options
+ * @param {number} [options.min=0]
+ * @param {number} options.max
  * @returns {number} - clamped value
  */
-export const clamp = (value, maxValue) => {
-  return Math.min(Math.max(0, value), maxValue);
+export const clamp = (value, { max, min = 0 }) => {
+  return Math.min(Math.max(min, value), max);
 };
 
 export default { clamp };

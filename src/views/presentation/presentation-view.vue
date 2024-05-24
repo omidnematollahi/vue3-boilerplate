@@ -1,6 +1,7 @@
 <template>
   <div class="presentation">
     <h1 class="presentation__title">Presentation</h1>
+    <stepper-input-presentation class="presentation__section" />
     <filter-chip-presentation class="presentation__section" />
     <side-sheet-presentation class="presentation__section" />
     <date-picker-presentation class="presentation__section" />
@@ -25,11 +26,13 @@
   import DatePickerPresentation from '@/components/view/presentation/date-picker.component.vue';
   import SideSheetPresentation from '@/components/view/presentation/side-sheet.component.vue';
   import FilterChipPresentation from '@/components/view/presentation/filter-chip.component.vue';
+  import StepperInputPresentation from '@/components/view/presentation/stepper-input.component.vue';
 </script>
 
 <style lang="scss" scoped>
   .presentation {
     padding: space(8);
+    background-color: var(--palette-surface-container-low);
 
     &__title {
       @include typography(display-small);
@@ -38,7 +41,7 @@
 
     &__section {
       padding: space(6);
-      // background-color: var(--palette-surface-container-low);
+      background-color: var(--palette-surface-container-lowest);
       border: 4px dashed var(--palette-surface-container-high);
       border-radius: $radius-4x;
       margin-top: space(6);

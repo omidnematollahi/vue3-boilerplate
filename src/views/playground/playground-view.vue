@@ -1,24 +1,13 @@
 <template>
   <div class="container">
-    <filter-chip
-      class="container__chip"
-      label-text="Filter Chip"
-      leading-icon="favorite"
-      trailing-icon="favorite"
-      :is-selected="isSelected"
-      @click="isSelected = !isSelected"
-    />
+    <stepper-input :step="3" v-model="value" />
   </div>
 </template>
 
 <script setup>
   import { ref } from 'vue';
 
-  const isSelected = ref(false);
-
-  const openSideSheet = () => {
-    isSelected.value = true;
-  };
+  const value = ref(0);
 </script>
 
 <style lang="scss" scoped>
@@ -29,8 +18,5 @@
     padding: 24px;
     border-radius: 24px;
     width: 600px;
-
-    &__chip {
-    }
   }
 </style>

@@ -134,7 +134,7 @@ const useDraggable = (element, preferredOptions = {}) => {
     const targetWidth = target.offsetWidth;
     const maxPosition = containerWidth - targetWidth;
 
-    const clampedX = clamp(pointerMovedDistance, maxPosition);
+    const clampedX = clamp(pointerMovedDistance, { max: maxPosition, min: 0 });
 
     distancePercentage.value.x = Math.round((clampedX * 100) / maxPosition);
 
@@ -159,7 +159,7 @@ const useDraggable = (element, preferredOptions = {}) => {
     const targetHeight = target.offsetHeight;
     const maxPosition = containerHeight - targetHeight;
 
-    const clampedY = clamp(pointerMovedDistance, maxPosition);
+    const clampedY = clamp(pointerMovedDistance, { max: maxPosition, min: 0 });
 
     distancePercentage.value.y = Math.round((clampedY * 100) / maxPosition);
 
