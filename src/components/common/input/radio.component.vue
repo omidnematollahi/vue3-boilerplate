@@ -102,6 +102,7 @@
     &__label {
       user-select: none;
       @include typography(label-large);
+      color: var(--palette-on-surface);
       padding: 0 space(4);
     }
 
