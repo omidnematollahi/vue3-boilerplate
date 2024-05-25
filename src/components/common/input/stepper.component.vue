@@ -1,15 +1,16 @@
 <template>
-  <div class="stepper">
+  <div :class="stepperClasses">
     <icon-button
       class="stepper__icon"
       icon-name="remove"
       variant="filled"
       style-type="filled"
+      :disabled="disabled"
       @click="updateValueByStep(-1)"
     />
     <div
       class="stepper__input"
-      :contenteditable="isContentEditable"
+      :contenteditable="!disabled && isContentEditable"
       ref="inputElement"
       @input="enterValue"
       @blur="equalizeValues"
@@ -22,13 +23,14 @@
       icon-name="add"
       variant="filled"
       style-type="filled"
+      :disabled="disabled"
       @click="updateValueByStep(1)"
     />
   </div>
 </template>
 
 <script setup>
-  import { nextTick, ref } from 'vue';
+  import { computed, nextTick, ref } from 'vue';
   import { clamp } from '@/utils/math.util';
   import { moveCursorToEnd } from '@/utils/dom.util';
 
@@ -49,7 +51,16 @@
         return range.length === 2 && max >= min;
       },
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   });
+
+  const stepperClasses = computed(() => ({
+    stepper: true,
+    stepper_disabled: props.disabled,
+  }));
 
   const inputElement = ref(null);
   const isContentEditable = ref(false);
@@ -148,6 +159,26 @@
 
     &__icon {
       flex-shrink: 0;
+    }
+
+    &_disabled {
+      opacity: 0.38;
+      background-color: transparent;
+      pointer-events: none;
+      color: var(--palette-on-surface);
+      position: relative;
+      overflow: hidden;
+
+      &::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: var(--palette-on-surface);
+        opacity: 0.12;
+      }
     }
   }
 </style>
