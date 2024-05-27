@@ -1,0 +1,21 @@
+@use '../abstracts/mixin' as *;
+
+.dialog-enter-active {
+  @include transition(emphasized-decelerate) {
+    transform-origin: top;
+    transition-property: transform, opacity;
+  }
+}
+
+.dialog-leave-active {
+  @include transition(emphasized-accelerate) {
+    transform-origin: top;
+    transition-property: transform, opacity;
+  }
+}
+
+.dialog-leave-to,
+.dialog-enter-from {
+  transform: scaleY(0);
+  opacity: 0;
+}
