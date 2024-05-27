@@ -1,5 +1,15 @@
 @use '../abstracts/_colors' as *;
 
+// NOTE: Deprecation flag
+// https://material.io/blog/tone-based-surface-color-m3
+// ----------------------------------------------------
+// Surface Container Lowest is a new role
+// Surface at elevation +1 becomes Surface Container Low
+// Surface at elevation +2 becomes Surface Container
+// Surface at elevation +3 becomes Surface Container High
+// Surface at elevation +4 and +5 are being deprecated, it is recommended to use Surface Container Highest by default as a replacement. As an alternative Surface Container High, or Surface Dim can be used depending on the specific use case.
+// Surface Variant becomes Surface Container Highest
+
 $light-theme: (
   primary: map-get($primary, 40),
   on-primary: map-get($primary, 100),
@@ -22,7 +32,6 @@ $light-theme: (
   surface-container-low: map-get($neutral, 98),
   surface-container: map-get($neutral-variant, 95),
   surface-container-high: map-get($neutral-variant, 90),
-  // deprecated
   surface-container-highest: map-get($neutral-variant, 90),
   inverse-surface: map-get($neutral, 20),
   inverse-on-surface: map-get($neutral, 95),
