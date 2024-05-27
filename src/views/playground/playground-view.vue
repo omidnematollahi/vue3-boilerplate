@@ -1,18 +1,41 @@
 <template>
   <div class="container">
-    <stepper-input :step="3" v-model="value" />
+    <base-button @click="openDialog">Open Dialog</base-button>
+    <basic-dialog
+      v-model="dialogVisibility"
+      icon-name="favorite"
+      icon-style-type="outlined"
+      headline-text="Dialog with icon"
+      primary-action-label="Confirm"
+      secondary-action-label="Cancel"
+      @action="takeAction"
+    >
+      <template #supporting-text>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laudantium
+        blanditiis, provident iste labore nobis, molestias cupiditate ad
+        repellat est amet asperiores nihil. Nesciunt sed, ex a quaerat in nam
+        inventore!
+      </template>
+    </basic-dialog>
   </div>
 </template>
 
 <script setup>
   import { ref } from 'vue';
 
-  const value = ref(0);
+  const dialogVisibility = ref(false);
+
+  const takeAction = (action) => {
+    console.log(action);
+  };
+
+  const openDialog = () => {
+    dialogVisibility.value = true;
+  };
 </script>
 
 <style lang="scss" scoped>
   .container {
-    @include flex;
     margin: 64px auto;
     // border: 4px dashed var(--palette-primary);
     padding: 24px;

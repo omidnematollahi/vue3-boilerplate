@@ -1,6 +1,10 @@
 <template>
   <Teleport to="#scrim" :disabled="!isTeleported">
-    <div @click="requestHideScrim" :data-id="scrimItemId">
+    <div
+      @click="requestHideScrim"
+      :data-id="scrimItemId"
+      :class="wrapperClasses"
+    >
       <transition name="fade">
         <div :class="scrimClasses" v-if="modelValue"></div>
       </transition>
@@ -57,6 +61,11 @@
   const scrimItemClasses = computed(() => ({
     'scrim-item': true,
     'scrim-item_custom-position': !props.autoPosition,
+  }));
+
+  const wrapperClasses = computed(() => ({
+    wrapper: !props.autoPosition,
+    wrapper_visible: isTeleported.value && !props.autoPosition,
   }));
 
   const setBounding = (bounding) => {
@@ -146,6 +155,20 @@
 </script>
 
 <style lang="scss" scoped>
+  //FIXME: fix BEM
+  .wrapper {
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+
+    &_visible {
+      pointer-events: auto;
+    }
+  }
+
   .scrim_teleported {
     position: fixed;
     width: 100%;
@@ -165,6 +188,10 @@
     &_custom-position {
       top: 0;
       left: 0;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: grid;
     }
   }
 </style>

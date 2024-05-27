@@ -4,25 +4,40 @@ $side-sheet: (
   modal-side-sheet-color: var(--palette-surface-container-low),
 );
 
+.side-sheet-enter-active,
+.side-sheet-leave-active {
+  @at-root [dir='ltr'] & {
+    transform-origin: right;
+  }
+
+  @at-root [dir='rtl'] & {
+    transform-origin: left;
+  }
+}
+
 .side-sheet-enter-active {
   @include transition(standard-decelerate) {
-    transition-property: transform;
+    transition-property: transform, opacity;
   }
 }
 
 .side-sheet-leave-active {
   @include transition(standard-accelerate) {
-    transition-property: transform;
+    transition-property: transform, opacity;
   }
 }
 
 .side-sheet-leave-to,
 .side-sheet-enter-from {
+  opacity: 0;
+
   @at-root [dir='ltr'] & {
-    transform: translateX(100%);
+    transform: translateX(10%) scaleX(0);
+    transform-origin: right;
   }
 
   @at-root [dir='rtl'] & {
-    transform: translateX(-100%);
+    transform: translateX(-10%) scaleX(0);
+    transform-origin: left;
   }
 }

@@ -1,6 +1,7 @@
 @use './toast-manager.scss' as *;
 @use './date-picker.scss' as *;
 @use './side-sheet.scss' as *;
+@use './dialog.scss' as *;
 
 $components: (
   toast-manager: $toast-manager,
