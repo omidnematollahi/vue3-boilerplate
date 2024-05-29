@@ -2,8 +2,10 @@
 @use './date-picker.scss' as *;
 @use './side-sheet.scss' as *;
 @use './dialog.scss' as *;
+@use './skeleton.scss' as *;
 
 $components: (
   toast-manager: $toast-manager,
   side-sheet: $side-sheet,
+  skeleton: $skeleton,
 );

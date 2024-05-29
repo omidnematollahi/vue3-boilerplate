@@ -13,7 +13,6 @@
 
 <script setup>
   import { computed } from 'vue';
-  import { useLocale } from '@/plug-in/i18n';
 
   defineEmits(['action:back']);
 
