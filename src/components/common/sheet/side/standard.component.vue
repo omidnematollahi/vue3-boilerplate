@@ -9,7 +9,7 @@
           :icon-name="backIcon"
           @click="$emit('action:back')"
         />
-        <span class="side-sheet__title"> Title </span>
+        <span class="side-sheet__title"> {{ titleText }} </span>
         <icon-button
           class="side-sheet__close-btn"
           style-type="filled"
@@ -37,6 +37,7 @@
       type: Boolean,
       default: true,
     },
+    titleText: String,
   });
 
   const sideSheetClasses = computed(() => ({

@@ -27,6 +27,7 @@
         :has-inset="false"
         :dismissible="true"
         :dismiss-by-escape="true"
+        title-text="Title"
       >
         <div class="presenter__content">
           <p>

@@ -173,7 +173,6 @@
     position: fixed;
     width: 100%;
     height: 100%;
-    overflow: hidden;
     background-color: v-bind(scrimColor);
     overflow: hidden;
     top: 0;
