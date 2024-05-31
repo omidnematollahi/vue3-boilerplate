@@ -3,13 +3,30 @@
     <h3 class="presenter__title">SideSheet Component Presentation</h3>
     <!-- SideSheet Component -->
     <div class="presenter__container">
+      <base-button @click="openDialog">Open Dialog</base-button>
+      <basic-dialog
+        v-model="dialogVisibility"
+        icon-name="favorite"
+        icon-style-type="outlined"
+        headline-text="Dialog with icon"
+        primary-action-label="Confirm"
+        secondary-action-label="Cancel"
+        @action="takeAction"
+      >
+        <template #supporting-text>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laudantium
+          blanditiis, provident iste labore nobis, molestias cupiditate ad
+          repellat est amet asperiores nihil. Nesciunt sed, ex a quaerat in nam
+          inventore!
+        </template>
+      </basic-dialog>
       <base-button @click="openSideSheet">Open Side Sheet</base-button>
       <modal-side-sheet
         v-model="sideSheetVisibility"
         :has-back-button="true"
         :has-inset="false"
-        :dismissible="false"
-        :dismiss-by-escape="false"
+        :dismissible="true"
+        :dismiss-by-escape="true"
       >
         <div class="presenter__content">
           <p>
@@ -94,6 +111,15 @@
   const sideSheetVisibility = ref(false);
   const openSideSheet = () => {
     sideSheetVisibility.value = true;
+  };
+
+  const dialogVisibility = ref(false);
+  const openDialog = () => {
+    dialogVisibility.value = true;
+  };
+
+  const takeAction = () => {
+    dialogVisibility.value = false;
   };
 </script>
 
