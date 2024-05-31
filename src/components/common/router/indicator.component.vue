@@ -1,11 +1,5 @@
 <template>
-  <layout-view>
-    <router-view v-slot="{ Component, route }">
-      <transition :name="route.meta.transition || 'scale-fade'" appear>
-        <component :is="Component" :key="route.path" />
-      </transition>
-    </router-view>
-  </layout-view>
+  <slot />
   <transition name="collapse-height" appear>
     <linear-progress-indicator
       v-if="indicatorPercentage"
