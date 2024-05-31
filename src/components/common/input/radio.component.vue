@@ -48,6 +48,7 @@
       padding: space(0.5);
       border-radius: $circle;
       position: relative;
+      z-index: 1;
       @include transition {
         transition-property: border-color;
       }
