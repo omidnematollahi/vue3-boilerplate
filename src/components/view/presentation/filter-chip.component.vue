@@ -3,16 +3,13 @@
     <h3 class="presenter__title">Filter Chip Component Presentation</h3>
     <!-- Filter Chip Component -->
     <div class="presenter__container">
-      <filter-chip
-        class="presenter__filter-chip"
-        label-text="Cameras"
-        :is-selected="isSelected"
-        @click="isSelected = !isSelected"
-      />
+      <filter-chip class="presenter__filter-chip" label-text="Cameras" />
       <filter-chip
         class="presenter__filter-chip"
         label-text="Laptops"
         leading-icon="favorite"
+        :is-selected="isSelected"
+        @click="isSelected = !isSelected"
       />
       <filter-chip
         class="presenter__filter-chip"
