@@ -5,6 +5,7 @@
       v-model="modelValue"
       :has-back-button="hasBackButton"
       :has-divider="false"
+      :title-text="titleText"
     >
       <slot />
     </standard-side-sheet>
@@ -26,6 +27,7 @@
       type: Boolean,
       default: false,
     },
+    titleText: String,
   });
 
   const sideSheetClasses = computed(() => ({
