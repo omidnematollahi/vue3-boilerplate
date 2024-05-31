@@ -13,6 +13,7 @@
 
 <script setup>
   import { defineAsyncComponent, computed } from 'vue';
+  import BaseSkeleton from '@/components/common/skeleton/base.component.vue';
 
   const props = defineProps({
     iconName: {
@@ -42,22 +43,25 @@
     const iconName = props.iconName;
     const type = props.styleType;
 
-    return defineAsyncComponent(async () => {
-      let module;
-      try {
-        module = await import(
-          `../../../assets/icons/${type}/${iconName}.icon.vue`
-        );
-      } catch (error) {
-        const fallbackIconType = getFallbackIconType();
-        console.warn(
-          `using fallback icon style ("${iconName}" icon) -> [${fallbackIconType}]`
-        );
-        module = await import(
-          `../../../assets/icons/${fallbackIconType}/${iconName}.icon.vue`
-        );
-      }
-      return module;
+    return defineAsyncComponent({
+      loadingComponent: BaseSkeleton,
+      loader: async () => {
+        let module;
+        try {
+          module = await import(
+            `../../../assets/icons/${type}/${iconName}.icon.vue`
+          );
+        } catch (error) {
+          const fallbackIconType = getFallbackIconType();
+          console.warn(
+            `using fallback icon style ("${iconName}" icon) -> [${fallbackIconType}]`
+          );
+          module = await import(
+            `../../../assets/icons/${fallbackIconType}/${iconName}.icon.vue`
+          );
+        }
+        return module;
+      },
     });
   });
 </script>
