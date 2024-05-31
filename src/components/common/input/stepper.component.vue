@@ -8,16 +8,12 @@
       :disabled="disabled"
       @click="updateValueByStep(-1)"
     />
-    <div
+    <input
       class="stepper__input"
-      :contenteditable="!disabled && isContentEditable"
-      ref="inputElement"
-      @input="enterValue"
-      @blur="equalizeValues"
-      @click="focusInput"
-    >
-      {{ modelValue }}
-    </div>
+      :value="inputValue"
+      @input="updateValue($event.target.value)"
+      @blur="handleEmptyValue"
+    />
     <icon-button
       class="stepper__icon"
       icon-name="add"
@@ -30,11 +26,23 @@
 </template>
 
 <script setup>
-  import { computed, nextTick, ref } from 'vue';
+  import { computed, nextTick, ref, toRefs } from 'vue';
   import { clamp } from '@/utils/math.util';
-  import { moveCursorToEnd } from '@/utils/dom.util';
+  import { useInput } from '@/plug-in/vee-validate';
 
   const props = defineProps({
+    modelValue: {
+      type: String,
+      default: '0',
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    rules: {
+      type: [String, Object],
+      default: '',
+    },
     step: {
       type: Number,
       default: 1,
@@ -51,6 +59,10 @@
         return range.length === 2 && max >= min;
       },
     },
+    keepInRange: {
+      type: Boolean,
+      default: false,
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -62,65 +74,49 @@
     stepper_disabled: props.disabled,
   }));
 
-  const inputElement = ref(null);
-  const isContentEditable = ref(false);
+  const { modelValue: value } = toRefs(props);
 
-  const modelValue = defineModel({ type: Number, default: 0 });
+  const sanitizeNumberOnly = (rawValue) => {
+    const sanitizedValue = rawValue
+      .replace(/[^0-9-]|(?!^)-|(?<!^)-0+|^-?0+(?=\d)/g, '')
+      .replace(/^-0$/, '-');
 
-  const fixHyphenPlace = (value) => {
-    return value.replace(/(.*?)(-)?$/, (match, p1, p2) => {
-      return p2 ? '-' + p1 : p1;
-    });
+    return sanitizedValue;
   };
 
-  const enterValue = (event) => {
-    const rawValue = fixHyphenPlace(event.target.textContent);
+  const { value: inputValue } = useInput(props.name, props.rules, {
+    strictRules: [sanitizeNumberOnly],
+    options: {
+      syncValue: value,
+    },
+  });
 
-    if (event.data === '-' || rawValue === '-') {
-      inputElement.value.innerText = '-';
-      moveCursorToEnd(inputElement.value);
+  const emit = defineEmits(['update:modelValue']);
+
+  const updateValue = (newValue) => {
+    // const [min, max] = props.valueRange;
+    // const clampedValue = clamp(value, { min, max });
+
+    inputValue.value = newValue;
+
+    if (inputValue.value === '-') {
+      return;
+    }
+    emit('update:modelValue', inputValue.value);
+  };
+
+  const handleEmptyValue = () => {
+    console.log(inputValue.value.length && inputValue.value !== '-');
+    if (inputValue.value.length && inputValue.value !== '-') {
       return;
     }
 
-    const newValue = Number(rawValue);
-    const isValidValue = !isNaN(newValue);
-
-    updateValue(isValidValue ? newValue : modelValue.value);
-  };
-
-  const updateValue = (value) => {
-    const [min, max] = props.valueRange;
-
-    const clampedValue = clamp(value, { min, max });
-
-    modelValue.value = clampedValue;
-    inputElement.value.innerText = clampedValue;
-
-    moveCursorToEnd(inputElement.value);
+    updateValue(props.modelValue);
   };
 
   const updateValueByStep = (changeFactor) => {
     const newValue = changeFactor * props.step + modelValue.value;
     updateValue(newValue);
-  };
-
-  const equalizeValues = () => {
-    isContentEditable.value = false;
-
-    const inputValue = Number(inputElement.value.innerText);
-    if (inputValue === modelValue.value) {
-      return;
-    }
-
-    updateValue(modelValue.value);
-  };
-
-  const focusInput = () => {
-    isContentEditable.value = true;
-    nextTick(() => {
-      inputElement.value.focus();
-      moveCursorToEnd(inputElement.value);
-    });
   };
 </script>
 
@@ -132,7 +128,6 @@
     border-radius: $pill;
 
     &__input {
-      @include flex($align: center, $justify: center);
       @include typography(body-large);
       color: var(--palette-on-surface);
       flex-shrink: 0;
@@ -140,17 +135,11 @@
 
       border-radius: $radius-1x;
       margin: 0 space(1);
-      position: relative;
-      overflow: hidden;
-      outline: none;
-      cursor: text;
       padding: 0 space(2);
 
-      @include state-layer(
-        var(--palette-primary),
-        $events: true,
-        $element: true
-      );
+      &:hover {
+        background-color: var(--palette-surface-container-high);
+      }
 
       &:focus {
         background-color: var(--palette-surface-container-high);
