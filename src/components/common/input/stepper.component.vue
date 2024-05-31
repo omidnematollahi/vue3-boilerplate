@@ -5,12 +5,13 @@
       icon-name="remove"
       variant="filled"
       style-type="filled"
-      :disabled="disabled"
+      :disabled="disabled || isControllerDisabled.min"
       @click="updateValueByStep(-1)"
     />
     <input
       class="stepper__input"
       :value="inputValue"
+      :size="inputValue.length + 1"
       @input="updateValue($event.target.value)"
       @blur="handleEmptyValue"
     />
@@ -19,7 +20,7 @@
       icon-name="add"
       variant="filled"
       style-type="filled"
-      :disabled="disabled"
+      :disabled="disabled || isControllerDisabled.add"
       @click="updateValueByStep(1)"
     />
   </div>
@@ -32,8 +33,12 @@
 
   const props = defineProps({
     modelValue: {
-      type: String,
-      default: '0',
+      type: Number,
+      default: 0,
+      validator(modelValue, props) {
+        const [min, max] = props.valueRange;
+        return modelValue <= max && modelValue >= min;
+      },
     },
     name: {
       type: String,
@@ -59,10 +64,6 @@
         return range.length === 2 && max >= min;
       },
     },
-    keepInRange: {
-      type: Boolean,
-      default: false,
-    },
     disabled: {
       type: Boolean,
       default: false,
@@ -76,16 +77,29 @@
 
   const { modelValue: value } = toRefs(props);
 
-  const sanitizeNumberOnly = (rawValue) => {
+  /**
+   * @param {string|number} rawValue
+   */
+  const keepNumbersInRange = (rawValue) => {
     const sanitizedValue = rawValue
+      .toString()
       .replace(/[^0-9-]|(?!^)-|(?<!^)-0+|^-?0+(?=\d)/g, '')
       .replace(/^-0$/, '-');
 
-    return sanitizedValue;
+    if (sanitizedValue === '-' || sanitizedValue === '') {
+      return sanitizedValue;
+    }
+
+    const sanitizedValueNumber = Number(sanitizedValue);
+
+    const [min, max] = props.valueRange;
+    const clampedValue = clamp(sanitizedValueNumber, { min, max });
+
+    return clampedValue.toString();
   };
 
   const { value: inputValue } = useInput(props.name, props.rules, {
-    strictRules: [sanitizeNumberOnly],
+    strictRules: [keepNumbersInRange],
     options: {
       syncValue: value,
     },
@@ -94,19 +108,16 @@
   const emit = defineEmits(['update:modelValue']);
 
   const updateValue = (newValue) => {
-    // const [min, max] = props.valueRange;
-    // const clampedValue = clamp(value, { min, max });
-
     inputValue.value = newValue;
 
-    if (inputValue.value === '-') {
+    if (inputValue.value === '-' || inputValue.value === '') {
       return;
     }
-    emit('update:modelValue', inputValue.value);
+
+    emit('update:modelValue', Number(inputValue.value));
   };
 
   const handleEmptyValue = () => {
-    console.log(inputValue.value.length && inputValue.value !== '-');
     if (inputValue.value.length && inputValue.value !== '-') {
       return;
     }
@@ -115,9 +126,18 @@
   };
 
   const updateValueByStep = (changeFactor) => {
-    const newValue = changeFactor * props.step + modelValue.value;
-    updateValue(newValue);
+    const newValue = changeFactor * props.step + Number(inputValue.value);
+    updateValue(newValue.toString());
   };
+
+  const isControllerDisabled = computed(() => {
+    const [min, max] = props.valueRange;
+
+    return {
+      min: props.modelValue <= min,
+      add: props.modelValue >= max,
+    };
+  });
 </script>
 
 <style lang="scss" scoped>
@@ -135,12 +155,14 @@
 
       border-radius: $radius-1x;
       margin: 0 space(1);
-      padding: 0 space(2);
+      padding: 0 space(1);
+      text-align: center;
 
-      &:hover {
-        background-color: var(--palette-surface-container-high);
+      @include transition {
+        transition-property: background-color;
       }
 
+      &:hover,
       &:focus {
         background-color: var(--palette-surface-container-high);
       }
