@@ -1,6 +1,7 @@
 <template>
   <div class="presentation">
     <h1 class="presentation__title">Presentation</h1>
+    <skeleton-presentation class="presentation__section" />
     <stepper-input-presentation class="presentation__section" />
     <filter-chip-presentation class="presentation__section" />
     <side-sheet-presentation class="presentation__section" />
@@ -27,6 +28,7 @@
   import SideSheetPresentation from '@/components/view/presentation/side-sheet.component.vue';
   import FilterChipPresentation from '@/components/view/presentation/filter-chip.component.vue';
   import StepperInputPresentation from '@/components/view/presentation/stepper-input.component.vue';
+  import SkeletonPresentation from '@/components/view/presentation/skeleton.component.vue';
 </script>
 
 <style lang="scss" scoped>
