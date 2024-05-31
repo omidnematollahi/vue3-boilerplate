@@ -5,36 +5,49 @@
       icon-name="remove"
       variant="filled"
       style-type="filled"
-      :disabled="disabled"
+      :disabled="disabled || isControllerDisabled.min"
       @click="updateValueByStep(-1)"
     />
-    <div
+    <input
       class="stepper__input"
-      :contenteditable="!disabled && isContentEditable"
-      ref="inputElement"
-      @input="enterValue"
-      @blur="equalizeValues"
-      @click="focusInput"
-    >
-      {{ modelValue }}
-    </div>
+      :value="inputValue"
+      :size="inputValue.length + 1"
+      @input="updateValue($event.target.value)"
+      @blur="handleEmptyValue"
+    />
     <icon-button
       class="stepper__icon"
       icon-name="add"
       variant="filled"
       style-type="filled"
-      :disabled="disabled"
+      :disabled="disabled || isControllerDisabled.add"
       @click="updateValueByStep(1)"
     />
   </div>
 </template>
 
 <script setup>
-  import { computed, nextTick, ref } from 'vue';
+  import { computed, nextTick, ref, toRefs } from 'vue';
   import { clamp } from '@/utils/math.util';
-  import { moveCursorToEnd } from '@/utils/dom.util';
+  import { useInput } from '@/plug-in/vee-validate';
 
   const props = defineProps({
+    modelValue: {
+      type: Number,
+      default: 0,
+      validator(modelValue, props) {
+        const [min, max] = props.valueRange;
+        return modelValue <= max && modelValue >= min;
+      },
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    rules: {
+      type: [String, Object],
+      default: '',
+    },
     step: {
       type: Number,
       default: 1,
@@ -62,66 +75,69 @@
     stepper_disabled: props.disabled,
   }));
 
-  const inputElement = ref(null);
-  const isContentEditable = ref(false);
+  const { modelValue: value } = toRefs(props);
 
-  const modelValue = defineModel({ type: Number, default: 0 });
+  /**
+   * @param {string|number} rawValue
+   */
+  const keepNumbersInRange = (rawValue) => {
+    const sanitizedValue = rawValue
+      .toString()
+      .replace(/[^0-9-]|(?!^)-|(?<!^)-0+|^-?0+(?=\d)/g, '')
+      .replace(/^-0$/, '-');
 
-  const fixHyphenPlace = (value) => {
-    return value.replace(/(.*?)(-)?$/, (match, p1, p2) => {
-      return p2 ? '-' + p1 : p1;
-    });
+    if (sanitizedValue === '-' || sanitizedValue === '') {
+      return sanitizedValue;
+    }
+
+    const sanitizedValueNumber = Number(sanitizedValue);
+
+    const [min, max] = props.valueRange;
+    const clampedValue = clamp(sanitizedValueNumber, { min, max });
+
+    return clampedValue.toString();
   };
 
-  const enterValue = (event) => {
-    const rawValue = fixHyphenPlace(event.target.textContent);
+  const { value: inputValue } = useInput(props.name, props.rules, {
+    strictRules: [keepNumbersInRange],
+    options: {
+      syncValue: value,
+    },
+  });
 
-    if (event.data === '-' || rawValue === '-') {
-      inputElement.value.innerText = '-';
-      moveCursorToEnd(inputElement.value);
+  const emit = defineEmits(['update:modelValue']);
+
+  const updateValue = (newValue) => {
+    inputValue.value = newValue;
+
+    if (inputValue.value === '-' || inputValue.value === '') {
       return;
     }
 
-    const newValue = Number(rawValue);
-    const isValidValue = !isNaN(newValue);
-
-    updateValue(isValidValue ? newValue : modelValue.value);
+    emit('update:modelValue', Number(inputValue.value));
   };
 
-  const updateValue = (value) => {
-    const [min, max] = props.valueRange;
+  const handleEmptyValue = () => {
+    if (inputValue.value.length && inputValue.value !== '-') {
+      return;
+    }
 
-    const clampedValue = clamp(value, { min, max });
-
-    modelValue.value = clampedValue;
-    inputElement.value.innerText = clampedValue;
-
-    moveCursorToEnd(inputElement.value);
+    updateValue(props.modelValue);
   };
 
   const updateValueByStep = (changeFactor) => {
-    const newValue = changeFactor * props.step + modelValue.value;
-    updateValue(newValue);
+    const newValue = changeFactor * props.step + Number(inputValue.value);
+    updateValue(newValue.toString());
   };
 
-  const equalizeValues = () => {
-    isContentEditable.value = false;
+  const isControllerDisabled = computed(() => {
+    const [min, max] = props.valueRange;
 
-    const inputValue = Number(inputElement.value.innerText);
-    if (inputValue === modelValue.value) {
-      return;
-    }
-
-    updateValue(modelValue.value);
-  };
-
-  const focusInput = () => {
-    isContentEditable.value = true;
-    nextTick(() => {
-      inputElement.value.focus();
-      moveCursorToEnd(inputElement.value);
-    });
-  };
+    return {
+      min: props.modelValue <= min,
+      add: props.modelValue >= max,
+    };
+  });
 </script>
 
 <style lang="scss" scoped>
@@ -132,7 +148,6 @@
     border-radius: $pill;
 
     &__input {
-      @include flex($align: center, $justify: center);
       @include typography(body-large);
       color: var(--palette-on-surface);
       flex-shrink: 0;
@@ -140,18 +155,14 @@
 
       border-radius: $radius-1x;
       margin: 0 space(1);
-      position: relative;
-      overflow: hidden;
-      outline: none;
-      cursor: text;
-      padding: 0 space(2);
+      padding: 0 space(1);
+      text-align: center;
 
-      @include state-layer(
-        var(--palette-primary),
-        $events: true,
-        $element: true
-      );
+      @include transition {
+        transition-property: background-color;
+      }
 
+      &:hover,
       &:focus {
         background-color: var(--palette-surface-container-high);
       }

@@ -10,18 +10,25 @@
       </p>
       <br />
       <i>
-        Also not<span class="presenter__highlight">width</span>is set to the
+        Also no<span class="presenter__highlight">width</span>is set to the
         stepper
       </i>
     </div>
     <!-- StepperInput Component -->
     <div class="presenter__container">
-      <stepper-input :step="10" v-model="value" :value-range="[-50, 50]" />
+      <stepper-input
+        :step="10"
+        v-model="value"
+        :value-range="[-50, 50]"
+        name="counter"
+        class="input"
+      />
       <stepper-input
         :step="10"
         :model-value="20"
         :value-range="[-50, 50]"
         disabled
+        name="disabledCounter"
       />
     </div>
   </div>
