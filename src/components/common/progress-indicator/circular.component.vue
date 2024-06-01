@@ -91,7 +91,7 @@
 
 <style lang="scss" scoped>
   .progress-indicator {
-    $size: 48px;
+    $size: var(--circular-indicator-size, 48px);
     width: $size;
     height: $size;
     line-height: 0;

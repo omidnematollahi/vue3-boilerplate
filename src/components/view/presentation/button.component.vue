@@ -12,7 +12,13 @@
     </div>
     <!-- Filled Button -->
     <div class="presenter__container">
-      <base-button variant="filled"> No Icon </base-button>
+      <base-button
+        variant="filled"
+        :is-loading="isLoading"
+        @click="isLoading = true"
+      >
+        No Icon
+      </base-button>
       <base-button variant="filled" leading-icon="favorite">
         Leading
       </base-button>
@@ -81,7 +87,11 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+  import { ref } from 'vue';
+
+  const isLoading = ref(false);
+</script>
 
 <style lang="scss" scoped>
   .presenter {

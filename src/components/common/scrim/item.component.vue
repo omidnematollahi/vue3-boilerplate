@@ -17,7 +17,7 @@
 
 <script setup>
   import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
-  import eventBus from '@/services/event-bus';
+  import useEventBus from '@/composable/use-event-bus.composable.js';
   import uuid from '@/utils/uuid.util';
 
   const props = defineProps({
@@ -122,21 +122,23 @@
     setScrimVisibility(false);
   };
 
-  let unsubscribeEscapeEvent = null;
+  const { subscribeOn, unsubscribe } = useEventBus();
 
   const toggleEscapeEventListener = (action = 'add') => {
+    let subscriptionId;
+
     if (action === 'add') {
-      const { unsubscribe } = eventBus.subscribeOn(
+      const { id } = subscribeOn(
         `scrim:escape-${scrimItemId}`,
         hideScrimByEscape
       );
 
-      unsubscribeEscapeEvent = unsubscribe;
+      subscriptionId = id;
       return;
     }
 
-    unsubscribeEscapeEvent?.();
-    unsubscribeEscapeEvent = null;
+    unsubscribe(subscriptionId);
+    subscriptionId = null;
   };
 
   const onModelValueChange = (newValue) => {
@@ -150,8 +152,6 @@
   onMounted(() => {
     watch(modelValue, onModelValueChange, { immediate: true });
   });
-
-  onUnmounted(() => unsubscribeEscapeEvent?.());
 </script>
 
 <style lang="scss" scoped>
