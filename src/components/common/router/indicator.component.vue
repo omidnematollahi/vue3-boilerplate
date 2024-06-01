@@ -11,8 +11,9 @@
 </template>
 
 <script setup>
-  import { onUnmounted, ref } from 'vue';
-  import eventBus from '@/services/event-bus';
+  import { ref } from 'vue';
+  import useEventBus from '@/composable/use-event-bus.composable.js';
+  const { subscribeOn } = useEventBus();
 
   const indicatorPercentage = ref(0);
   let timeout = null;
@@ -20,28 +21,19 @@
   const updateIndicatorPercentage = (percentage) => {
     indicatorPercentage.value = percentage;
   };
-  const beforeEachSubscription = eventBus.subscribeOn(
-    'router:beforeEach',
-    () => {
-      updateIndicatorPercentage(30);
-      timeout = setTimeout(() => updateIndicatorPercentage(70), 3000);
-    }
-  );
 
-  const afterEachSubscription = eventBus.subscribeOn('router:afterEach', () => {
+  subscribeOn('router:beforeEach', () => {
+    updateIndicatorPercentage(30);
+    timeout = setTimeout(() => updateIndicatorPercentage(70), 3000);
+  });
+
+  subscribeOn('router:afterEach', () => {
     updateIndicatorPercentage(100);
     setTimeout(() => {
       clearTimeout(timeout);
       updateIndicatorPercentage(0);
     }, 500);
   });
-
-  const clearSubscriptions = () => {
-    beforeEachSubscription.unsubscribe();
-    afterEachSubscription.unsubscribe();
-  };
-
-  onUnmounted(clearSubscriptions);
 </script>
 
 <style lang="scss" scoped>
