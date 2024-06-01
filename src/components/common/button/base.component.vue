@@ -1,6 +1,9 @@
 <template>
-  <button :class="buttonVariantClasses">
-    <div class="button__content">
+  <button :class="buttonVariantClasses" :disabled="disabled || isLoading">
+    <div v-if="isLoading" class="button__loading">
+      <circular-progress-indicator class="button__loading-indicator" />
+    </div>
+    <div :class="contentClasses">
       <base-icon
         class="button__leading-icon"
         v-if="leadingIcon"
@@ -45,6 +48,14 @@
     trailingIconStyleType: {
       type: String,
     },
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   });
 
   const paddings = computed(() => ({
@@ -70,6 +81,11 @@
   const buttonVariantClasses = computed(() => {
     return ['button', `button_${props.variant}`];
   });
+
+  const contentClasses = computed(() => ({
+    button__content: true,
+    button__content_hide: props.isLoading,
+  }));
 </script>
 
 <style lang="scss" scoped>
@@ -79,11 +95,11 @@
     height: 40px;
     --base-icon-size: 1.125rem;
     @include typography(label-large);
+    color: var(--base-button-color);
     cursor: pointer;
     user-select: none;
     overflow: hidden;
     min-width: var(--base-button-min-width, 88px);
-    color: var(--base-button-color);
 
     &__leading-icon,
     &__trailing-icon {
@@ -100,11 +116,32 @@
       padding-right: v-bind('paddings.leading');
     }
 
+    &__loading {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      @include flex($justify: center, $align: center);
+    }
+
+    &__loading-indicator {
+      --circular-indicator-size: 24px;
+    }
+
     &__content {
       position: relative;
       z-index: 1;
       @include flex($align: center, $justify: center);
       gap: space(2);
+      @include transition {
+        transition-property: opacity, visibility;
+      }
+
+      &_hide {
+        opacity: 0;
+        visibility: hidden;
+      }
     }
 
     @include state-layer($element: true);
