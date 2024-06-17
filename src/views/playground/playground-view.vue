@@ -1,59 +1,24 @@
 <template>
   <div class="container">
-    <base-skeleton variant="text" class="loader" :order="0" />
-    <base-skeleton
-      variant="rect"
-      width="100%"
-      height="50px"
-      class="loader"
-      :order="1"
-    />
-    <base-skeleton
-      variant="rect"
-      width="100%"
-      height="50px"
-      class="loader"
-      :order="2"
-    />
-    <base-skeleton
-      variant="rect"
-      width="100%"
-      height="50px"
-      class="loader"
-      :order="3"
-    />
-    <base-skeleton
-      variant="rect"
-      width="100%"
-      height="50px"
-      class="loader"
-      :order="4"
-    />
-    <base-skeleton
-      variant="rect"
-      width="100%"
-      height="50px"
-      class="loader"
-      :order="5"
-    />
-    <base-skeleton
-      variant="rect"
-      width="100%"
-      height="50px"
-      class="loader"
-      :order="6"
-    />
-    <base-skeleton
-      variant="rect"
-      width="100%"
-      height="50px"
-      class="loader"
-      :order="7"
+    <filled-text-field
+      :model-value="address"
+      name="address"
+      leading-icon="favorite"
+      leading-icon-style-type="outlined"
+      trailing-icon="close"
+      trailing-icon-style-type="outlined"
+      supporting-text="Please enter your address"
+      rules="required"
+      disabled
     />
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+  import { ref } from 'vue';
+  // 22844 Virginia Blvd., California City, CA 93505
+  const address = ref('');
+</script>
 
 <style lang="scss" scoped>
   .container {
@@ -61,7 +26,7 @@
     // border: 4px dashed var(--palette-primary);
     padding: 24px;
     border-radius: 24px;
-    width: 600px;
+    width: 400px;
   }
 
   .loader {

@@ -27,8 +27,6 @@
   import { computed } from 'vue';
 
   const props = defineProps({
-    leadingIcon: String,
-    trailingIcon: String,
     variant: {
       type: String,
       default: 'elevated',
@@ -42,6 +40,8 @@
         ].includes(value);
       },
     },
+    leadingIcon: String,
+    trailingIcon: String,
     leadingIconStyleType: {
       type: String,
     },
