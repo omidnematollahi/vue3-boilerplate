@@ -49,6 +49,7 @@
       border-radius: $circle;
       position: relative;
       z-index: 1;
+      flex-shrink: 0;
       @include transition {
         transition-property: border-color;
       }
